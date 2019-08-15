@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+
+{% block app_content %}
+<h1>Project Registration Page</h1>
+<div class="">
+{{ form.hidden_tag() }}
+
+{{ form.title.label }}
+{{ form.title }}<br>
+
+{{ form.Supervisor1Name.label }}
+{{ form.Supervisor1Name }}<br>
+
+{{ form.submit() }}
+
+</div>
+{% endblock %}
