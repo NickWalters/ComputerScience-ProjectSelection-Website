@@ -1,0 +1,13 @@
+{% extends "Base.html" %}
+
+{% block app_content %}
+
+<h1>Project List</h1>
+
+{% for project in projects %}
+  <p>Title of project: <b>{{ project.title }}</b> <br>
+  Supervisor 1 of project: <b>{{ project.Supervisor1Name }}</b></p>
+
+{% endfor %}
+
+{% endblock %}
