@@ -1,6 +1,6 @@
-/*
+
 CREATE DATABASE information;
-*/
+USE information;
 
 DROP TABLE IF EXISTS Projects;
 CREATE TABLE IF NOT EXISTS Projects (
