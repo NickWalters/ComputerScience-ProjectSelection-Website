@@ -1,0 +1,12 @@
+
+{% if all_projects %}
+    <h3> Undergraduate Project List: </h3>
+    <ul>
+        {% for project in all_projects %}
+            <li><a href="{% url 'detail' project.id %}"> {{ project.projectID }} </a></li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <h3> No projects have been posted yet!</h3>
+{% endif %}
