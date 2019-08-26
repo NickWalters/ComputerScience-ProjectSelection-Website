@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS Projects (
     Descrip LONGTEXT NOT NULL,
     Category TEXT, -- Example, category can be Mining, Engineering, Chemical, Software
     Unit MEDIUMTEXT,
+    IPID MEDIUMTEXT,
+    CreationDate TIMESTAMP,
     studentCapacity INT(11),
     
     
