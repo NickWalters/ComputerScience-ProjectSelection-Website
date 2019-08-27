@@ -1,0 +1,31 @@
+{% extends 'undergraduate_list/base.html' %}
+{% block active2 %} active {% endblock %}
+{% block title %} Undergraduate List {% endblock %}
+
+{% block body %}
+    {% if all_projects %}
+        <div class="container">
+        <div class="row">
+            <div class="col">
+            <h1>Undergrad List</h1>
+            </div>
+
+            {% for project in all_projects %}
+                <div class="list-group container">
+                    <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ project.projectID }}</h5>
+                            <small>Dr John Smith</small>
+                        </div>
+                        <p class="mb-1">Small Project Descriptions</p>
+                        <small>Tags: #CITS3200 #ComputerScience</small>
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <h3> No projects have been posted yet!</h3>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'undergraduate_list/base.html' %}
+{% block active %} active {% endblock %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Welcome to the UWA Project page!</h1>
+      <p>Please look below for which course you are doing, and view the project list there.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-6 ">
+        <h2>Undergraduate Student</h2>
+        <p><a class="btn btn-primary btn-large" href="" role="button">View List &raquo;</a></p>
+      </div>
+      <div class="col-md-6 align-middle">
+        <h2>Postgrad Student</h2>
+        <p><a class="btn btn-primary btn-large" href="#" role="button">View List &raquo;</a></p>
+      </div>
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+  {% endblock %}
