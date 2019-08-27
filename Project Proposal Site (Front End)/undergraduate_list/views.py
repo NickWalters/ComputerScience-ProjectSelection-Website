@@ -7,6 +7,10 @@ from django.views.generic import View
 from .models import Project
 from .forms import UserForm
 
+class homeView(generic.TemplateView):
+    template_name = 'undergraduate_list/home.html'
+
+
 class indexView(generic.ListView):
     template_name = 'undergraduate_list/index.html'
     context_object_name = 'all_projects'

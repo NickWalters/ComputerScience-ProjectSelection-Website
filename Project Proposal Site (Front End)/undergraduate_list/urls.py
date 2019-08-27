@@ -19,8 +19,11 @@ from undergraduate_list import views
 app_name = 'undergraduate_list'
 
 urlpatterns = [
+    #/
+    path("", views.homeView.as_view(), name='home'),
+
     #/undergraduate_list/
-    path("", views.indexView.as_view(), name='index'),
+    path("undergraduate_list/", views.indexView.as_view(), name='index'),
 
     #undergraduate_list/register
     path("register/", views.UserFormView.as_view(), name='regiser'),
