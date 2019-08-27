@@ -1,3 +1,9 @@
-<h1> {{ project.projectID }} </h1>
+{% extends 'undergraduate_list/base.html' %}
+{% block title %} Project Details {% endblock %}
 
-<p> {{ project.description }} <p> <br>
+{% block body %}
+    <h1> {{ project.projectID }} </h1>
+
+    <p> {{ project.description }} <p> <br>
+{% endblock %}
+

@@ -16,10 +16,19 @@ Including another URLconf
 from django.urls import path, re_path
 from undergraduate_list import views
 
+app_name = 'undergraduate_list'
+
 urlpatterns = [
     #/undergraduate_list/
-    path("", views.index, name='index'),
+    path("", views.indexView.as_view(), name='index'),
+
+    #undergraduate_list/register
+    path("register/", views.UserFormView.as_view(), name='regiser'),
 
     #/undergraduate_list/1/
-    re_path(r'^(?P<project_id>[0-9]+)/$', views.detail, name='detail'),
+    re_path(r'^(?P<pk>[0-9]+)/$', views.detailView.as_view(), name='detail'),
+
+    #undergraduate_list/add
+    re_path(r'add/$', views.ProjectCreate.as_view(), name='project-add'),
+
 ]

@@ -1,12 +1,16 @@
+{% extends 'undergraduate_list/base.html' %}
+{% block title %} Undergraduate List {% endblock %}
 
-{% if all_projects %}
-    <h3> Undergraduate Project List: </h3>
-    <ul>
-        {% for project in all_projects %}
-            <li><a href="{% url 'detail' project.id %}"> {{ project.projectID }} </a></li>
-        {% endfor %}
-    </ul>
+{% block body %}
+    {% if all_projects %}
+        <h3> Undergraduate Project List: </h3>
+        <ul>
+            {% for project in all_projects %}
+                <li><a href="{% url 'undergraduate_list:detail' project.id %}"> {{ project.projectID }} </a></li> <!--ITS NOT A FULL STOP BUT A ":" -->
+            {% endfor %}
+        </ul>
 
-{% else %}
-    <h3> No projects have been posted yet!</h3>
-{% endif %}
+    {% else %}
+        <h3> No projects have been posted yet!</h3>
+    {% endif %}
+{% endblock %}
