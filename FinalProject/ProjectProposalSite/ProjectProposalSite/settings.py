@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'ProjectProposalSite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'information',
+        'USER' : 'root',
+        'PASSWORD' : 'Tso8TFpm',
+        'HOST' : 'localhost',
+        'PORT' : '3306',
     }
 }
 
