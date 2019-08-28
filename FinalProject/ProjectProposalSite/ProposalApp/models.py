@@ -13,7 +13,7 @@ class Client(models.Model):
 	username = modelsCharField()
 	password = modelsCharField()
 	mobile = models.IntegerField();
-	email = companyDescription = modelsCharField(max_length = 200)
+	email = modelsCharField(max_length = 200)
 	
 
 
