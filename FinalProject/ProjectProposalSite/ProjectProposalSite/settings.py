@@ -73,6 +73,10 @@ WSGI_APPLICATION = 'ProjectProposalSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+
+# very important ! we are all using different connections, we dont have one server to connect to,
+# thus the username and password for each of your databases will be different based on your local mysql server
+# change these variables in regards to your setup
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
