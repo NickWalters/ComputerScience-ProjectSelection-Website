@@ -1,0 +1,54 @@
+{% extends 'undergraduate_list/base.html' %}
+{% block title %} Project Details {% endblock %}
+
+{% block body %}
+    <div class="containter jumbotron col-6 offset-md-3">
+        <h1 class="display-3">{{ project.projectID }}</h1>
+        <p class="lead small">Tags: #CITS3200 #ComputerScience #Research</p>
+        <hr class="my-4">
+        <h1>Description</h2>
+        <p>{{ project.description }}</p>
+        
+        <div class="row">
+          <div class="col">
+            <h3>Prerequisites</h3>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">- CITS3200</li>
+              <li class="list-group-item">- CITS2200</li>
+              <li class="list-group-item">- CITS3002</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Skills Required</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">- Time Management</li>
+                <li class="list-group-item">- Lots of time</li>
+                <li class="list-group-item">- More Management</li>
+                <li class="list-group-item">- Maybe even more Management</li>
+              </ul>
+          </div>
+        </div>
+        <hr class="my-4">
+        <h2>Client</h2>
+        <p>Contact: Dr John Smith</p>
+        <p>Phone: +12 34 567 890</p>
+        <p>Email: johnsmith@gmail.com</p>
+        <p>Preferred Contact: Email, meetings</p>
+        <p>Location: Earth</p>
+
+        <hr class="my-4">
+        <h2>Constraints</h2>
+        <p>Blah blah blah blah blah blah blah blah blah blah blah.</p>
+
+        <hr class="my-4">
+        <h2>IP Consideration</h2>
+        <p>The IP exploitation model requested by the Client is: Creative Commons ( open source ) http://creativecommons.org.au/</p>
+        <button type="button" class="btn btn-primary">Submit Interest</button>
+
+
+    </div>
+    <!--<h1> {{ project.projectID }} </h1>-->
+
+    <!--<p> {{ project.description }} <p> <br>-->
+{% endblock %}
+

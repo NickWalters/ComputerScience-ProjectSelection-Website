@@ -44,47 +44,26 @@
 </nav>
 
 <main role="main" style="padding-top: 120px; padding-bottom:30px">
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h1>Undergrad List</h1>
-    </div>
+        <div class="container">
+        <div class="row">
+            <div class="col">
+            <h1>Undergraduate Projects List</h1>
+            </div>
 
-    <div class="col">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div class="list-group container">
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Project 1</h5>
-        <small>Dr John Smith</small>
-      </div>
-      <p class="mb-1">Small Project Descriptions</p>
-      <small>Tags: #CITS3200 #ComputerScience</small>
-    </a>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Project 2</h5>
-        <small class="text-muted">Dr Smith John</small>
-      </div>
-      <p class="mb-1">Small Project Descriptions</p>
-      <small class="text-muted">Tags: #CITS3200 #ComputerScience</small>
-    </a>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Project 3</h5>
-        <small class="text-muted">Dr Mario</small>
-      </div>
-      <p class="mb-1">Small Project Descriptions</p>
-      <small class="text-muted">Tags: #CITS3200 #ComputerScience</small>
-    </a>
-  </div>
+            {% for project in all_projects %}
+                <div class="list-group container">
+                    <a href="{% url 'undergraduate_list:detail' project.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ project.projectID }}</h5>
+                            <small>Dr John Smith</small>
+                        </div>
+                        <p class="mb-1">Small Project Descriptions</p>
+                        <small>Tags: #CITS3200 #ComputerScience</small>
+                    </a>
+                    <!--<li><a href="{% url 'undergraduate_list:detail' project.id %}"> {{ project.projectID }} </a></li> <!--ITS NOT A FULL STOP BUT A ":" -->
+                </div>
+            {% endfor %}
+        </ul>
 
 </main>
 
