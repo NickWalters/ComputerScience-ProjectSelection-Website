@@ -29,14 +29,21 @@
             <form class=" my-2 my-lg-0 align-middle my-2" action="">
                 <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'sign-in' %}" type="submit" style="font-size: 23px">Sign in</a>
             </form>
-            <form class=" my-2 my-lg-0 align-middle my-2" action="user_register/">
-                <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'user-register' %}" type="submit" style="font-size: 23px">Register</a>
+            <form class=" my-2 my-lg-0 align-middle my-2" action="">
+                <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'register' %}" type="submit" style="font-size: 23px">Register</a>
             </form>
         </div>
     </nav>
 </body>
 
 <main role="main" style="padding-top: 120px;">
+    {%  if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
     {% block body %}
     {% endblock %}
 </main>
