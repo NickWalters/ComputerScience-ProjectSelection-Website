@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
+from .forms import ProjectProposalForm
 
 # home page
 def home(request):
@@ -15,7 +16,7 @@ def sign_in(request):
 def user_register(request):
     return render(request, 'user_registration_form.html')
 
-# project registration form
+
 def project_registration(request):
     form = ProjectProposalForm()
     return render(request, 'project_registration.html', {'form':form})
