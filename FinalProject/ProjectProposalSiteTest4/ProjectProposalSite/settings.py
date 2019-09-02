@@ -80,13 +80,13 @@ WSGI_APPLICATION = 'ProjectProposalSite.wsgi.application'
 # very important ! we are all using different connections, we dont have one server to connect to,
 # thus the username and password for each of your databases will be different based on your local mysql server
 # change these variables in regards to your setup
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'information',
         'USER' : 'root',
-        'PASSWORD' : 'Gfj123456',
+        'PASSWORD' : 'Tso8TFpm',
         'HOST' : 'localhost',
         'PORT' : '3306',
     }
@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
