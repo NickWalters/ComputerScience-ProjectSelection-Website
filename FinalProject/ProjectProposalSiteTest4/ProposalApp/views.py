@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import ProjectProposalForm
+from .forms import ProjectProposalForm, userRegistrationForm
 
 # home page
 def home(request):
@@ -19,3 +19,8 @@ def user_register(request):
 def project_registration(request):
     form = ProjectProposalForm()
     return render(request, 'project_registration.html', {'form':form})
+
+# user registration form
+def user_registration(request):
+    form = userRegistrationForm()
+    return render(request, 'user_registration.html', {'form': form})

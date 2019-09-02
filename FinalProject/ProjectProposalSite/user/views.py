@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from FinalProject.ProjectProposalSite.user.user_form import User_registration_form
 
+
 def register(request):
     if request.method == 'POST':
         form = User_registration_form(request.POST)
