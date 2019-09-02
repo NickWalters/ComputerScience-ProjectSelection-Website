@@ -8,12 +8,12 @@ class Client(models.Model):
 	userID = models.IntegerField(primary_key=True)
 	firstName = models.CharField(max_length = 20)
 	lastName = models.CharField(max_length = 20)
-#	title = models.CharField(max_length = 5)
-#	username = models.CharField(max_length = 20)
+	title = models.CharField(max_length = 5)
+	username = models.CharField(max_length = 20)
 	password = models.CharField(max_length = 20)
 	mobile = models.IntegerField()
 	email = models.CharField(max_length = 200)
-#	UWAorCompany = models.BooleanField()
+	UWAorCompany = models.BooleanField()
 	companyName = models.CharField(max_length = 50)
 	companyDescription = models.CharField(max_length = 500)
 
@@ -30,7 +30,7 @@ class Supervisor(models.Model):
 class Project(models.Model):
 	projectID = models.IntegerField(primary_key=True)
 	supervisor = models.ForeignKey(Client, on_delete=models.CASCADE)
-	#supervisor2 = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
+	supervisor2 = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
 	#supervisor3 = models.ForeignKey(Supervisor, on_delete=models.CASCADE)
 
 	title =  models.CharField(max_length = 50)
