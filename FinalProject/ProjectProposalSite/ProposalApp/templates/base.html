@@ -26,12 +26,20 @@
                     <a class="nav-link" href="#">Postgraduate Projects</a>
                 </li>
             </ul>
-            <form class=" my-2 my-lg-0 align-middle my-2" action="">
-                <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'sign-in' %}" type="submit" style="font-size: 23px">Sign in</a>
-            </form>
-            <form class=" my-2 my-lg-0 align-middle my-2" action="">
-                <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'register' %}" type="submit" style="font-size: 23px">Register</a>
-            </form>
+
+                {% if user.is_authenticated %}
+                    <form class=" my-2 my-lg-0 align-middle my-2" action="">
+                        <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'logout' %}" type="submit" style="font-size: 23px">Logout</a>
+                    </form>
+                {% else %}
+                    <form class=" my-2 my-lg-0 align-middle my-2" action="">
+                    <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'login' %}" type="submit" style="font-size: 23px">Sign in</a>
+                    </form>
+                    <form class=" my-2 my-lg-0 align-middle my-2" action="">
+                        <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'register' %}" type="submit" style="font-size: 23px">Register</a>
+                    </form>
+                {% endif %}
+
         </div>
     </nav>
 </body>

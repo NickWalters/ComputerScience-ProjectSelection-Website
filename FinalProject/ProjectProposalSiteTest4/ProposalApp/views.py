@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import ProjectProposalForm, userRegistrationForm
 
 # home page
@@ -22,5 +22,12 @@ def project_registration(request):
 
 # user registration form
 def user_registration(request):
-    form = userRegistrationForm()
+    if request.method == 'POST':
+        form = userRegistrationForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data['firstName'])
+            return redirect('/')
+    else:
+        form = userRegistrationForm()
+
     return render(request, 'user_registration.html', {'form': form})
