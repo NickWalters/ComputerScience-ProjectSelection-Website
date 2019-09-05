@@ -1,31 +1,29 @@
 {% extends 'base.html' %}
+{%  load crispy_forms_tags %}
 
 {% block body %}
 
 <form class=""  method="post">
 {% csrf_token %}
-{{form.title.label}} {{form.title}} <br>
-{{form.description.label}} {{form.description}} <br>
-{{form.noOfStudents.label}} {{form.noOfStudents}} <br>
-{{form.projectTags.label}} {{form.projectTags}} <br>
-{{form.prerequisites.label}} {{form.prerequisites}} <br>
-{{form.IP.label}} {{form.IP}} <br>
-<p>Please indicate all disciplines for which the project is suitable: </p>
-{{form.chemical.label}} {{form.chemical}} <br>
-{{form.civil.label}} {{form.civil}}<br>
-{{form.elec.label}} {{form.elec}}<br>
-{{form.envir.label}}{{form.envir}}<br>
-{{form.materials.label}}{{form.materials}}<br>
-{{form.mechanical.label}}{{form.mechanical}}<br>
-{{form.mechatronic.label}}{{form.mechatronic}}<br>
-{{form.mining.label}}{{form.mining}}<br>
-{{form.oilGas.label}}{{form.oilGas}}<br>
-{{form.petroleum.label}}{{form.petroleum}}<br>
-{{form.software.label}}{{form.software}}<br>
-{{form.other.label}}{{form.other}}<br>
-
-<input type="submit" value="Submit">
-
+<div class="containter jumbotron col-6 offset-md-3">
+    <h2>Project Registration</h2>
+    {{form|crispy}}
+    <input type="submit" value="Submit">
+</div>
 </form>
+
+<script>
+    function addTitleAfter(div, title){
+        var referenceNode = document.getElementById(div);
+        var newNode = document.createElement("label");
+        var text = document.createTextNode(title);
+        newNode.appendChild(text);
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:");
+    addTitleAfter("div_id_description", "Second Supervisor (Optional)");
+    addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)");
+
+</script>
 
 {% endblock %}

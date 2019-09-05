@@ -1,3 +1,5 @@
+"""
+
 #Altered version of models
 
 from django.db import models
@@ -137,3 +139,4 @@ class ProjectClient(models.Model):
 #
 #
 #
+"""

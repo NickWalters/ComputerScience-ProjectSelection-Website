@@ -9,7 +9,9 @@
       <p>Have an explanation on how the site works here.</p>
     </div>
   </div>
-
+{% if user.is_authenticated %}
+  <h1> <a href="{% url 'project-registration' %}"> Project Registration</a> </h1>
+{% endif %}
   <div class="container">
     <!-- Example row of columns -->
     <div class="row">
