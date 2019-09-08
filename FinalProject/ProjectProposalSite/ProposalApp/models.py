@@ -1,3 +1,44 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class ProjectModel(models.Model):
+    projectID = models.IntegerField(primary_key=True)
+    supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)
+    supervisor2Title = models.CharField(max_length=20)
+    supervisor2FirstName = models.CharField(max_length=30)
+    supervisor2LastName = models.CharField(max_length=30)
+    supervisor3Title = models.CharField(max_length=20)
+    supervisor3FirstName = models.CharField(max_length=30)
+    supervisor3LastName = models.CharField(max_length=30)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=1000)
+    noOfStudents = models.IntegerField()
+    prerequisites = models.CharField(max_length=1000)
+    projectTags = models.CharField(max_length=1000)
+    IP = models.CharField(max_length=22)
+    # checkboxes
+    chemical = models.BooleanField(default=False)
+    civil = models.BooleanField(default=False)
+    elec = models.BooleanField(default=False)
+    envir = models.BooleanField(default=False)
+    materials = models.BooleanField(default=False)
+    mechanical = models.BooleanField(default=False)
+    mechatronic = models.BooleanField(default=False)
+    mining = models.BooleanField(default=False)
+    oilGas = models.BooleanField(default=False)
+    petroleum = models.BooleanField(default=False)
+    software = models.BooleanField(default=False)
+    other = models.BooleanField(default=False)
+    # admin fields
+    approved = models.BooleanField(default=False)
+    viewable = models.BooleanField(default=False)
+    draft = models.BooleanField(default=True)
+    postgraduate = models.BooleanField()
+    creationDate = models.DateField()
+    deadlineDate = models.DateField()
+
+
 """
 
 #Altered version of models
@@ -111,7 +152,7 @@ class ProjectClient(models.Model):
 # # 'supervisor' variable holds the projects main Supervisor/manager name/ID
 # # 'sponsor' variable contains the details of the company 'sponsoring' the project for students
 # # 'time required' field, is just a simple text explanation about how long the project is going to take, eg "The project takes 6 months"
-# class Project(models.Model):
+# class ProjectModel(models.Model):
 # 	ProjectID = models.IntegerField(primary_key=True)
 # 	supervisor = models.ForeignKey(Client, on_delete=models.DO_NOTHING)
 #
