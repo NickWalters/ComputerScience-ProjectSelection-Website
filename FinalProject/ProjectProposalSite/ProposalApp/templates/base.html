@@ -28,16 +28,21 @@
             </ul>
 
                 {% if user.is_authenticated %}
-                    <form class=" my-2 my-lg-0 align-middle my-2" action="">
-                        <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'logout' %}" type="submit" style="font-size: 23px">Logout</a>
-                    </form>
+                    <a href="#">
+                        <button class="btn btn-outline-success" type="submit" style="font-size: 23px; margin-right: 20px">Dashboard</button>
+                    </a>
+
+                    <a href="{% url 'logout' %}">
+                        <button class="btn btn-outline-danger" type="submit" style="font-size: 23px">Logout</button>
+                    </a>
                 {% else %}
-                    <form class=" my-2 my-lg-0 align-middle my-2" action="">
-                    <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'login' %}" type="submit" style="font-size: 23px">Sign in</a>
-                    </form>
-                    <form class=" my-2 my-lg-0 align-middle my-2" action="">
-                        <a  class="btn btn-secondary my-2 my-sm-0"  href="{% url 'register' %}" type="submit" style="font-size: 23px">Register</a>
-                    </form>
+                    <a href="{% url 'login' %}" style="" >
+                        <button class="btn btn-outline-success" type="submit" style="font-size: 23px; margin-right: 20px">Sign in</button>
+                    </a>
+
+                    <a href="{% url 'register' %}">
+                        <button class="btn btn-outline-success" type="submit" style="font-size: 23px">Register</button>
+                    </a>
                 {% endif %}
 
         </div>
@@ -56,6 +61,7 @@
     {% endblock %}
 </main>
 
+<hr>
 <footer class="container">
   <p>&copy; UWA 2017-2019</p>
 </footer>
