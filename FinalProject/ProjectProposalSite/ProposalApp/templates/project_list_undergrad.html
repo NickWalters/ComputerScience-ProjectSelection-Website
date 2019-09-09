@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block active2 %} active {% endblock %}
+{% block title %} Undergraduate List {% endblock %}
+
+{% block body %}
+    {% if all_projects %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                <h1>Undergraduate Projects List</h1>
+                </div>
+
+                {% for project in all_projects %}
+                    <div class="list-group container">
+
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ project.title }}</h5>
+                                <small>{{ project.creationDate }}</small>
+                            </div>
+                            <p class="mb-1">{{ project.description }}</p>
+                            <small>Tags: {{ project.projectTags }}</small>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <h3> No projects have been posted yet!</h3>
+    {% endif %}
+
+
+{% endblock %}
+ <!--<a href="{% url 'undergraduate_list:detail' project.id %}" class="list-group-item list-group-item-action flex-column align-items-start"></a>
+     <li><a href="{% url 'undergraduate_list:detail' project.id %}"> {{ project.projectID }} </a></li>ITS NOT A FULL STOP BUT A ":"
+     </ul>-->

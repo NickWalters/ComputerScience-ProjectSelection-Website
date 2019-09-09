@@ -8,17 +8,12 @@ import datetime
 def home(request):
     return render(request, 'home.html')
 
-
-# # Sign in page
-# def sign_in(request):
-#     return render(request, 'signin.html')
-#
-#
-# # user registration part
-# def user_register(request):
-#     return render(request, 'user_registration_form.html')
-
-# project registration form
+def project_list_undergrad(request):
+    all_projects = ProjectModel.objects.filter(postgraduate=False)
+    context = {
+        'all_projects' : all_projects
+    }
+    return render(request, 'project_list_undergrad.html', context=context)
 
 def project_registration(request):
     if request.method == 'POST':
