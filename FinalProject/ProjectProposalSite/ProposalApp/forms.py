@@ -4,17 +4,16 @@ from .models import ProjectModel
 # Different options for Number of Students and IP
 NUMBER_OF_STUDENTS =[(1,1), (2,2), (3,3), (4,4), (5,5), (6,6)]
 IP_OPTIONS = [("Sponsor will retain IP", "Sponsor will retain IP"), ("UWA will retain IP", "UWA will retain IP")]
-
+"""
 class ProjectProposalModelForm(forms.ModelForm):
     class Meta:
-        model = ProjectModel 
+        model = ProjectModel
+        
         labels = {
             'title': _('Title of Project'),
             'description': _('Description'),
             'first': _('Title of Project'),
-        }
-        
-
+        }"""
 
 
 # Form for project proposals including

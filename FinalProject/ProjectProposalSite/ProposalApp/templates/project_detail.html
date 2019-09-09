@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} Project Details {% endblock %}
+
+{% block body %}
+    <div class="containter jumbotron col-6 offset-md-3">
+        <h1 class="display-3">{{ project.title }}</h1>
+        <p class="lead small">Tags: {{ project.projectTags }}</p>
+        <hr class="my-4">
+        <h1>Description</h2>
+        <p>{{ project.description }}</p>
+        
+        <div class="row">
+          <div class="col">
+            <h3>Prerequisites</h3>
+            <ul class="list-group list-group-flush"> NEEDS WORK
+              <li class="list-group-item">- {{ project.prerequisites }}</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Skills Required</h3>
+            <ul class="list-group list-group-flush"> NEEDS WORK - Same as prereqs?
+                <li class="list-group-item">- </li>
+              </ul>
+          </div>
+        </div>
+        <hr class="my-4">
+        <h2>Client</h2>
+        <p>Contact: {{ supervisor.username }} </p>
+        <p>Phone: {{ supervisor }} </p>
+        <p>Email: johnsmith@gmail.com</p>
+        <p>Preferred Contact: Email, meetings</p>
+        <p>Location: Earth</p>
+
+        <hr class="my-4">
+        <h2>Constraints</h2>
+        <p>Blah blah blah blah blah blah blah blah blah blah blah.</p>
+
+        <hr class="my-4">
+        <h2>IP Consideration</h2>
+        <p>The IP exploitation model requested by the Client is: Creative Commons ( open source ) http://creativecommons.org.au/</p>
+        <button type="button" class="btn btn-primary">Submit Interest</button>
+
+
+    </div>
+    <!--<h1> {{ project.projectID }} </h1>-->
+
+    <!--<p> {{ project.description }} <p> <br>-->
+{% endblock %}
+

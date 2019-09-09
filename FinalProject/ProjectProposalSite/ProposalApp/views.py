@@ -15,6 +15,15 @@ def project_list_undergrad(request):
     }
     return render(request, 'project_list_undergrad.html', context=context)
 
+def project_detail(request, pk):
+    project = ProjectModel.objects.get(pk=pk)
+    supervisor = project.supervisor1
+    context = {
+        'project' : project,
+        'supervisor' : supervisor
+    }
+    return render(request, 'project_detail.html', context=context)
+
 def project_registration(request):
     if request.method == 'POST':
         form = ProjectProposalForm(request.POST)
@@ -47,7 +56,7 @@ def project_registration(request):
             formData.software = form.cleaned_data['software']
             formData.other = form.cleaned_data['other']
             # admin fields
-            #formData.creationDate = datetime.date
+            formData.creationDate = datetime.date
             formData.save()
 
             title = form.cleaned_data.get('title')
