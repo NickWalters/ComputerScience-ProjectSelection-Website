@@ -61,3 +61,27 @@ def project_registration(request):
     else:
         form = ProjectProposalForm()
     return render(request, 'project_registration.html', {'form':form})
+    
+    
+def dashboard(request):
+    projectList = ProjectModel.objects.filter(supervisor1 = request.user)
+    return render(request, 'dashboard.html', {'projectList':projectList})
+    
+    
+def projectEdit(request, pk):
+    try:
+        project = ProjectModel.objects.get(projectID= pk)
+    except ProjectModel.DoesNotExist:
+        raise Http404('Project Does Not Exist')
+
+    if request.method == 'POST':
+        form = ProjectProposalForm(request.POST)
+        if form.is_valid():
+            form.save()
+            
+            title = form.cleaned_data.get('title')
+            messages.success(request, f'Project Proposal Named {title} was updated!')
+            return redirect('dashboard')
+    else:
+        form = ProjectProposalForm(project)
+        return render(request, 'project-edit.html', context={'form': form})
