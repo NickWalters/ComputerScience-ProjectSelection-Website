@@ -5,10 +5,11 @@
 
 <form class=""  method="post">
 {% csrf_token %}
-<div class="containter jumbotron col-6 offset-md-3">
+<div class="containter jumbotron col-6 align-self-center">
     <h2>Project Registration</h2>
+    <hr>
     {{form|crispy}}
-    <input type="submit" value="Submit">
+    <button type="submit" value="Submit">Submit</button>
 </div>
 </form>
 

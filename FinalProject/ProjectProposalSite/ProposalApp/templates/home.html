@@ -11,8 +11,40 @@
   </div>
 
 {% if user.is_authenticated %}
-  <h1> <a href="{% url 'project-registration' %}"> Project Registration</a> </h1>
-{% endif %}
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-3" >
+        <h2>Project Options</h2>
+          <a href="{% url 'project-registration' %}" >
+            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> Create a Project &raquo; </button>
+          </a>
+          <br>
+          <a href="#" >
+            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> Dashboard &raquo; </button>
+          </a>
+      </div>
+      
+      <div class="col-md-3 offset-md-1" >
+        <h2>Undergraduate Student</h2>
+          <p> Possible to add a picture of students here</p>
+          <a href="#" >
+            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> View List &raquo; </button>
+          </a>
+      </div>
+
+      <div class="col-md-3 offset-md-1">
+        <h2>Postgraduate Student</h2>
+          <p> Possible to add a picture of students here</p>
+          <a href="#" >
+            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block">View List &raquo;</button>
+          </a>
+      </div>
+    </div>
+  </div> <!-- /container -->
+
+
+{% else %}
   <div class="container">
     <!-- Example row of columns -->
     <div class="row">
@@ -31,8 +63,7 @@
           </a>
       </div>
     </div>
-
-    
-
   </div> <!-- /container -->
+{% endif %}
+
 {% endblock %}
