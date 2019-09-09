@@ -1,4 +1,4 @@
-#!C:\Users\lachb\OneDrive\Documents\GitHub\CITS3200\FinalProject\ProjectProposalSite\venv\Scripts\python.exe
+#!X:\Users\JACK-GU\Desktop\ComputerScience-ProjectSelection-Website\FinalProject\ProjectProposalSite\venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'pip==19.0.3','console_scripts','pip'
 __requires__ = 'pip==19.0.3'
 import re
