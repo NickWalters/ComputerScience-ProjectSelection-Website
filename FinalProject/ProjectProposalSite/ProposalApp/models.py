@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class ProjectModel(models.Model):
-    projectID = models.IntegerField(primary_key=True)
+    projectID = models.AutoField(primary_key=True)
     supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)
     supervisor2Title = models.CharField(max_length=20)
     supervisor2FirstName = models.CharField(max_length=30)
@@ -34,9 +34,9 @@ class ProjectModel(models.Model):
     approved = models.BooleanField(default=False)
     viewable = models.BooleanField(default=False)
     draft = models.BooleanField(default=True)
-    postgraduate = models.BooleanField()
-    creationDate = models.DateField()
-    deadlineDate = models.DateField()
+    postgraduate = models.BooleanField(default=False)
+    creationDate = models.DateField(auto_now_add=True, blank=True)
+    deadlineDate = models.DateField(auto_now_add=True, blank=True)
 
 
 """
