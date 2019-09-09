@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} Sign in {% endblock %}
 {%  load crispy_forms_tags %}
+{% load static %}
 {% block body %}
-    <body>
-      <div class="row justify-content-center">
         <div class="container col-md-3 text-center">
           <form class="form-signin" method="POST">
             {% csrf_token %}
 
-            <img class="mb-4" src="img/uwa.png" alt="" width="250" height="250">
+            <img class="mb-4" src="{% static '/images/uwa.png'%}" alt="" width="250" height="250">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
             {{form|crispy}}
@@ -20,6 +19,5 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
           </form>
         </div>
-      </div>
-  </body>
+        <br><br>
 {% endblock %}
