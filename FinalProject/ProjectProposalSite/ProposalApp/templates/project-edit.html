@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{%  load crispy_forms_tags %}
+
+{% block body %}
+
+<form class=""  method="post">
+{% csrf_token %}
+<div class="containter jumbotron col-6 align-self-center">
+    <h2>Edit a Project (Draft Only)</h2>
+    <hr>
+    {{form|crispy}}
+    <button type="submit" value="Submit">Submit</button>
+</div>
+</form>
+
+<script>
+    function addTitleAfter(div, title){
+        var referenceNode = document.getElementById(div);
+        var newNode = document.createElement("label");
+        var text = document.createTextNode(title);
+        newNode.appendChild(text);
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:");
+    addTitleAfter("div_id_description", "Second Supervisor (Optional)");
+    addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)");
+
+</script>
+
+{% endblock %}
