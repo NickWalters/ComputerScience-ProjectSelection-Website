@@ -16,28 +16,30 @@
               <li class="list-group-item">- {{ project.prerequisites }}</li>
             </ul>
           </div>
+            <!--
           <div class="col">
             <h3>Skills Required</h3>
             <ul class="list-group list-group-flush"> NEEDS WORK - Same as prereqs?
                 <li class="list-group-item">- </li>
               </ul>
           </div>
+          -->
         </div>
         <hr class="my-4">
         <h2>Client</h2>
-        <p>Contact: {{ supervisor.username }} </p>
-        <p>Phone: {{ supervisor }} </p>
-        <p>Email: johnsmith@gmail.com</p>
+        <p>Contact: {{ supervisor.Title }} {{ supervisor.First_Name }} {{ supervisor.Last_Name }} </p>
+        <p>Phone: {{ supervisor.Phone }} </p>
+        <p>Email: {{ supervisor.Email }}</p>
         <p>Preferred Contact: Email, meetings</p>
         <p>Location: Earth</p>
-
+<!--
         <hr class="my-4">
         <h2>Constraints</h2>
         <p>Blah blah blah blah blah blah blah blah blah blah blah.</p>
-
+-->
         <hr class="my-4">
         <h2>IP Consideration</h2>
-        <p>The IP exploitation model requested by the Client is: Creative Commons ( open source ) http://creativecommons.org.au/</p>
+        <p> {{ project.IP }} </p>
         <button type="button" class="btn btn-primary">Submit Interest</button>
 
 
