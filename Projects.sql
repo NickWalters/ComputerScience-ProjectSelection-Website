@@ -18,16 +18,3 @@ CREATE TABLE IF NOT EXISTS Projects (
     
     PRIMARY KEY(ProjectID)
 );
-
-CREATE TABLE IF NOT EXISTS auth_user (
-	UserID INT(11) UNIQUE NOT NULL AUTO_INCREMENT,
-    First_Name MEDIUMTEXT NOT NULL,
-    Last_Name MEDIUMTEXT NOT NULL,
-    Email varchar(255) NOT NULL,
-    Password varchar(25) NOT NULL,
-    Phone integer NOT NULL,
-    Company_Name text,
-    Company_Business text,
-    
-    PRIMARY KEY(UserID)
-);
