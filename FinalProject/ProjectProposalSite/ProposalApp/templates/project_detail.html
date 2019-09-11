@@ -4,48 +4,83 @@
 {% block body %}
     <div class="containter jumbotron col-6 offset-md-3">
         <h1 class="display-3">{{ project.title }}</h1>
-        <p class="lead small">Tags: {{ project.projectTags }}</p>
+        <p class="lead small">Tags: {% for tag in tags %} #{{ tag }} {% endfor %}</p>
         <hr class="my-4">
-        <h1>Description</h2>
+        <h1>Description</h1>
         <p>{{ project.description }}</p>
         
         <div class="row">
-          <div class="col">
-            <h3>Prerequisites</h3>
-            <ul class="list-group list-group-flush"> NEEDS WORK
-              <li class="list-group-item">- {{ project.prerequisites }}</li>
-            </ul>
-          </div>
-            <!--
-          <div class="col">
-            <h3>Skills Required</h3>
-            <ul class="list-group list-group-flush"> NEEDS WORK - Same as prereqs?
-                <li class="list-group-item">- </li>
-              </ul>
-          </div>
-          -->
+            <div class="col">
+                <h4>Prerequisites</h4>
+                <ul class="list-group list-group-flush">
+                    {% for prereq in prereqs %}
+                        <li class="list-group-item">- {{ prereq }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
+        <br>
+
+        <h4>Number of Students Required</h4>
+        <p> {{ project.noOfStudents }} </p>
+        <h4> Discipline(s):</h4>
+
+        {% if project.chemical %}
+            <p>Chemical</p>
+        {% endif %}
+        {% if project.civil %}
+            <p>Civil</p>
+        {% endif %}
+        {% if project.elec %}
+            <p>Electrical</p>
+        {% endif %}
+        {% if project.envir %}
+            <p>Environment</p>
+        {% endif %}
+        {% if project.materials %}
+            <p>Materials</p>
+        {% endif %}
+        {% if project.mechanical %}
+            <p>Mechanical</p>
+        {% endif %}
+        {% if project.mechatronic %}
+            <p>Mechatronic</p>
+        {% endif %}
+        {% if project.mining %}
+            <p>Mining</p>
+        {% endif %}
+        {% if project.oilGas %}
+            <p>Oil and Gas</p>
+        {% endif %}
+        {% if project.petroleum %}
+            <p>Petroleum</p>
+        {% endif %}
+        {% if project.software %}
+            <p>Software</p>
+        {% endif %}
+        {% if project.other %}
+            <p>Other</p>
+        {% endif %}
+
         <hr class="my-4">
         <h2>Client</h2>
         <p>Contact: {{ supervisor.Title }} {{ supervisor.First_Name }} {{ supervisor.Last_Name }} </p>
         <p>Phone: {{ supervisor.Phone }} </p>
         <p>Email: {{ supervisor.Email }}</p>
-        <p>Preferred Contact: Email, meetings</p>
-        <p>Location: Earth</p>
-<!--
-        <hr class="my-4">
-        <h2>Constraints</h2>
-        <p>Blah blah blah blah blah blah blah blah blah blah blah.</p>
--->
+        {% if project.supervisor2FirstName or project.supervisor3FirstName %}
+            <hr class="my-4">
+            <h4>Other Supervisors</h4>
+            {% if project.supervisor2FirstName %}
+            <p> {{ project.supervisor2Title }} {{ project.supervisor2FirstName }} {{ project.supervisor2LastName }}</p>
+            {% endif %}
+            {% if project.supervisor3FirstName %}
+            <p> {{ project.supervisor3Title }} {{ project.supervisor3FirstName }} {{ project.supervisor3LastName }} </p>
+            {% endif %}
+        {% endif %}
         <hr class="my-4">
         <h2>IP Consideration</h2>
         <p> {{ project.IP }} </p>
-        <button type="button" class="btn btn-primary">Submit Interest</button>
-
-
+<!-- <button type="button" class="btn btn-primary">Submit Interest</button> -->
     </div>
-    <!--<h1> {{ project.projectID }} </h1>-->
-
-    <!--<p> {{ project.description }} <p> <br>-->
 {% endblock %}
 

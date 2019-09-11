@@ -26,10 +26,14 @@ def project_list_postgrad(request):
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
     creator = project.supervisor1.id
+    prereqs = project.prerequisites.split(",")
+    tags = project.projectTags.split(", ")
     supervisor = Profile.objects.get(user_id=creator)
     context = {
         'project' : project,
-        'supervisor' : supervisor
+        'supervisor' : supervisor,
+        'prereqs' : prereqs,
+        'tags' : tags
     }
     return render(request, 'project_detail.html', context=context)
 
