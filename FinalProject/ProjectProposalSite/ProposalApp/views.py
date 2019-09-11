@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ProjectProposalForm
 from .models import ProjectModel
+from user.models import Profile
 import datetime
 
 # home page
@@ -15,9 +16,17 @@ def project_list_undergrad(request):
     }
     return render(request, 'project_list_undergrad.html', context=context)
 
+def project_list_postgrad(request):
+    all_projects = ProjectModel.objects.filter(postgraduate=True)
+    context = {
+        'all_projects' : all_projects
+    }
+    return render(request, 'project_list_postgrad.html', context=context)
+
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
-    supervisor = project.supervisor1
+    creator = project.supervisor1.username
+    supervisor = Profile.objects.get(pk=creator)
     context = {
         'project' : project,
         'supervisor' : supervisor
@@ -65,13 +74,11 @@ def project_registration(request):
     else:
         form = ProjectProposalForm()
     return render(request, 'project_registration.html', {'form':form})
-    
-    
+
 def dashboard(request):
     projectList = ProjectModel.objects.filter(supervisor1 = request.user)
     return render(request, 'dashboard.html', {'projectList':projectList})
-    
-    
+
 def projectEdit(request, pk):
     try:
         project = ProjectModel.objects.get(projectID= pk)
