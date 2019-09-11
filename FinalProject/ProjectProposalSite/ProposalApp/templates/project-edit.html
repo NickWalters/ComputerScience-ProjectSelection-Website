@@ -3,14 +3,6 @@
 
 {% block body %}
 
-<form class=""  method="post">
-{% csrf_token %}
-<div class="containter jumbotron col-6 align-self-center">
-    <h2>Edit a Project (Draft Only)</h2>
-    <hr>
-    {{form|crispy}}
-    <button type="submit" value="Submit">Submit</button>
-</div>
-</form>
+
 
 {% endblock %}
