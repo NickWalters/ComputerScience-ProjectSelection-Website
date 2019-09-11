@@ -25,7 +25,7 @@ def project_list_postgrad(request):
 
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
-    creator = project.supervisor1.username
+    creator = project.supervisor1.id
     supervisor = Profile.objects.get(pk=creator)
     context = {
         'project' : project,
