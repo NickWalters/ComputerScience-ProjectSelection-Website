@@ -20,7 +20,7 @@ def register(request):
             Phone = userform.cleaned_data.get('Phone')
             Company_Name = userform.cleaned_data.get('Company_Name')
             Company_Business = userform.cleaned_data.get('Company_Business')
-            messages.success(request, f'Accoount created {UserName}!')
+            messages.success(request, f'Account created {UserName}! Please wait for admin to active your account')
 
             # save data into user model
             user = User.objects.create_user(
@@ -36,7 +36,7 @@ def register(request):
             # save data into profile
             profile = Profile.objects.create(
                                             # user=UserName,
-                                            user_id =int(user.id),
+                                            user_id=int(user.id),
                                             First_Name=First_Name,
                                             Last_Name=Last_Name,
                                             Email=Email,
