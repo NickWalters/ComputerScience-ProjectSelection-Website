@@ -13,18 +13,4 @@
 </div>
 </form>
 
-<script>
-    function addTitleAfter(div, title){
-        var referenceNode = document.getElementById(div);
-        var newNode = document.createElement("label");
-        var text = document.createTextNode(title);
-        newNode.appendChild(text);
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:");
-    addTitleAfter("div_id_description", "Second Supervisor (Optional)");
-    addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)");
-
-</script>
-
 {% endblock %}
