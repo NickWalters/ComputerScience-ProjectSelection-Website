@@ -33,3 +33,4 @@ class ProjectProposalForm(forms.Form):
     petroleum = forms.BooleanField(label = 'Petroleum', required=False)
     software = forms.BooleanField(label = 'Software', required=False)
     other = forms.BooleanField(label = 'Other', required=False)
+    draft = forms.BooleanField(label = 'Yes, save as draft', required=False)

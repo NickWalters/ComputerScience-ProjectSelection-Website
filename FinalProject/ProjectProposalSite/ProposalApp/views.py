@@ -10,14 +10,14 @@ def home(request):
     return render(request, 'home.html')
 
 def project_list_undergrad(request):
-    all_projects = ProjectModel.objects.filter(postgraduate=False)
+    all_projects = ProjectModel.objects.filter(postgraduate=False, draft=False, viewable=True, approved=True)
     context = {
         'all_projects' : all_projects
     }
     return render(request, 'project_list_undergrad.html', context=context)
 
 def project_list_postgrad(request):
-    all_projects = ProjectModel.objects.filter(postgraduate=True)
+    all_projects = ProjectModel.objects.filter(postgraduate=True, draft=False, viewable=True, approved=True)
     context = {
         'all_projects' : all_projects
     }
@@ -70,6 +70,7 @@ def project_registration(request):
             formData.other = form.cleaned_data['other']
             # admin fields
             formData.creationDate = datetime.date
+            formData.draft = form.cleaned_data['draft']
             formData.save()
 
             title = form.cleaned_data.get('title')

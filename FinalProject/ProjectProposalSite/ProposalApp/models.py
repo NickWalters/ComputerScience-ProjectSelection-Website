@@ -4,6 +4,14 @@ from django.contrib.auth.models import User
 
 class ProjectModel(models.Model):
     projectID = models.AutoField(primary_key=True)
+    # admin fields
+    approved = models.BooleanField(default=False)
+    viewable = models.BooleanField(default=False)
+    draft = models.BooleanField(default=True)
+    postgraduate = models.BooleanField(default=False)
+    creationDate = models.DateField(auto_now_add=True)
+    deadlineDate = models.DateField(null=True, blank=True)
+
     supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)
     supervisor2Title = models.CharField(max_length=20, blank=True)
     supervisor2FirstName = models.CharField(max_length=30, blank=True)
@@ -30,13 +38,10 @@ class ProjectModel(models.Model):
     petroleum = models.BooleanField(default=False)
     software = models.BooleanField(default=False)
     other = models.BooleanField(default=False)
-    # admin fields
-    approved = models.BooleanField(default=False)
-    viewable = models.BooleanField(default=False)
-    draft = models.BooleanField(default=True)
-    postgraduate = models.BooleanField(default=False)
-    creationDate = models.DateField(auto_now_add=True, blank=True)
-    deadlineDate = models.DateField(auto_now_add=True, blank=True)
+
+
+    def __str__(self):
+        return self.title
 
 
 """

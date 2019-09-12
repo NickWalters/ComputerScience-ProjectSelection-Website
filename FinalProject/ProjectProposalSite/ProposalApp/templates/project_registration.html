@@ -14,16 +14,19 @@
 </form>
 
 <script>
-    function addTitleAfter(div, title){
+    function addTitleAfter(div, title, node){
         var referenceNode = document.getElementById(div);
-        var newNode = document.createElement("label");
+        var newNode = document.createElement(node);
         var text = document.createTextNode(title);
         newNode.appendChild(text);
         referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
-    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:");
-    addTitleAfter("div_id_description", "Second Supervisor (Optional)");
-    addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)");
+    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:", "label");
+    addTitleAfter("div_id_description", "Second Supervisor (Optional)", "label");
+    addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)", "label");
+    addTitleAfter("div_id_other", "Would you like to save this proposal as a draft (only drafts can be edited at a later date)?", "label");
+    addTitleAfter("div_id_other","","hr");
+
 
 </script>
 
