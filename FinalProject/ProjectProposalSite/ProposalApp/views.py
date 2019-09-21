@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ProjectProposalForm
@@ -6,22 +7,24 @@ from user.models import Profile
 import datetime
 
 # home page
+@login_required(login_url='/login/')
 def home(request):
-    return render(request, 'home.html')
+    projectList = ProjectModel.objects.filter(supervisor1 = request.user)
+    return render(request, 'home.html', {'projectList':projectList})
 
 def project_list_undergrad(request):
-    all_projects = ProjectModel.objects.filter(postgraduate=False, draft=False, viewable=True, approved=True)
+    all_projects = ProjectModel.objects.filter(draft=False, viewable=True, approved=True)
     context = {
         'all_projects' : all_projects
     }
     return render(request, 'project_list_undergrad.html', context=context)
 
-def project_list_postgrad(request):
-    all_projects = ProjectModel.objects.filter(postgraduate=True, draft=False, viewable=True, approved=True)
-    context = {
-        'all_projects' : all_projects
-    }
-    return render(request, 'project_list_postgrad.html', context=context)
+#def project_list_postgrad(request):
+#    all_projects = ProjectModel.objects.filter(postgraduate=True, draft=False, viewable=True, approved=True)
+#    context = {
+#        'all_projects' : all_projects
+#    }
+#    return render(request, 'project_list_postgrad.html', context=context)
 
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
@@ -29,14 +32,17 @@ def project_detail(request, pk):
     prereqs = project.prerequisites.split(",")
     tags = project.projectTags.split(", ")
     supervisor = Profile.objects.get(user_id=creator)
+    user = request.user
     context = {
         'project' : project,
         'supervisor' : supervisor,
         'prereqs' : prereqs,
-        'tags' : tags
+        'tags' : tags,
+        'user' : user
     }
     return render(request, 'project_detail.html', context=context)
 
+@login_required(login_url='/login/')
 def project_registration(request):
     if request.method == 'POST':
         form = ProjectProposalForm(request.POST)
@@ -74,16 +80,17 @@ def project_registration(request):
             formData.save()
 
             title = form.cleaned_data.get('title')
-            messages.success(request, f'Project Proposal Named {title} was created!')
+            messages.success(request, f'Project Proposal named {title} was created!')
             return redirect('home-page')
     else:
         form = ProjectProposalForm()
     return render(request, 'project_registration.html', {'form':form})
 
-def dashboard(request):
-    projectList = ProjectModel.objects.filter(supervisor1 = request.user)
-    return render(request, 'dashboard.html', {'projectList':projectList})
+#def dashboard(request):
+#    projectList = ProjectModel.objects.filter(supervisor1 = request.user)
+#    return render(request, 'dashboard.html', {'projectList':projectList})
 
+@login_required(login_url='/login/')
 def projectEdit(request, pk):
     try:
         project = ProjectModel.objects.get(projectID= pk)

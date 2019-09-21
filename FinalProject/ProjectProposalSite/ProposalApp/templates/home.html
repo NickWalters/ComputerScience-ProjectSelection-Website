@@ -2,68 +2,93 @@
 {% block active %} active {% endblock %}
 {% block title %}Home{% endblock %}
 {% block body %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
-    <div class="container">
-      <h1 class="display-3">Welcome to Project Proposal Site!</h1>
-      <p>Have an explanation on how the site works here.</p>
-    </div>
-  </div>
 
 {% if user.is_authenticated %}
   <div class="container">
     <!-- Example row of columns -->
     <div class="row">
-      <div class="col-md-3" >
-        <h2>Project Options</h2>
           <a href="{% url 'project-registration' %}" >
-            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> Create a Project &raquo; </button>
+            <link> <i class="fa fa-plus"></i> Create a Project &raquo;</link>
           </a>
-          <br>
-          <a href="#" >
-            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> Dashboard &raquo; </button>
-          </a>
-      </div>
-      
-      <div class="col-md-3 offset-md-1" >
-        <h2>Undergraduate Student</h2>
-          <p> Possible to add a picture of students here</p>
-          <a href="{% url 'project-list-undergrad' %}" >
-            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> View List &raquo; </button>
-          </a>
-      </div>
-
-      <div class="col-md-3 offset-md-1">
-        <h2>Postgraduate Student</h2>
-          <p> Possible to add a picture of students here</p>
-          <a href="{% url 'project-list-postgrad' %}" >
-            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block">View List &raquo;</button>
-          </a>
-      </div>
     </div>
-  </div> <!-- /container -->
+    
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Project Name</th>
+          <th class="text-center" scope="col">Unit Code</th>
+          <th class="text-center" scope="col">Date Submitted</th>
+          <th class="text-center" scope="col">Supervisor</th>
+          <th class="text-center" scope="col">Draft</th>
+          <th class="text-center" scope="col">Submitted</th>
+          <th class="text-center" scope="col">Approved</th>
+          <th class="text-center" scope="col"></th>
+          <th class="text-center" scope="col"></th>
+        </tr>
+      </thead>
+      {% if projectList %}
+        {% for project in projectList %}
+          <tbody>
+            <tr>
+              <td scope="row"> <a href="/detail/{{project.projectID}}"> {{project.title}} </a></td>
+              <td class="text-center">SAMPLE123</td>
+              <td class="text-center"> {{project.creationDate}} </td>
+              <td class="text-center"> {{project.supervisor1}} </td>
+              <!-- Draft checkbox -->
+              <td class="text-center">
+                {% if project.draft %}
+                  <i class="fa fa-check"></i>
+                {% else %}
+                  <i class="fa fa-times">
+                {% endif %}
+              </td>
+              <!-- Submitted checkbox -->
+              <td class="text-center">
+                {% if project.approved %} <!--THIS NEEDS TO BE CHANGED LATER!-->
+                  <i class="fa fa-check"></i>
+                {% else %}
+                  <i class="fa fa-times">
+                {% endif %}
+              </td>
+              <!-- Approved checkbox -->
+              <td class="text-center">
+                {% if project.approved %}
+                  <i class="fa fa-check"></i>
+                {% else %}
+                  <i class="fa fa-times">
+                {% endif %}
+              </td>
+              <td class="text-center"><a href="#" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a></td>
+              <td class="text-center"><a href="#" style="color: black; font-size:19px;"><i class="fa fa-trash-o"></i></a></td>
+            </tr>
+          </tbody>
+        {% endfor %}
 
-
+        <tbody>
+          <tr>
+            <td scope="row"> <a href="#">Sample Text</a></td>
+            <td class="text-center">CITS3200</td>
+            <td class="text-center">21/09/19</td>
+            <td class="text-center">John Smith</td>
+            <td class="text-center"><i class="fa fa-times"></i></td>
+            <td class="text-center"><i class="fa fa-check"></i></td>
+            <td class="text-center"><i class="fa fa-check"></i></td>
+            <td class="text-center"><a href="#" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a></td>
+            <td class="text-center"><a href="#" style="color: black; font-size:19px;"><i class="fa fa-trash-o"></i></a></td>
+          </tr>
+        </tbody>
+      {% else %}
+        <tbody>
+          <tr>
+            <td scope="row">No projects have been created yet.</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </tbody>
+      {% endif %}
+    </table>
+  </div>
 {% else %}
-  <div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-      <div class="col-md-4" >
-        <h2>Undergraduate Student</h2>
-          <p> Possible to add a picture of students here</p>
-          <a href="{% url 'project-list-undergrad' %}" >
-            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block"> View List &raquo; </button>
-          </a>
-      </div>
-      <div class="col-md-4 offset-md-4">
-        <h2>Postgraduate Student</h2>
-          <p> Possible to add a picture of students here</p>
-          <a href="{% url 'project-list-postgrad' %}" >
-            <button class="btn btn-primary btn-large btn-block" role="button" style="margin:auto; display:block">View List &raquo;</button>
-          </a>
-      </div>
-    </div>
-  </div> <!-- /container -->
+
 {% endif %}
 
 {% endblock %}
