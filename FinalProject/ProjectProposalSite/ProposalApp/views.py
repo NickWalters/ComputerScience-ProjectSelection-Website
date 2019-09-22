@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import Http404
 from .forms import ProjectProposalForm
 from .models import ProjectModel
 from user.models import Profile
@@ -28,18 +29,25 @@ def project_list_undergrad(request):
 
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
+    user = request.user.username
     creator = project.supervisor1.id
-    prereqs = project.prerequisites.split(",")
-    tags = project.projectTags.split(", ")
     supervisor = Profile.objects.get(user_id=creator)
-    user = request.user
-    context = {
-        'project' : project,
-        'supervisor' : supervisor,
-        'prereqs' : prereqs,
-        'tags' : tags,
-        'user' : user
-    }
+
+    strUser = str(user)
+    strSupervisor = str(supervisor.user)
+
+    if project.draft is True and strUser != strSupervisor: 
+        return render(request, 'denied.html')
+
+    else:
+        prereqs = project.prerequisites.split(",")
+        tags = project.projectTags.split(", ")
+        context = {
+            'project' : project,
+            'supervisor' : supervisor,
+            'prereqs' : prereqs,
+            'tags' : tags,
+        }
     return render(request, 'project_detail.html', context=context)
 
 @login_required(login_url='/login/')

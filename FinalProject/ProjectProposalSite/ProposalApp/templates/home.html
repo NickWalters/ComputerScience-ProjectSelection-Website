@@ -31,8 +31,8 @@
           <tbody>
             <tr>
               <td scope="row"> <a href="/detail/{{project.projectID}}"> {{project.title}} </a></td>
-              <td class="text-center">SAMPLE123</td>
-              <td class="text-center"> {{project.creationDate}} </td>
+              <td class="text-center">SAMPLE123</td> <!--THIS NEEDS TO BE CHANGED LATER!-->
+              <td class="text-center"> {{project.creationDate}} </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
               <td class="text-center"> {{project.supervisor1}} </td>
               <!-- Draft checkbox -->
               <td class="text-center">
@@ -58,8 +58,16 @@
                   <i class="fa fa-times">
                 {% endif %}
               </td>
-              <td class="text-center"><a href="#" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a></td>
-              <td class="text-center"><a href="#" style="color: black; font-size:19px;"><i class="fa fa-trash-o"></i></a></td>
+
+              <td class="text-center">
+                {% if project.draft %}
+                  <a href="#" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a>
+                {% endif %}
+              </td>
+              <td class="text-center">
+                {% if project.draft %}
+                  <a href="#" style="color: black; font-size:19px;"><i class="fa fa-trash-o"></i></a>
+                {% endif %}
             </tr>
           </tbody>
         {% endfor %}

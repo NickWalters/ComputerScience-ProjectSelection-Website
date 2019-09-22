@@ -2,9 +2,6 @@
 {% block title %} Project Details {% endblock %}
 
 {% block body %}
-    <!--{% if project.draft is true and user != project.supervisor  %}
-        <h3>You cannot view this page!</h3>
-    {% else %}-->
     
     <div class="containter jumbotron col-6 offset-md-3">
         <h1 class="display-3">{{ project.title }}</h1>
@@ -86,6 +83,5 @@
         <p> {{ project.IP }} </p>
 <!-- <button type="button" class="btn btn-primary">Submit Interest</button> -->
     </div>
-    {% endif %}
 {% endblock %}
 
