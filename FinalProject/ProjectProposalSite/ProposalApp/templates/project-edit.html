@@ -3,6 +3,35 @@
 
 {% block body %}
 
+<form class=""  method="POST">
+    {% csrf_token %}
+    <div class="containter jumbotron col-md-6 offset-md-3">
+        <h2>Project Edit</h2>
+        <hr>
+        {{form|crispy}}
+        
+        <input class="btn btn-primary" type="submit" value="Submit" name="Submit" onclick="return confirm('Are you sure you want to Submit? You will not be able to edit it later.')"/>
+        <input class="btn btn-danger" type="submit" value="Save as Draft" name="Draft"/>
 
+
+    </div>
+</form>
+
+
+<script>
+    function addTitleAfter(div, title, node){
+        var referenceNode = document.getElementById(div);
+        var newNode = document.createElement(node);
+        var text = document.createTextNode(title);
+        newNode.appendChild(text);
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+    
+    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:", "label");
+    addTitleAfter("div_id_description", "Second Supervisor (Optional)", "label");
+    addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)", "label");
+    addTitleAfter("div_id_other","","hr");
+
+</script>
 
 {% endblock %}

@@ -68,7 +68,7 @@
               <!-- Checks if the project is a draft or not. If it is, you can edit it. -->
               <td class="text-center">
                 {% if project.draft %}
-                  <a href="#" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a>
+                  <a href="/edit/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a>
                 {% endif %}
               </td>
               <!-- Checks if the project is a draft or not. If it is, you can delete it. -->

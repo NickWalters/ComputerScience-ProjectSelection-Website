@@ -33,3 +33,37 @@ class ProjectProposalForm(forms.Form):
     petroleum = forms.BooleanField(label = 'Petroleum', required=False)
     software = forms.BooleanField(label = 'Software', required=False)
     other = forms.BooleanField(label = 'Other', required=False)
+
+
+class EditProject(forms.ModelForm):
+    title = forms.CharField(label = 'Title of Project')
+    description = forms.CharField(label = 'Description')
+    supervisor2Title = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}))
+    supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
+    supervisor3Title = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    supervisor3FirstName = forms.CharField(label='', required=False,widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
+    projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}))
+    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. CITS2002, Python, Linear Regression'}))
+    IP = forms.CharField(label = 'IP',  widget = forms.Select(choices=IP_OPTIONS))
+    chemical = forms.BooleanField(label = 'Chemical', required=False)
+    civil = forms.BooleanField(label = 'Civil', required=False)
+    elec = forms.BooleanField(label = 'Electrical', required=False)
+    envir = forms.BooleanField(label = 'Environmental', required=False)
+    materials = forms.BooleanField(label = 'Materials', required=False)
+    mechanical = forms.BooleanField(label = 'Mechanical', required=False)
+    mechatronic = forms.BooleanField(label = 'Mechatronic', required=False)
+    mining = forms.BooleanField(label = 'Mining', required=False)
+    oilGas = forms.BooleanField(label = 'Oil and Gas', required=False)
+    petroleum = forms.BooleanField(label = 'Petroleum', required=False)
+    software = forms.BooleanField(label = 'Software', required=False)
+    other = forms.BooleanField(label = 'Other', required=False)
+    class Meta:
+        model = ProjectModel
+        fields = ['title', 'description','supervisor2Title','supervisor2FirstName','supervisor2LastName','supervisor3Title','supervisor3FirstName','supervisor3LastName',
+                'noOfStudents','projectTags','prerequisites','IP','chemical','civil','elec','envir','materials','mechanical','mechatronic','mining','oilGas','petroleum',
+                'petroleum','software','other']
+        exclude = ['supervisor1', 'draft', 'approved', 'viewable', 'postgraduate','creationDate','deadlineDate']
+

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib import messages
-from .forms import ProjectProposalForm
+from .forms import ProjectProposalForm, EditProject
 from .models import ProjectModel
 from user.models import Profile
 import datetime
@@ -96,20 +96,32 @@ def project_registration(request):
     return render(request, 'project_registration.html', {'form':form})
 
 @login_required(login_url='/login/')
-def projectEdit(request, pk):
+def project_edit(request, pk):
     project = get_object_or_404(ProjectModel, projectID=pk)
 
+    user = request.user.username
+    creator = project.supervisor1.id
+    supervisor = Profile.objects.get(user_id=creator)
+
+    strUser = str(user)
+    strSupervisor = str(supervisor.user)    
+
+    if strSupervisor != strUser or project.draft == False:
+        return render(request, 'denied.html')
+
+    form = EditProject(request.POST or None, request.FILES or None, instance=project)
+
     if request.method == 'POST':
-        form = ProjectProposalForm(request.POST)
         if form.is_valid():
             form.save()
             
             title = form.cleaned_data.get('title')
             messages.success(request, f'Project Proposal Named {title} was updated!')
-            return redirect('dashboard')
+            return redirect('home-page')
+            #return render(request, 'project-edit.html', context={'form': form})
     else:
-        form = ProjectProposalForm(project)
-        return render(request, 'project-edit.html', context={'form': form})
+        form = EditProject(instance=project)
+    return render(request, 'project-edit.html', context={'form': form})
 
 
 @login_required(login_url='/login/')
