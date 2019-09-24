@@ -7,11 +7,12 @@ class ProjectModel(models.Model):
     # admin fields
     approved = models.BooleanField(default=False)
     viewable = models.BooleanField(default=False)
-    draft = models.BooleanField(default=True)
+    draft = models.BooleanField(default=False)
     postgraduate = models.BooleanField(default=False)
     creationDate = models.DateField(auto_now_add=True)
     deadlineDate = models.DateField(null=True, blank=True)
 
+	# project descriptions
     supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)
     supervisor2Title = models.CharField(max_length=20, blank=True)
     supervisor2FirstName = models.CharField(max_length=30, blank=True)
@@ -25,6 +26,7 @@ class ProjectModel(models.Model):
     prerequisites = models.CharField(max_length=1000)
     projectTags = models.CharField(max_length=1000)
     IP = models.CharField(max_length=22)
+
     # checkboxes
     chemical = models.BooleanField(default=False)
     civil = models.BooleanField(default=False)

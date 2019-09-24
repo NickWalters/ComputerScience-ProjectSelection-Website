@@ -20,13 +20,6 @@ def project_list_undergrad(request):
     }
     return render(request, 'project_list_undergrad.html', context=context)
 
-#def project_list_postgrad(request):
-#    all_projects = ProjectModel.objects.filter(postgraduate=True, draft=False, viewable=True, approved=True)
-#    context = {
-#        'all_projects' : all_projects
-#    }
-#    return render(request, 'project_list_postgrad.html', context=context)
-
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
     user = request.user.username
@@ -84,14 +77,23 @@ def project_registration(request):
             formData.other = form.cleaned_data['other']
             # admin fields
             formData.creationDate = datetime.date
-            formData.draft = form.cleaned_data['draft']
+            
+            if 'Draft' in request.POST:
+                formData.draft = 'True'
+                formData.save()
+                title = form.cleaned_data.get('title')
+                messages.success(request, f'Project Proposal Draft {title} was created!')
+                return redirect('home-page')
+            else:
+                formData.draft = 'False'
+            
             formData.save()
-
             title = form.cleaned_data.get('title')
             messages.success(request, f'Project Proposal named {title} was created!')
             return redirect('home-page')
     else:
         form = ProjectProposalForm()
+
     return render(request, 'project_registration.html', {'form':form})
 
 #def dashboard(request):

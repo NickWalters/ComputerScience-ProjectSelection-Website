@@ -5,16 +5,18 @@
 
 {% if user.is_authenticated %}
   <div class="container">
-    <!-- Example row of columns -->
+    <!-- First row for project creation -->
     <div class="row">
           <a href="{% url 'project-registration' %}" >
             <link> <i class="fa fa-plus"></i> Create a Project &raquo;</link>
           </a>
     </div>
     
+    <!-- Table for list of User Projects -->
     <table class="table table-hover">
       <thead>
         <tr>
+        <!-- First row of table for Table Details -->
           <th scope="col">Project Name</th>
           <th class="text-center" scope="col">Unit Code</th>
           <th class="text-center" scope="col">Date Submitted</th>
@@ -26,6 +28,7 @@
           <th class="text-center" scope="col"></th>
         </tr>
       </thead>
+      <!-- Populate table accordingly -->
       {% if projectList %}
         {% for project in projectList %}
           <tbody>
@@ -34,6 +37,7 @@
               <td class="text-center">SAMPLE123</td> <!--THIS NEEDS TO BE CHANGED LATER!-->
               <td class="text-center"> {{project.creationDate}} </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
               <td class="text-center"> {{project.supervisor1}} </td>
+              
               <!-- Draft checkbox -->
               <td class="text-center">
                 {% if project.draft %}
@@ -42,14 +46,16 @@
                   <i class="fa fa-times">
                 {% endif %}
               </td>
+
               <!-- Submitted checkbox -->
               <td class="text-center">
-                {% if project.approved %} <!--THIS NEEDS TO BE CHANGED LATER!-->
+                {% if not project.draft %}
                   <i class="fa fa-check"></i>
                 {% else %}
                   <i class="fa fa-times">
                 {% endif %}
               </td>
+
               <!-- Approved checkbox -->
               <td class="text-center">
                 {% if project.approved %}
@@ -59,11 +65,13 @@
                 {% endif %}
               </td>
 
+              <!-- Checks if the project is a draft or not. If it is, you can edit it. -->
               <td class="text-center">
                 {% if project.draft %}
                   <a href="#" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a>
                 {% endif %}
               </td>
+              <!-- Checks if the project is a draft or not. If it is, you can delete it. -->
               <td class="text-center">
                 {% if project.draft %}
                   <a href="#" style="color: black; font-size:19px;"><i class="fa fa-trash-o"></i></a>
@@ -71,6 +79,8 @@
             </tr>
           </tbody>
         {% endfor %}
+
+      <!-- No Projects found, so display nothing -->
       {% else %}
         <tbody>
           <tr>

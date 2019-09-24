@@ -3,15 +3,20 @@
 
 {% block body %}
 
-<form class=""  method="post">
-{% csrf_token %}
-<div class="containter jumbotron col-md-6 offset-md-3">
-    <h2>Project Registration</h2>
-    <hr>
-    {{form|crispy}}
-    <button type="submit" value="Submit">Submit</button>
-</div>
+<form class=""  method="POST">
+    {% csrf_token %}
+    <div class="containter jumbotron col-md-6 offset-md-3">
+        <h2>Project Registration</h2>
+        <hr>
+        {{form|crispy}}
+        
+        <input class="btn btn-primary" type="submit" value="Submit" name="Submit" onclick="return confirm('Are you sure you want to Submit? You will not be able to edit it later.')"/>
+        <input class="btn btn-danger" type="submit" value="Save as Draft" name="Draft"/>
+
+
+    </div>
 </form>
+
 
 <script>
     function addTitleAfter(div, title, node){
@@ -21,12 +26,11 @@
         newNode.appendChild(text);
         referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
+    
     addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:", "label");
     addTitleAfter("div_id_description", "Second Supervisor (Optional)", "label");
     addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)", "label");
-    addTitleAfter("div_id_other", "Would you like to save this proposal as a draft (only drafts can be edited at a later date)?", "label");
     addTitleAfter("div_id_other","","hr");
-
 
 </script>
 
