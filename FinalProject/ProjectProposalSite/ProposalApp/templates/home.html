@@ -74,7 +74,7 @@
               <!-- Checks if the project is a draft or not. If it is, you can delete it. -->
               <td class="text-center">
                 {% if project.draft %}
-                  <a href="#" style="color: black; font-size:19px;"><i class="fa fa-trash-o"></i></a>
+                  <a href="/delete/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-trash-o" onclick="return confirm('Are you sure you want to Delete?')"></i></a>
                 {% endif %}
             </tr>
           </tbody>

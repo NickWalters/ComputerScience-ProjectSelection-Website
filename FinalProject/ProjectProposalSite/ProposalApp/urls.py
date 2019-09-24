@@ -10,4 +10,5 @@ urlpatterns = [
     #path('dashboard/', views.dashboard, name='dashboard'),
     path('project/<int:pk>', views.projectEdit, name='project-edit'),
     path('detail/<int:pk>/', views.project_detail, name='detail'),
+    path('delete/<int:pk>/', views.project_delete, name='delete'),
 ]

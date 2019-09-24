@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib import messages
-from django.http import Http404
 from .forms import ProjectProposalForm
 from .models import ProjectModel
 from user.models import Profile
@@ -96,16 +95,9 @@ def project_registration(request):
 
     return render(request, 'project_registration.html', {'form':form})
 
-#def dashboard(request):
-#    projectList = ProjectModel.objects.filter(supervisor1 = request.user)
-#    return render(request, 'dashboard.html', {'projectList':projectList})
-
 @login_required(login_url='/login/')
 def projectEdit(request, pk):
-    try:
-        project = ProjectModel.objects.get(projectID= pk)
-    except ProjectModel.DoesNotExist:
-        raise Http404('Project Does Not Exist')
+    project = get_object_or_404(ProjectModel, projectID=pk)
 
     if request.method == 'POST':
         form = ProjectProposalForm(request.POST)
@@ -118,3 +110,24 @@ def projectEdit(request, pk):
     else:
         form = ProjectProposalForm(project)
         return render(request, 'project-edit.html', context={'form': form})
+
+
+@login_required(login_url='/login/')
+def project_delete(request, pk):
+    
+    projectDelete = get_object_or_404(ProjectModel, projectID=pk)
+
+    user = request.user.username
+    creator = projectDelete.supervisor1.id
+    supervisor = Profile.objects.get(user_id=creator)
+
+    strUser = str(user)
+    strSupervisor = str(supervisor.user)    
+
+
+    if strSupervisor != strUser or projectDelete.draft == False:
+        return render(request, 'denied.html')
+    else:
+        projectDelete.delete()
+
+    return redirect('home-page')
