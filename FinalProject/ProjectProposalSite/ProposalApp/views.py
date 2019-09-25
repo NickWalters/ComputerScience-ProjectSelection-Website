@@ -10,7 +10,11 @@ import datetime
 @login_required(login_url='/login/')
 def home(request):
     if request.user.is_superuser:
-        projectList = ProjectModel.objects.filter(draft = False, approved = False, viewable = False)
+        if request.GET.get('degree'):
+            degree_filter = request.GET.get('degree')
+            projectList = ProjectModel.objects.filter(postgraduate=degree_filter, draft = False)
+        else:
+            projectList = ProjectModel.objects.filter(draft = False)
         return render(request, 'admin-home.html', {'projectList':projectList})
 
     projectList = ProjectModel.objects.filter(supervisor1 = request.user)
@@ -120,7 +124,8 @@ def project_edit(request, pk):
     # Check if the user trying to edit the project has permission,
     # or if the project is allowed to be edited (a draft)
     if strSupervisor != strUser or project.draft == False:
-        return render(request, 'denied.html')
+        if not request.user.is_superuser:
+            return render(request, 'denied.html')
 
     form = EditProject(request.POST or None, request.FILES or None, instance=project)
 
@@ -159,24 +164,65 @@ def project_delete(request, pk):
 
     # Check if the user trying to delete the project has the appropriate permission
     if strSupervisor != strUser or projectDelete.draft == False:
-        return render(request, 'denied.html')
+        if not request.user.is_superuser:
+            return render(request, 'denied.html')
     else:
         projectDelete.delete()
 
     return redirect('home-page')
 
 
-# Process for deleting a project
+# 
 @login_required(login_url='/login/')
 def project_approval(request, pk):
     
     project = get_object_or_404(ProjectModel, projectID=pk) 
 
-    # Check if the user is not superuser or not
+    # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    else:
+    elif project.approved == False:
         project.approved = True
+        project.save()
+    else:
+        project.approved = False
+        project.save()
+
+    return redirect('home-page')
+
+
+# 
+@login_required(login_url='/login/')
+def project_viewable(request, pk):
+    
+    project = get_object_or_404(ProjectModel, projectID=pk) 
+
+    # Check if the user is a superuser or not
+    if not request.user.is_superuser or project.draft != False:
+        return render(request, 'denied.html')
+    elif project.viewable == False:
+        project.viewable = True
+        project.save()
+    else:
+        project.viewable = False
+        project.save()
+
+    return redirect('home-page')
+
+# 
+@login_required(login_url='/login/')
+def project_postgrad(request, pk):
+    
+    project = get_object_or_404(ProjectModel, projectID=pk) 
+
+    # Check if the user is a superuser or not
+    if not request.user.is_superuser or project.draft != False:
+        return render(request, 'denied.html')
+    elif project.postgraduate == False:
+        project.postgraduate = True
+        project.save()
+    else:
+        project.postgraduate = False
         project.save()
 
     return redirect('home-page')
