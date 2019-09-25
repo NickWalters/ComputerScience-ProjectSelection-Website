@@ -9,6 +9,10 @@ import datetime
 # Home Page
 @login_required(login_url='/login/')
 def home(request):
+    if request.user.is_superuser:
+        projectList = ProjectModel.objects.filter(draft = False, approved = False, viewable = False)
+        return render(request, 'admin-home.html', {'projectList':projectList})
+
     projectList = ProjectModel.objects.filter(supervisor1 = request.user)
     return render(request, 'home.html', {'projectList':projectList})
 
@@ -93,7 +97,7 @@ def project_registration(request):
             
             formData.save()
             title = form.cleaned_data.get('title')
-            messages.success(request, f'Project Proposal named {title} was created!')
+            messages.success(request, f'Project Proposal named {title} was submitted!')
             return redirect('home-page')
     else:
         form = ProjectProposalForm()
@@ -121,13 +125,21 @@ def project_edit(request, pk):
     form = EditProject(request.POST or None, request.FILES or None, instance=project)
 
     if request.method == 'POST':
-        if form.is_valid():
+        if form.is_valid():            
             form.save()
+            if 'Draft' in request.POST:
+                project.draft = True
+                project.save()
+                title = form.cleaned_data.get('title')
+                messages.success(request, f'Project Proposal Draft {title} was updated!')
+                return redirect('home-page')
+            else:
+                project.draft = False
+                project.save()
+                title = form.cleaned_data.get('title')
+                messages.success(request, f'Project Proposal Draft {title} was submitted!')
+                return redirect('home-page')
             
-            title = form.cleaned_data.get('title')
-            messages.success(request, f'Project Proposal Named {title} was updated!')
-            return redirect('home-page')
-            #return render(request, 'project-edit.html', context={'form': form})
     else:
         form = EditProject(instance=project)
     return render(request, 'project-edit.html', context={'form': form})
@@ -150,5 +162,21 @@ def project_delete(request, pk):
         return render(request, 'denied.html')
     else:
         projectDelete.delete()
+
+    return redirect('home-page')
+
+
+# Process for deleting a project
+@login_required(login_url='/login/')
+def project_approval(request, pk):
+    
+    project = get_object_or_404(ProjectModel, projectID=pk) 
+
+    # Check if the user is not superuser or not
+    if not request.user.is_superuser or project.draft != False:
+        return render(request, 'denied.html')
+    else:
+        project.approved = True
+        project.save()
 
     return redirect('home-page')

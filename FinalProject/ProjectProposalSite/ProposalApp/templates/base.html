@@ -27,11 +27,13 @@
                 </li>
             </ul>
 
-                {% if user.is_authenticated %}
-                    <!--<a href="#">
-                        <button class="btn btn-outline-success" type="submit" style="font-size: 23px; margin-right: 20px">Dashboard</button>
-                    </a>-->
+                {% if user.is_superuser %}
+                    <a href="/admin/">
+                        <button class="btn btn-success" type="submit" style="font-size: 23px; margin-right: 20px">Django Admin</button>
+                    </a>
+                {% endif %}
 
+                {% if user.is_authenticated %}
                     <a href="{% url 'logout' %}">
                         <button class="btn btn-danger" type="submit" style="font-size: 23px">Logout</button>
                     </a>
