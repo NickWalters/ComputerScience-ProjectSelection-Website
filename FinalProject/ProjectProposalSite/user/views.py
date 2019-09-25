@@ -5,13 +5,13 @@ from user.models import Profile
 from django.contrib.auth.models import User
 
 
-# user registration, collect data from forms, save into User model and Profile model
+# User registration: collect data from forms, save into User model and Profile model
 def register(request):
     if request.method == 'POST':
         userform = UserForm(request.POST)
         if userform.is_valid():
 
-            # get post data
+            # Get post data
             UserName = userform.cleaned_data.get('username')
             First_Name = userform.cleaned_data.get('First_Name')
             Last_Name = userform.cleaned_data.get('Last_Name')
@@ -22,7 +22,7 @@ def register(request):
             Company_Business = userform.cleaned_data.get('Company_Business')
             messages.success(request, f'Account created {UserName}! Please wait for admin to active your account')
 
-            # save data into user model
+            # Save data into user model
             user = User.objects.create_user(
                                             username=UserName,
                                             password=Password,
@@ -33,7 +33,7 @@ def register(request):
             user.is_active = False
             user.save()
 
-            # save data into profile
+            # Save data into profile
             profile = Profile.objects.create(
                                             # user=UserName,
                                             user_id=int(user.id),

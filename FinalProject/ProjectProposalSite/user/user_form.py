@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-
+# Form used when creating a new user
 class UserForm(UserCreationForm):
     First_Name = forms.CharField(max_length=20)
     Last_Name = forms.CharField(max_length=20)

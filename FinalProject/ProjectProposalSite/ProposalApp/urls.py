@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-
+# URLs patterns for the various parts of the website
 urlpatterns = [
     path('', views.home, name='home-page'),
     path('undergraduate_project_list/', views.project_list_undergrad, name = 'project-list-undergrad'),

@@ -23,14 +23,13 @@ STAT = os.path.join(BASE_DIR, 'static')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ep4gb928h8j)h%r)4rb+rgrnfk-z4pqwm8w@mqb^+vmr%t_%3g'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: Don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'crispy_forms',
     'user.apps.UserConfig',
@@ -77,10 +76,9 @@ WSGI_APPLICATION = 'ProjectProposalSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-
-# very important ! we are all using different connections, we dont have one server to connect to,
-# thus the username and password for each of your databases will be different based on your local mysql server
-# change these variables in regards to your setup
+# *Very important*! We're all using different connections, and don't yet have one server to connect to.
+# Due to this, the username and password for each of the databases will be different based on the local
+# MySQL server credentials. Change these variables in regards to your setup if it mentions a password issue.
 
 DATABASES = {
     'default': {
@@ -104,7 +102,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -121,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
+# Internationalisation
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'

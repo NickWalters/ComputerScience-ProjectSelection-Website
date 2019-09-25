@@ -32,7 +32,7 @@ from django.dispatch import receiver
     # def __str__(self):
     #     return self.user.username
 
-
+# Model for a website user, contains various fields of information about them
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     First_Name = models.CharField(max_length=20)

@@ -6,12 +6,13 @@ from .models import ProjectModel
 from user.models import Profile
 import datetime
 
-# home page
+# Home Page
 @login_required(login_url='/login/')
 def home(request):
     projectList = ProjectModel.objects.filter(supervisor1 = request.user)
     return render(request, 'home.html', {'projectList':projectList})
 
+# Project list page
 def project_list_undergrad(request):
     all_projects = ProjectModel.objects.filter(draft=False, viewable=True, approved=True)
     context = {
@@ -19,6 +20,7 @@ def project_list_undergrad(request):
     }
     return render(request, 'project_list_undergrad.html', context=context)
 
+# Project details page
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
     user = request.user.username
@@ -28,6 +30,7 @@ def project_detail(request, pk):
     strUser = str(user)
     strSupervisor = str(supervisor.user)
 
+    # Check if the project is still a draft, and if so only let the supervisor view it
     if project.draft is True and strUser != strSupervisor: 
         return render(request, 'denied.html')
 
@@ -42,6 +45,7 @@ def project_detail(request, pk):
         }
     return render(request, 'project_detail.html', context=context)
 
+# Project registration page
 @login_required(login_url='/login/')
 def project_registration(request):
     if request.method == 'POST':
@@ -61,7 +65,7 @@ def project_registration(request):
             formData.prerequisites = form.cleaned_data['prerequisites']
             formData.projectTags = form.cleaned_data['projectTags']
             formData.IP = form.cleaned_data['IP']
-            # checkboxes
+            # Checkboxes
             formData.chemical = form.cleaned_data['chemical']
             formData.civil = form.cleaned_data['civil']
             formData.elec = form.cleaned_data['elec']
@@ -74,9 +78,10 @@ def project_registration(request):
             formData.petroleum = form.cleaned_data['petroleum']
             formData.software = form.cleaned_data['software']
             formData.other = form.cleaned_data['other']
-            # admin fields
+            # Admin fields
             formData.creationDate = datetime.date
-            
+
+            # If the project is saved as a draft, update the project information to match
             if 'Draft' in request.POST:
                 formData.draft = 'True'
                 formData.save()
@@ -95,8 +100,10 @@ def project_registration(request):
 
     return render(request, 'project_registration.html', {'form':form})
 
+# Process for editing a project
 @login_required(login_url='/login/')
 def project_edit(request, pk):
+    # Find the requested project
     project = get_object_or_404(ProjectModel, projectID=pk)
 
     user = request.user.username
@@ -106,6 +113,8 @@ def project_edit(request, pk):
     strUser = str(user)
     strSupervisor = str(supervisor.user)    
 
+    # Check if the user trying to edit the project has permission,
+    # or if the project is allowed to be edited (a draft)
     if strSupervisor != strUser or project.draft == False:
         return render(request, 'denied.html')
 
@@ -123,7 +132,7 @@ def project_edit(request, pk):
         form = EditProject(instance=project)
     return render(request, 'project-edit.html', context={'form': form})
 
-
+# Process for deleting a project
 @login_required(login_url='/login/')
 def project_delete(request, pk):
     
@@ -136,7 +145,7 @@ def project_delete(request, pk):
     strUser = str(user)
     strSupervisor = str(supervisor.user)    
 
-
+    # Check if the user trying to delete the project has the appropriate permission
     if strSupervisor != strUser or projectDelete.draft == False:
         return render(request, 'denied.html')
     else:

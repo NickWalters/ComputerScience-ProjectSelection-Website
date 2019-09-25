@@ -1,13 +1,13 @@
 from django import forms
 from .models import ProjectModel
 
-# Different options for Number of Students and IP
+# Different options for Number of Students and Intellectual Property
 NUMBER_OF_STUDENTS =[(1,1), (2,2), (3,3), (4,4), (5,5), (6,6)]
 IP_OPTIONS = [("Sponsor will retain IP", "Sponsor will retain IP"), ("UWA will retain IP", "UWA will retain IP")]
 
 
 
-# Form for project proposals including
+# Form for project proposals including the below details to be filled by sponsors
 class ProjectProposalForm(forms.Form):
     title = forms.CharField(label = 'Title of Project')
     description = forms.CharField(label = 'Description')

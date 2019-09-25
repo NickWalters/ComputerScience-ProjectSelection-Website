@@ -2,9 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# Model for displaying and making changes to sponsor submitted projects
 class ProjectModel(models.Model):
+    # ID to differentiate projects
     projectID = models.AutoField(primary_key=True)
-    # admin fields
+    # Admin fields providing information about the project
     approved = models.BooleanField(default=False)
     viewable = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
@@ -12,7 +14,7 @@ class ProjectModel(models.Model):
     creationDate = models.DateField(auto_now_add=True)
     deadlineDate = models.DateField(null=True, blank=True)
 
-	# project descriptions
+    # Project descriptions
     supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)
     supervisor2Title = models.CharField(max_length=20, blank=True)
     supervisor2FirstName = models.CharField(max_length=30, blank=True)
@@ -27,7 +29,7 @@ class ProjectModel(models.Model):
     projectTags = models.CharField(max_length=1000)
     IP = models.CharField(max_length=22)
 
-    # checkboxes
+    # Checkboxes for project discipline(s)
     chemical = models.BooleanField(default=False)
     civil = models.BooleanField(default=False)
     elec = models.BooleanField(default=False)
@@ -40,7 +42,6 @@ class ProjectModel(models.Model):
     petroleum = models.BooleanField(default=False)
     software = models.BooleanField(default=False)
     other = models.BooleanField(default=False)
-
 
     def __str__(self):
         return self.title
@@ -67,14 +68,14 @@ class Client(models.Model):
 	companyName = models.CharField(max_length = 50)
 	companyDescription = models.CharField(max_length = 500)
 
-# if there are more than one supervior, there information is stored here
+# If there is more than one supervisor, their information is stored here
 class Supervisor(models.Model):
 	supervisorID = models.IntegerField(primary_key=True)
 	firstName = models.CharField(max_length = 20)
 	lastName = models.CharField(max_length = 20)
 	title = models.CharField(max_length = 5)
 
-# 'supervisor' variable holds the projects main Supervisor/manager name/ID
+# 'supervisor' variable holds the project's main Supervisor/manager name/ID
 # 'sponsor' variable contains the details of the company 'sponsoring' the project for students
 # 'time required' field, is just a simple text explanation about how long the project is going to take, eg "The project takes 6 months"
 class Project(models.Model):
