@@ -2,6 +2,36 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
+# this model stores the unit information, because the projects need to link to a specific unit
+class UnitModel(models.Model):
+	unitID = models.charField(max_length=8, primary_key=True)
+	fieldOfDiscipline = models.charField(blank=True)
+	coordinatorName = models.charField(max_length=200)
+	credit = models.IntegerField()
+	prerequisites = models.TextField(null=true)
+	content = models.charField(blank=True)
+	outcomes = models.charField(blank=True)
+	assessment = content = models.charField(blank=True)
+	semester = models.IntegerField()
+	
+	
+	
+	
+#when it comes to prerequisites, we need to store a list, necause there can be multiple unit prerequisities:
+	# import simplejson as json # this would be just 'import json' in Python 2.7 and later
+
+	#myModel = MyModel()
+	#listIWantToStore = [1,2,3,4,5,'hello']
+	#myModel.myList = json.dumps(listIWantToStore)
+	#myModel.save()
+	
+
+
+
+
+
+
 # Model for displaying and making changes to sponsor submitted projects
 class ProjectModel(models.Model):
     # ID to differentiate projects
