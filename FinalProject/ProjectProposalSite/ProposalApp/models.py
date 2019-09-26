@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 
 # this model stores the unit information, because the projects need to link to a specific unit
 class UnitModel(models.Model):
-	unitID = models.charField(max_length=8, primary_key=True)
-	fieldOfDiscipline = models.charField(blank=True)
-	coordinatorName = models.charField(max_length=200)
+	unitID = models.CharField(max_length=8, primary_key=True)
+	fieldOfDiscipline = models.CharField(max_length=200, blank=True)
+	coordinatorName = models.CharField(max_length=200)
 	credit = models.IntegerField()
-	prerequisites = models.TextField(null=true)
-	content = models.charField(blank=True)
-	outcomes = models.charField(blank=True)
-	assessment = content = models.charField(blank=True)
+	prerequisites = models.TextField(blank=True)
+	contentInfo = models.CharField(max_length=90000, blank=True)
+	outcomes = models.CharField(max_length=90000, blank=True)
+	assessmentInfo = models.CharField(max_length=90000, blank=True)
 	semester = models.IntegerField()
 	
 	
