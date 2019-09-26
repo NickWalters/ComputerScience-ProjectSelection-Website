@@ -5,21 +5,30 @@ from django.contrib.auth.models import User
 
 # this model stores the unit information, because the projects need to link to a specific unit
 class UnitModel(models.Model):
-	# primary key, and foreign key link to Project
-	unitID = models.CharField(max_length=8, primary_key=True)
-	# projectsAssociated = ListTextField(base_field=IntegerField(), size=100)
-	
-	#unit information
-	fieldOfDiscipline = models.CharField(max_length=200, blank=True)
-	coordinatorName = models.CharField(max_length=200)
-	credit = models.IntegerField()
-	prerequisites = models.TextField(blank=True)
-	contentInfo = models.CharField(max_length=90000, blank=True)
-	outcomes = models.CharField(max_length=90000, blank=True)
-	assessmentInfo = models.CharField(max_length=90000, blank=True)
-	semester = models.IntegerField()
-	
-	
+    unitID = models.AutoField(primary_key=True)
+    unitCode = models.CharField(max_length=8)
+    description = models.CharField(max_length=1024, blank=True)
+
+    def __str__(self):
+        return self.unitCode
+
+
+
+
+# primary key, and foreign key link to Project
+#contentInfo = models.CharField(max_length=256, blank=True)
+# projectsAssociated = ListTextField(base_field=IntegerField(), size=100)
+
+#fieldOfDiscipline = models.CharField(max_length=200, blank=True)
+#    coordinatorName = models.CharField(max_length=200)
+#    credit = models.IntegerField()
+#    prerequisites = models.TextField(blank=True)
+#    outcomes = models.CharField(max_length=256, blank=True)
+#    assessmentInfo = models.CharField(max_length=256, blank=True)
+#    semester = models.IntegerField()
+
+
+# unit information
 
 # https://django-mysql.readthedocs.io/en/latest/model_fields/list_fields.html
 	
@@ -31,11 +40,6 @@ class UnitModel(models.Model):
 	#listIWantToStore = [1,2,3,4,5,'hello']
 	#myModel.myList = json.dumps(listIWantToStore)
 	#myModel.save()
-	
-
-
-
-
 
 
 # Model for displaying and making changes to sponsor submitted projects
@@ -82,7 +86,15 @@ class ProjectModel(models.Model):
     def __str__(self):
         return self.title
 
+class UnitProjectLink(models.Model):
+    linkID = models.AutoField(primary_key=True)
+    unitID = models.ForeignKey(UnitModel, on_delete=models.CASCADE)
+    projectID = models.ForeignKey(ProjectModel, on_delete=models.CASCADE)
 
+
+
+# projectName = ProjectModel.objects.get(projectID=self.projectID).title
+ #   unitName = UnitModel.objects.get(unitID=self.unitID).unitCode
 
 
 

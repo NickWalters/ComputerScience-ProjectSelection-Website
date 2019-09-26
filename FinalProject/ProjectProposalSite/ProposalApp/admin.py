@@ -8,3 +8,11 @@ from .models import *
 @admin.register(ProjectModel)
 class ViewAdmin(ImportExportModelAdmin):
     pass
+
+@admin.register(UnitModel)
+class ViewAdmin(ImportExportModelAdmin):
+    pass
+
+@admin.register(UnitProjectLink)
+class ViewAdmin(ImportExportModelAdmin):
+    pass
