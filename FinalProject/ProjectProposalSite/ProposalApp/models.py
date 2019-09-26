@@ -5,7 +5,11 @@ from django.contrib.auth.models import User
 
 # this model stores the unit information, because the projects need to link to a specific unit
 class UnitModel(models.Model):
+	# primary key, and foreign key link to Project
 	unitID = models.CharField(max_length=8, primary_key=True)
+	# projectsAssociated = ListTextField(base_field=IntegerField(), size=100)
+	
+	#unit information
 	fieldOfDiscipline = models.CharField(max_length=200, blank=True)
 	coordinatorName = models.CharField(max_length=200)
 	credit = models.IntegerField()
@@ -16,6 +20,8 @@ class UnitModel(models.Model):
 	semester = models.IntegerField()
 	
 	
+
+# https://django-mysql.readthedocs.io/en/latest/model_fields/list_fields.html
 	
 	
 #when it comes to prerequisites, we need to store a list, necause there can be multiple unit prerequisities:
@@ -75,6 +81,10 @@ class ProjectModel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+
 
 
 """
