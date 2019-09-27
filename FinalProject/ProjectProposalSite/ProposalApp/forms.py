@@ -11,10 +11,10 @@ IP_OPTIONS = [("Sponsor will retain IP", "Sponsor will retain IP"), ("UWA will r
 class ProjectProposalForm(forms.Form):
     title = forms.CharField(label = 'Title of Project')
     description = forms.CharField(label = 'Description')
-    supervisor2Title = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
-    supervisor3Title = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
+    supervisor3Title = forms.CharField(label='Third Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     supervisor3FirstName = forms.CharField(label='', required=False,widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
     supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
