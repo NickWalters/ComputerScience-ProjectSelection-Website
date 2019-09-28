@@ -25,9 +25,9 @@ def home(request):
 def project_list_undergrad(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
-        projectList = ProjectModel.objects.filter(postgraduate=project_filter, draft=False)
+        projectList = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, viewable=1)
     else:
-        projectList = ProjectModel.objects.filter(draft=False)
+        projectList = ProjectModel.objects.filter(draft=False, viewable=1)
 
     context = {
         'all_projects': projectList

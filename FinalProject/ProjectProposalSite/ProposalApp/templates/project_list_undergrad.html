@@ -11,14 +11,29 @@
 
                 </div>
 
-              <!-- Row for filters -->
+<!--                  form for education level filter-->
               <div class="dropdown">
                 <form action="{% url 'project-list-undergrad' %}" method="get">
                     <div class="input-group mb-3">
                         <label for="degree" class="input-group-text">Education Level:</label>
                           <select name="degree" class="custom-select" id="inputGroupSelect02">
-                              <option class="" value="False"> Undergraduate </option>
-                              <option value="True"> Postgraduate </option>
+                              <option class="" value="False">  Undergraduate </option>
+                              <option value="True"> Postgraduate</option>
+                          </select>
+                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                    </div>
+                </form>
+
+<!--                  form for units filter-->
+                  <form action="{% url 'project-list-undergrad' %}" method="get">
+                    <div class="input-group mb-3">
+                        <label for="unit" class="input-group-text">Education Level:</label>
+                          <select name="unit" class="custom-select" id="inputGroupSelect03">
+                              <option value="CITS2002">  CITS2002 </option>
+                              <option value="CITS2200"> CITS2200 </option>
+                              <option value="CITS3200"> CITS3200 </option>
+                              <option value="CITS1001"> CITS1001 </option>
+                              <option value="CITS2401"> CITS2401 </option>
                           </select>
                         <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
                     </div>
@@ -53,13 +68,29 @@
                 <form action="{% url 'project-list-undergrad' %}" method="get">
                     <div class="input-group mb-3">
                         <label for="degree" class="input-group-text">Education Level:</label>
-                          <select name="degree" class="custom-select" id="inputGroupSelect02">
+                          <select name="degree" class="custom-select" id="inputGroupSelect01">
                               <option class="" value="True"> Postgraduate </option>
                               <option value="False"> Undergraduate </option>
                           </select>
                         <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
                     </div>
                 </form>
+
+                    <!--                  form for units filter-->
+                  <form action="{% url 'project-list-undergrad' %}" method="get">
+                    <div class="input-group mb-3">
+                        <label for="unit" class="input-group-text">Education Level:</label>
+                          <select name="unit" class="custom-select" id="inputGroupSelect03">
+                              <option value="CITS2002">  CITS2002 </option>
+                              <option value="CITS2200"> CITS2200 </option>
+                              <option value="CITS3200"> CITS3200 </option>
+                              <option value="CITS1001"> CITS1001 </option>
+                              <option value="CITS2401"> CITS2401 </option>
+                          </select>
+                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                    </div>
+                </form>
+
                 </div>
 
             </div>
