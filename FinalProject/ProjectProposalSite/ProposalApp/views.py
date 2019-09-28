@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib import messages
 from .forms import ProjectProposalForm, EditProject
-from .models import ProjectModel
+from .models import ProjectModel, UnitProjectLink, UnitModel
 from user.models import Profile
 import datetime
 
@@ -21,16 +21,29 @@ def home(request):
     return render(request, 'home.html', {'projectList':projectList})
 
 # Project list page
-# Including the filter for different education level
+# Including the filter for different education level and units
 def project_list_undergrad(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
-        projectList = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, viewable=1)
+        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, viewable=1)
+        projects = projectList1
     else:
-        projectList = ProjectModel.objects.filter(draft=False, viewable=1)
+        projectList1 = ProjectModel.objects.filter(draft=False, viewable=1)
+        projects = projectList1
+    if request.GET.get('unit'):
+        unitID = request.GET.get('unit')
+        unitCodes = UnitModel.objects.filter(unitCode=unitID)
+        IDset = []
+        for i in unitCodes:
+            IDset.append(i.unitID)
+        LinkSet = UnitProjectLink.objects.filter(unitID__in=IDset)
+        projectList2 = []
+        for i in LinkSet:
+            projectList2.append(i.projectID)
+        projects = list(set(projectList1).intersection(projectList2))
 
     context = {
-        'all_projects': projectList
+        'all_projects': projects
     }
     return render(request, 'project_list_undergrad.html', context=context)
 

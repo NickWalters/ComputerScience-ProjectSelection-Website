@@ -7,39 +7,31 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                <h1>Undergraduate Projects List</h1>
+<!--                  form for education level and units filter-->
+                  <div class="dropdown">
+                    <form action="{% url 'project-list-undergrad' %}" method="get">
+                        <div class="input-group mb-3">
+                            <label for="degree" class="input-group-text">Education Level:</label>
+                              <select name="degree" class="custom-select" id="inputGroupSelect02">
+                                   <option value="">Please select an education level</option>
+                                  <option class="" value="False">  Undergraduate </option>
+                                  <option value="True"> Postgraduate</option>
+                              </select>
 
+                            <label for="unit" class="input-group-text">Units Provided:</label>
+                              <select name="unit" class="custom-select" id="inputGroupSelect04">
+                                  <option value="">Please select a unit</option>
+                                  <option value="CITS2002">  CITS2002 </option>
+                                  <option value="CITS2200"> CITS2200 </option>
+                                  <option value="CITS3200"> CITS3200 </option>
+                                  <option value="CITS1001"> CITS1001 </option>
+                                  <option value="CITS2401"> CITS2401 </option>
+                              </select>
+                            <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                        </div>
+                    </form>
+                  </div>
                 </div>
-
-<!--                  form for education level filter-->
-              <div class="dropdown">
-                <form action="{% url 'project-list-undergrad' %}" method="get">
-                    <div class="input-group mb-3">
-                        <label for="degree" class="input-group-text">Education Level:</label>
-                          <select name="degree" class="custom-select" id="inputGroupSelect02">
-                              <option class="" value="False">  Undergraduate </option>
-                              <option value="True"> Postgraduate</option>
-                          </select>
-                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
-                    </div>
-                </form>
-
-<!--                  form for units filter-->
-                  <form action="{% url 'project-list-undergrad' %}" method="get">
-                    <div class="input-group mb-3">
-                        <label for="unit" class="input-group-text">Education Level:</label>
-                          <select name="unit" class="custom-select" id="inputGroupSelect03">
-                              <option value="CITS2002">  CITS2002 </option>
-                              <option value="CITS2200"> CITS2200 </option>
-                              <option value="CITS3200"> CITS3200 </option>
-                              <option value="CITS1001"> CITS1001 </option>
-                              <option value="CITS2401"> CITS2401 </option>
-                          </select>
-                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
-                    </div>
-                </form>
-              </div>
-
 
                 {% for project in all_projects %}
                 <a href="{% url 'detail' project.projectID %}" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -60,38 +52,33 @@
 
             <div class="row">
                 <div class="col">
-
                     <h3> No projects have been posted yet!</h3>
                 </div>
 
-                <div class="dropdown">
-                <form action="{% url 'project-list-undergrad' %}" method="get">
-                    <div class="input-group mb-3">
-                        <label for="degree" class="input-group-text">Education Level:</label>
-                          <select name="degree" class="custom-select" id="inputGroupSelect01">
-                              <option class="" value="True"> Postgraduate </option>
-                              <option value="False"> Undergraduate </option>
-                          </select>
-                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
-                    </div>
-                </form>
+ <!--                  form for education level and units filter-->
+                  <div class="dropdown">
+                    <form action="{% url 'project-list-undergrad' %}" method="get">
+                        <div class="input-group mb-3">
+                            <label for="degree" class="input-group-text">Education Level:</label>
+                              <select name="degree" class="custom-select" id="inputGroupSelect01">
+                                   <option value="">Please select an education level</option>
+                                  <option class="" value="False">  Undergraduate </option>
+                                  <option value="True"> Postgraduate</option>
+                              </select>
 
-                    <!--                  form for units filter-->
-                  <form action="{% url 'project-list-undergrad' %}" method="get">
-                    <div class="input-group mb-3">
-                        <label for="unit" class="input-group-text">Education Level:</label>
-                          <select name="unit" class="custom-select" id="inputGroupSelect03">
-                              <option value="CITS2002">  CITS2002 </option>
-                              <option value="CITS2200"> CITS2200 </option>
-                              <option value="CITS3200"> CITS3200 </option>
-                              <option value="CITS1001"> CITS1001 </option>
-                              <option value="CITS2401"> CITS2401 </option>
-                          </select>
-                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
-                    </div>
-                </form>
-
-                </div>
+                            <label for="unit" class="input-group-text">Units Provided:</label>
+                              <select name="unit" class="custom-select" id="inputGroupSelect03">
+                                  <option value="">Please select a unit</option>
+                                  <option value="CITS2002">  CITS2002 </option>
+                                  <option value="CITS2200"> CITS2200 </option>
+                                  <option value="CITS3200"> CITS3200 </option>
+                                  <option value="CITS1001"> CITS1001 </option>
+                                  <option value="CITS2401"> CITS2401 </option>
+                              </select>
+                            <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                        </div>
+                    </form>
+                  </div>
 
             </div>
         </div>
@@ -99,6 +86,3 @@
 
 
 {% endblock %}
- <!--<a href="{% url 'undergraduate_list:detail' project.id %}" class="list-group-item list-group-item-action flex-column align-items-start"></a>
-     <li><a href="{% url 'undergraduate_list:detail' project.id %}"> {{ project.projectID }} </a></li>ITS NOT A FULL STOP BUT A ":"
-     </ul>-->
