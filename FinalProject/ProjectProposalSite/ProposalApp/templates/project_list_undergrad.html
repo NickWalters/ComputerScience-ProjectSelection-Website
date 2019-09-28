@@ -8,7 +8,23 @@
             <div class="row">
                 <div class="col">
                 <h1>Undergraduate Projects List</h1>
+
                 </div>
+
+              <!-- Row for filters -->
+              <div class="dropdown">
+                <form action="{% url 'project-list-undergrad' %}" method="get">
+                    <div class="input-group mb-3">
+                        <label for="degree" class="input-group-text">Education Level:</label>
+                          <select name="degree" class="custom-select" id="inputGroupSelect02">
+                              <option class="" value="False"> Undergraduate </option>
+                              <option value="True"> Postgraduate </option>
+                          </select>
+                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                    </div>
+                </form>
+              </div>
+
 
                 {% for project in all_projects %}
                 <a href="{% url 'detail' project.projectID %}" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -24,10 +40,28 @@
         </div>
     {% else %}
             <div class="container">
+
+
+
             <div class="row">
                 <div class="col">
+
                     <h3> No projects have been posted yet!</h3>
                 </div>
+
+                <div class="dropdown">
+                <form action="{% url 'project-list-undergrad' %}" method="get">
+                    <div class="input-group mb-3">
+                        <label for="degree" class="input-group-text">Education Level:</label>
+                          <select name="degree" class="custom-select" id="inputGroupSelect02">
+                              <option class="" value="True"> Postgraduate </option>
+                              <option value="False"> Undergraduate </option>
+                          </select>
+                        <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                    </div>
+                </form>
+                </div>
+
             </div>
         </div>
     {% endif %}

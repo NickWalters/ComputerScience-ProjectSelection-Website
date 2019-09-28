@@ -21,12 +21,19 @@ def home(request):
     return render(request, 'home.html', {'projectList':projectList})
 
 # Project list page
+# Including the filter for different education level
 def project_list_undergrad(request):
-    all_projects = ProjectModel.objects.filter(draft=False, viewable=True, approved=True)
+    if request.GET.get('degree'):
+        project_filter = request.GET.get('degree')
+        projectList = ProjectModel.objects.filter(postgraduate=project_filter, draft=False)
+    else:
+        projectList = ProjectModel.objects.filter(draft=False)
+
     context = {
-        'all_projects' : all_projects
+        'all_projects': projectList
     }
     return render(request, 'project_list_undergrad.html', context=context)
+
 
 # Project details page
 def project_detail(request, pk):
