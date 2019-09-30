@@ -30,24 +30,46 @@
     document.getElementById("div_id_supervisor3LastName").style.display = "none";
 
 
-    function addTitleAfter(div, title, node){
+    function addElementAfter(div, title, node){
         var referenceNode = document.getElementById(div);
         var newNode = document.createElement(node);
         newNode.id = title;
-        var text = document.createTextNode(title);
-        newNode.appendChild(text);
+        if(title != "Blank"){
+            var text = document.createTextNode(title);
+            newNode.appendChild(text);
+            }
         referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
 
-    addTitleAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:", "label");
+    function addChild(div, title, node) {
+        var referenceNode = document.getElementById(div);
+        var newNode = document.createElement(node);
+        newNode.id = title;
+        if(title != "1" && title != "2"){
+            var text = document.createTextNode(title);
+            newNode.appendChild(text);
+        }
+        referenceNode.appendChild(newNode);
+    }
 
-    addTitleAfter("div_id_description", "Remove Extra Supervisor", "div");
-    document.getElementById("Remove Extra Supervisor").className = "btn btn-danger";
-    document.getElementById("Remove Extra Supervisor").style.display = "none";
+    addElementAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:", "label");
 
-    addTitleAfter("div_id_description", "Add Extra Supervisor", "div");
+    addElementAfter("div_id_description", "Blank", "div");
+    document.getElementById("Blank").className = "row";
+
+    addChild("Blank", "1", "div");
+    document.getElementById("1").className = "col-6";
+    addChild("Blank", "2", "div");
+    document.getElementById("2").className = "col-6";
+
+    addChild("1", "Add Extra Supervisor", "div");
     document.getElementById("Add Extra Supervisor").className = "btn btn-primary";
     document.getElementById("Add Extra Supervisor").style.marginRight = "10px";
+
+    addChild("2", "Remove Extra Supervisor", "div");
+    document.getElementById("Remove Extra Supervisor").className = "btn btn-danger";
+    document.getElementById("Remove Extra Supervisor").style.display = "none";
+    document.getElementById("Remove Extra Supervisor").style.float = "right";
 
 
     document.getElementById("Add Extra Supervisor").onclick = function(){
@@ -82,11 +104,7 @@
         }
     };
 
-
-    //addTitleAfter("div_id_description", "Second Supervisor (Optional)", "label");
-    //addTitleAfter("div_id_supervisor2LastName", "Third Supervisor (Optional)", "label");
-
-    addTitleAfter("div_id_other","","hr");
+    addElementAfter("div_id_other","","hr");
 
 </script>
 

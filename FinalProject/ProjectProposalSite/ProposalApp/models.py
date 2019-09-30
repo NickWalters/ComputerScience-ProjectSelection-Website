@@ -12,9 +12,6 @@ class UnitModel(models.Model):
     def __str__(self):
         return self.unitCode
 
-
-
-
 # primary key, and foreign key link to Project
 #contentInfo = models.CharField(max_length=256, blank=True)
 # projectsAssociated = ListTextField(base_field=IntegerField(), size=100)
@@ -52,7 +49,6 @@ class ProjectModel(models.Model):
     draft = models.BooleanField(default=False)
     postgraduate = models.BooleanField(default=False)
     creationDate = models.DateField(auto_now_add=True)
-    deadlineDate = models.DateField(null=True, blank=True)
 
     # Project descriptions
     supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -88,10 +84,11 @@ class ProjectModel(models.Model):
 
 class UnitProjectLink(models.Model):
     linkID = models.AutoField(primary_key=True)
-    unitID = models.ForeignKey(UnitModel, on_delete=models.CASCADE)
     projectID = models.ForeignKey(ProjectModel, on_delete=models.CASCADE)
+    unitID = models.ForeignKey(UnitModel, on_delete=models.CASCADE)
 
-
+    def __str__(self):
+        return self.projectID.title + " - " + self.unitID.unitCode
 
 # projectName = ProjectModel.objects.get(projectID=self.projectID).title
  #   unitName = UnitModel.objects.get(unitID=self.unitID).unitCode
