@@ -7,8 +7,8 @@
   <div class="container">
     <!-- First row for project creation -->
     <div class="row">
-          <a href="{% url 'project-registration' %}" >
-            <link> <i class="fa fa-plus"></i> Create a Project &raquo;</link>
+          <a href="{% url 'project-registration' %}"style="margin-left: 13px; margin-bottom: 5px " >
+            <button class="btn btn-primary" style="font-size: 20px"><i class="fa fa-plus"></i> Create a Project &raquo;</button>
           </a>
     </div>
     
@@ -35,7 +35,7 @@
             <tr>
               <td scope="row"> <a href="/detail/{{project.projectID}}"> {{project.title}} </a></td>
               <td class="text-center">SAMPLE123</td> <!--THIS NEEDS TO BE CHANGED LATER!-->
-              <td class="text-center"> {{project.creationDate}} </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
+              <td class="text-center"> {{project.submissionDate}} </td>
               <td class="text-center"> {{project.supervisor1}} </td>
               
               <!-- Draft checkbox -->

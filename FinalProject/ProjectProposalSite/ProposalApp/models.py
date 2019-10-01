@@ -48,7 +48,7 @@ class ProjectModel(models.Model):
     viewable = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
     postgraduate = models.BooleanField(default=False)
-    creationDate = models.DateField(auto_now_add=True)
+    submissionDate = models.DateField(null=True, blank=True)
 
     # Project descriptions
     supervisor1 = models.ForeignKey(User, on_delete=models.CASCADE)

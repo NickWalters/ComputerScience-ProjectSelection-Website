@@ -4,7 +4,7 @@ from . import views
 # URLs patterns for the various parts of the website
 urlpatterns = [
     path('', views.home, name='home-page'),
-    path('undergraduate_project_list/', views.project_list_undergrad, name = 'project-list-undergrad'),
+    path('project_list/', views.project_list, name = 'project-list'),
     path('project_registration/', views.project_registration, name='project-registration'),
     path('edit/<int:pk>', views.project_edit, name='project-edit'),
     path('detail/<int:pk>/', views.project_detail, name='detail'),

@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect ,get_object_or_404
+from django.utils import timezone
 from django.contrib import messages
 from .forms import ProjectProposalForm, EditProject
 from .models import ProjectModel, UnitProjectLink, UnitModel
@@ -11,18 +12,34 @@ import datetime
 def home(request):
     if request.user.is_superuser:
         if request.GET.get('degree'):
-            degree_filter = request.GET.get('degree')
-            projectList = ProjectModel.objects.filter(postgraduate=degree_filter, draft = False)
+            project_filter = request.GET.get('degree')
+            projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False)
+            projects = projectList1
         else:
-            projectList = ProjectModel.objects.filter(draft = False)
-        return render(request, 'admin-home.html', {'projectList':projectList})
+            projectList1 = ProjectModel.objects.filter(draft=False)
+            projects = projectList1
+        if request.GET.get('unit'):
+            unitID = request.GET.get('unit')
+            unitCodes = UnitModel.objects.filter(unitCode=unitID)
+            IDset = []
+            for i in unitCodes:
+                IDset.append(i.unitID)
+            LinkSet = UnitProjectLink.objects.filter(unitID__in=IDset)
+            projectList2 = []
+            for i in LinkSet:
+                projectList2.append(i.projectID)
+            projects = list(set(projectList1).intersection(projectList2))
+        context = {
+            'all_projects': projects
+        }
+        return render(request, 'admin-home.html', context=context)
 
     projectList = ProjectModel.objects.filter(supervisor1 = request.user)
     return render(request, 'home.html', {'projectList':projectList})
 
 # Project list page
 # Including the filter for different education level and units
-def project_list_undergrad(request):
+def project_list(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
         projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, viewable=1)
@@ -45,7 +62,7 @@ def project_list_undergrad(request):
     context = {
         'all_projects': projects
     }
-    return render(request, 'project_list_undergrad.html', context=context)
+    return render(request, 'project_list.html', context=context)
 
 
 # Project details page
@@ -118,7 +135,7 @@ def project_registration(request):
                 return redirect('home-page')
             else:
                 formData.draft = 'False'
-            
+            formData.submissionDate = timezone.now()
             formData.save()
             title = form.cleaned_data.get('title')
             messages.success(request, f'Project Proposal named {title} was submitted!')
@@ -162,7 +179,12 @@ def project_edit(request, pk):
                 project.draft = False
                 project.save()
                 title = form.cleaned_data.get('title')
-                messages.success(request, f'Project Proposal Draft {title} was submitted!')
+
+                #Return appropriate message to user
+                if request.user.is_superuser:
+                    messages.success(request, f'Project Proposal Draft {title} was edited!')
+                else:
+                    messages.success(request, f'Project Proposal Draft {title} was submitted!')
                 return redirect('home-page')
             
     else:
@@ -186,6 +208,8 @@ def project_delete(request, pk):
     if strSupervisor != strUser or projectDelete.draft == False:
         if not request.user.is_superuser:
             return render(request, 'denied.html')
+        elif request.user.is_superuser:
+            projectDelete.delete()
     else:
         projectDelete.delete()
 
