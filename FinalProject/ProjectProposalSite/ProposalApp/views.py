@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.utils import timezone
 from django.contrib import messages
-from .forms import ProjectProposalForm, EditProject
+from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm
 from .models import ProjectModel, UnitProjectLink, UnitModel
-from user.models import Profile
+from user.models import Profile, User
 import datetime
 
 # Home Page
@@ -29,13 +29,22 @@ def home(request):
             for i in LinkSet:
                 projectList2.append(i.projectID)
             projects = list(set(projectList1).intersection(projectList2))
+        usersToBeAuthenticated = User.objects.filter(is_active=False)
+        if request.method == 'POST':
+            form = UnitProjectLinkForm(request.POST)
+            if form.is_valid():
+                print("Hi")
+        form = UnitProjectLinkForm()
         context = {
-            'all_projects': projects
+            'all_projects': projects,
+            'usersToBeAuthenticated': usersToBeAuthenticated,
+            'form': form
         }
         return render(request, 'admin-home.html', context=context)
 
     projectList = ProjectModel.objects.filter(supervisor1 = request.user)
     return render(request, 'home.html', {'projectList':projectList})
+
 
 # Project list page
 # Including the filter for different education level and units
@@ -269,4 +278,13 @@ def project_postgrad(request, pk):
         project.postgraduate = False
         project.save()
 
+    return redirect('home-page')
+
+@login_required(login_url='/login/')
+def approve_user(request, pk):
+    user = get_object_or_404(User, id=pk)
+    if not request.user.is_superuser:
+        return render(request, 'denied.html')
+    user.is_active = True
+    user.save()
     return redirect('home-page')

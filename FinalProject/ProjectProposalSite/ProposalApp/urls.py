@@ -12,4 +12,5 @@ urlpatterns = [
     path('approve/<int:pk>/', views.project_approval, name='approve'),
     path('viewable/<int:pk>/', views.project_viewable, name='viewable'),
     path('postgrad/<int:pk>/', views.project_postgrad, name='postgrad'),
+    path('approveuser/<int:pk>/', views.approve_user, name='approve-user')
 ]

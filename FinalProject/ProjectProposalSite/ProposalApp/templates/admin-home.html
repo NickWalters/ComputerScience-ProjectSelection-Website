@@ -1,11 +1,57 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block active %} active {% endblock %}
 {% block title %}Admin Home{% endblock %}
 {% block body %}
 
 {% if user.is_superuser %}
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <h2 style="text-align:center; margin-bottom:20px;">Users to be Authenticated</h2> <hr>
+      {% if usersToBeAuthenticated %}
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th class="text-center" scope="col">Name</th>
+              <th class="text-center" scope="col">Email</th>
+              <th class="text-center" scope="col">Approve</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for user in usersToBeAuthenticated %}
+                <tr>
+                  <td class="text-center">{{ user.username }}</td>
+                  <td class="text-center">{{ user.first_name }} {{ user.last_name }}</td>
+                  <td class="text-center">{{ user.email }}</td>
+                  <td class="text-center">
+                    <a href="/approveuser/{{ user.id }}"><button class="btn btn-success" type="submit">Approve</button></a>
+                  </td>
+                </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <h4 class="text-center">All users have been authenticated</h4>
+      {% endif %}
+      </div>
+    <div class="col-6">
+      <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
+      <hr>
+      <form class=""  method="POST">
+      {% csrf_token %}
+        <div>
+          {{form|crispy}}
+          <button class="btn btn-primary" type="submit">Add Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  <hr>
   <!-- Row for filters -->
+  <h2 style="text-align:center; margin-bottom:20px;">Projects Proposals</h2> <hr>
     <div class="dropdown container">
       <form action="{% url 'home-page' %}" method="get">
           <div class="input-group mb-3">
@@ -122,8 +168,6 @@
               <td class="text-center">
                 <a href="/delete/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-trash-o" onclick="return confirm('Are you sure you want to Delete?')"></i></a>
             </tr>
-
-
             </tr>
           </tbody>
         {% endfor %}
@@ -142,5 +186,6 @@
 {% else %}
 
 {% endif %}
+
 
 {% endblock %}

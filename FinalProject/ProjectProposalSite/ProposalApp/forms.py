@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProjectModel
+from .models import ProjectModel, UnitModel
 
 # Different options for Number of Students and Intellectual Property
 NUMBER_OF_STUDENTS =[(1,1), (2,2), (3,3), (4,4), (5,5), (6,6)]
@@ -67,3 +67,7 @@ class EditProject(forms.ModelForm):
                 'petroleum','software','other']
         exclude = ['supervisor1', 'draft', 'approved', 'viewable', 'postgraduate','creationDate','deadlineDate']
 
+
+class UnitProjectLinkForm(forms.Form):
+    project = forms.ModelChoiceField(queryset=ProjectModel.objects.all())
+    unit = forms.ModelChoiceField(queryset=UnitModel.objects.all())
