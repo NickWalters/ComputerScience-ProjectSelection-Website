@@ -239,6 +239,7 @@ def project_approval(request, pk):
         project.save()
     else:
         project.approved = False
+        project.viewable = False
         project.save()
 
     return redirect('home-page')
