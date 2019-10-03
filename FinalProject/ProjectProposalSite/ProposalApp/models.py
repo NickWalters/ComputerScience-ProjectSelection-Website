@@ -90,6 +90,9 @@ class UnitProjectLink(models.Model):
     def __str__(self):
         return self.projectID.title + " - " + self.unitID.unitCode
 
+    class Meta:
+        unique_together = ('projectID', 'unitID')
+
 # projectName = ProjectModel.objects.get(projectID=self.projectID).title
  #   unitName = UnitModel.objects.get(unitID=self.unitID).unitCode
 

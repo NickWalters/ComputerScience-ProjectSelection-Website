@@ -33,7 +33,15 @@ def home(request):
         if request.method == 'POST':
             form = UnitProjectLinkForm(request.POST)
             if form.is_valid():
-                print("Hi")
+                formData = UnitProjectLink()
+                formData.projectID = form.cleaned_data['projectID']
+                formData.unitID = form.cleaned_data['unitID']
+                try:
+                    formData.save()
+                    return redirect('home-page')
+                except:
+                    messages.error(request,'Project already linked with that unit')
+                    return redirect('home-page')
         form = UnitProjectLinkForm()
         context = {
             'all_projects': projects,

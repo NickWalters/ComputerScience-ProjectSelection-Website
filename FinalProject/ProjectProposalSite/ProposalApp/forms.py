@@ -69,5 +69,5 @@ class EditProject(forms.ModelForm):
 
 
 class UnitProjectLinkForm(forms.Form):
-    project = forms.ModelChoiceField(queryset=ProjectModel.objects.all())
-    unit = forms.ModelChoiceField(queryset=UnitModel.objects.all())
+    projectID = forms.ModelChoiceField(label='Project', queryset=ProjectModel.objects.all())
+    unitID = forms.ModelChoiceField(label='Unit',queryset=UnitModel.objects.all())
