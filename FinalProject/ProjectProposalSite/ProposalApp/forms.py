@@ -6,7 +6,6 @@ NUMBER_OF_STUDENTS =[(1,1), (2,2), (3,3), (4,4), (5,5), (6,6)]
 IP_OPTIONS = [("Sponsor will retain IP", "Sponsor will retain IP"), ("UWA will retain IP", "UWA will retain IP")]
 
 
-
 # Form for project proposals including the below details to be filled by sponsors
 class ProjectProposalForm(forms.Form):
     title = forms.CharField(label = 'Title of Project')
@@ -70,4 +69,10 @@ class EditProject(forms.ModelForm):
 
 class UnitProjectLinkForm(forms.Form):
     projectID = forms.ModelChoiceField(label='Project', queryset=ProjectModel.objects.all())
-    unitID = forms.ModelChoiceField(label='Unit',queryset=UnitModel.objects.all())
+    unitID = forms.ModelChoiceField(label='Unit', queryset=UnitModel.objects.all())
+
+
+class UnitForm(forms.Form):
+    unitCode = forms.CharField(label='Unit Code', min_length=8, max_length=8)
+    name = forms.CharField(label='Unit Name')
+    description = forms.CharField(label='Description')

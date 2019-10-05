@@ -43,10 +43,12 @@
       {% csrf_token %}
         <div>
           {{form|crispy}}
-          <button class="btn btn-primary" type="submit">Add Link</button>
-          <div class="btn btn-primary" style="float:right;">Add More Units</div>
+          <button class="btn btn-success" name="Add" value="Add" type="submit">Add Link</button>
+          <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
+          <a href="{% url 'unit-registration' %}"><div class="btn btn-primary" style="float:right;">Add More Units</div></a>
         </div>
       </form>
+      <hr>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class UnitModel(models.Model):
     unitID = models.AutoField(primary_key=True)
     unitCode = models.CharField(max_length=8)
+    name = models.CharField(max_length=64, blank=True)
     description = models.CharField(max_length=1024, blank=True)
 
     def __str__(self):

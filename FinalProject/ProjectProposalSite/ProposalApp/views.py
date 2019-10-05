@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.utils import timezone
 from django.contrib import messages
-from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm
+from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm, UnitForm
 from .models import ProjectModel, UnitProjectLink, UnitModel
 from user.models import Profile, User
 import datetime
@@ -32,15 +32,24 @@ def home(request):
         usersToBeAuthenticated = User.objects.filter(is_active=False)
         if request.method == 'POST':
             form = UnitProjectLinkForm(request.POST)
-            if form.is_valid():
-                formData = UnitProjectLink()
-                formData.projectID = form.cleaned_data['projectID']
-                formData.unitID = form.cleaned_data['unitID']
-                try:
-                    formData.save()
-                    return redirect('home-page')
-                except:
-                    messages.error(request,'Project already linked with that unit')
+            if 'Add' in request.POST:
+                if form.is_valid():
+                    formData = UnitProjectLink()
+                    formData.projectID = form.cleaned_data['projectID']
+                    formData.unitID = form.cleaned_data['unitID']
+                    try:
+                        formData.save()
+                        messages.success(request, f'Link between {formData.projectID} and {formData.unitID} created')
+                        return redirect('home-page')
+                    except:
+                        messages.error(request, f'Link between {formData.projectID} and {formData.unitID} already exists')
+                        return redirect('home-page')
+            elif 'Delete' in request.POST:
+                if form.is_valid():
+                    project = form.cleaned_data['projectID']
+                    unit = form.cleaned_data['unitID']
+                    UnitProjectLink.objects.filter(projectID=project, unitID=unit).delete()
+                    messages.success(request, f'Link between {project} and {unit} removed')
                     return redirect('home-page')
         form = UnitProjectLinkForm()
         context = {
@@ -93,17 +102,21 @@ def project_detail(request, pk):
     strSupervisor = str(supervisor.user)
 
     # Check if the project is still a draft, and if so only let the supervisor view it
-    if project.draft is True and strUser != strSupervisor: 
+    if project.draft is True and strUser != strSupervisor:
         return render(request, 'denied.html')
-
     else:
         prereqs = project.prerequisites.split(",")
         tags = project.projectTags.split(", ")
+        unitlinks = UnitProjectLink.objects.values_list('unitID', flat=True).filter(projectID=pk)
+        units = []
+        for link in unitlinks:
+            units.append(UnitModel.objects.values_list('unitCode').get(unitID=link)[0])
         context = {
-            'project' : project,
-            'supervisor' : supervisor,
-            'prereqs' : prereqs,
-            'tags' : tags,
+            'project': project,
+            'supervisor': supervisor,
+            'prereqs': prereqs,
+            'tags': tags,
+            'units': units
         }
     return render(request, 'project_detail.html', context=context)
 
@@ -208,6 +221,27 @@ def project_edit(request, pk):
         form = EditProject(instance=project)
     return render(request, 'project-edit.html', context={'form': form})
 
+
+@login_required(login_url='/login/')
+def unit_registration(request):
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            form = UnitForm(request.POST)
+            if form.is_valid():
+                formdata = UnitModel()
+                formdata.unitCode = form.cleaned_data['unitCode']
+                formdata.name = form.cleaned_data['name']
+                formdata.description = form.cleaned_data['description']
+                formdata.save()
+                unitCode = form.cleaned_data['unitCode']
+                messages.success(request, f'The unit {unitCode} has been added to the system!')
+                return redirect('home-page')
+        form = UnitForm()
+
+        return render(request, 'unit_registration.html', context={'form': form})
+    return redirect('home-page')
+
+
 # Process for deleting a project
 @login_required(login_url='/login/')
 def project_delete(request, pk):
@@ -297,3 +331,4 @@ def approve_user(request, pk):
     user.is_active = True
     user.save()
     return redirect('home-page')
+
