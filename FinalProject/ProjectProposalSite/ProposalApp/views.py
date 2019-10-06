@@ -260,7 +260,26 @@ def project_delete(request, pk):
         if not request.user.is_superuser:
             return render(request, 'denied.html')
         elif request.user.is_superuser:
-            projectDelete.delete()
+            links = UnitProjectLink.objects.filter(projectID=pk)
+            print(links)
+            if links:
+                words = ""
+                project = str(ProjectModel.objects.values_list('title').get(projectID=pk)[0])
+                if len(links) == 1:
+                    words = str(UnitModel.objects.values_list('unitCode').get(unitID=links[0].unitID.unitID)[0])
+                elif len(links) == 2:
+                    words = str(UnitModel.objects.values_list('unitCode').get(unitID=links[0].unitID.unitID)[0])
+                    words += " and " + str(UnitModel.objects.values_list('unitCode').get(unitID=links[1].unitID.unitID)[0])
+                else:
+                    for i in range(len(links) - 2):
+                        words += str(UnitModel.objects.values_list('unitCode').get(unitID=links[i].unitID.unitID)[0]) + ", "
+                    words += str(UnitModel.objects.values_list('unitCode').get(unitID=links[len(links)-2].unitID.unitID)[0])
+                    words += " and " + str(UnitModel.objects.values_list('unitCode').get(unitID=links[len(links)-1].unitID.unitID)[0])
+                words += ". Please remove all links before removing projects."
+                messages.error(request, f'The project: {project} is still linked with {words}')
+            else:
+                projectDelete.delete()
+                messages.success(request, "Project sucessfully deleted")
     else:
         projectDelete.delete()
 
