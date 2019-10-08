@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from user.user_form import UserForm
+from user.user_form import UserForm, UpdateForm
 from user.models import Profile
 from django.contrib.auth.models import User
 
@@ -51,3 +52,23 @@ def register(request):
     else:
         userform = UserForm()
     return render(request, 'users/user_registration_form.html', {'user_form': userform})
+
+@login_required(login_url='/login/')
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    context = {'profile':profile}
+    return render(request, 'users/user_profile.html', context)
+
+
+@login_required(login_url='/login/')
+def update_profile(request):
+    profile = Profile.objects.get(user=request.user)
+    form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
+    if request.method == 'POST':
+        if form.is_valid():            
+            form.save()
+        messages.success(request, f'Profile has been updated!')    
+        return redirect('profile')
+    else:
+        form = UpdateForm(instance=profile)
+    return render(request, 'users/user_update_form.html', context={'form': form})
