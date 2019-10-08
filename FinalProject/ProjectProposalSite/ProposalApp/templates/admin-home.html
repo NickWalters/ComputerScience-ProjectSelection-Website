@@ -9,20 +9,22 @@
   <div class="row">
     <div class="col-6">
       <h2 style="text-align:center; margin-bottom:20px;">Users to be Authenticated</h2> <hr>
-      {% if usersToBeAuthenticated %}
-        <table class="table table-hover">
+
+        <table class="table {% if usersToBeAuthenticated %} table-hover {% endif %}">
           <thead>
             <tr>
-              <th scope="col">Username</th>
+              <th scope="col" class="text-center">Username</th>
               <th class="text-center" scope="col">Name</th>
               <th class="text-center" scope="col">Email</th>
               <th class="text-center" scope="col">Approve</th>
             </tr>
           </thead>
+
           <tbody>
+          {% if usersToBeAuthenticated %}
               {% for user in usersToBeAuthenticated %}
                 <tr>
-                  <td scope="row">{{ user.username }}</td>
+                  <td scope="row" class="text-center"><a href="{% url 'profile' user.profile.id %}">{{ user.username }}</a></td>
                   <td class="text-center">{{ user.first_name }} {{ user.last_name }}</td>
                   <td class="text-center">{{ user.email }}</td>
                   <td class="text-center">
@@ -30,11 +32,21 @@
                   </td>
                 </tr>
               {% endfor %}
+          {% else %}
+                <tr>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                </tr>
+          {% endif %}
           </tbody>
         </table>
-      {% else %}
-        <h4 class="text-center">All users have been authenticated</h4>
+      {% if not usersToBeAuthenticated %}
+        <h5 style="text-align:center">All users have been authenticated</h5>
+        <br>
       {% endif %}
+      <hr>
       </div>
     <div class="col-6">
       <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
@@ -45,10 +57,17 @@
           {{form|crispy}}
           <button class="btn btn-success" name="Add" value="Add" type="submit">Add Link</button>
           <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
-          <a href="{% url 'unit-registration' %}"><div class="btn btn-primary" style="float:right;">Add More Units</div></a>
         </div>
       </form>
       <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6" style="text-align:center">
+      <a href="{% url 'user-list' %}"> <div class="btn btn-primary">See All Users</div> </a>
+    </div>
+    <div class="col-6" style="text-align:center">
+      <a href="{% url 'unit-registration' %}"><div class="btn btn-primary" style="float:centre;">Add More Units</div></a>
     </div>
   </div>
 </div>

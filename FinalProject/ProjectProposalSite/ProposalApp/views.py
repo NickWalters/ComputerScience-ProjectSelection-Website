@@ -29,7 +29,7 @@ def home(request):
             for i in LinkSet:
                 projectList2.append(i.projectID)
             projects = list(set(projectList1).intersection(projectList2))
-        usersToBeAuthenticated = User.objects.filter(is_active=False)
+        usersToBeAuthenticated = User.objects.filter(is_active=False)[:3]
         if request.method == 'POST':
             form = UnitProjectLinkForm(request.POST)
             if 'Add' in request.POST:
@@ -350,4 +350,5 @@ def approve_user(request, pk):
     user.is_active = True
     user.save()
     return redirect('home-page')
+
 

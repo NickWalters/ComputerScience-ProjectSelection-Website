@@ -53,22 +53,35 @@ def register(request):
         userform = UserForm()
     return render(request, 'users/user_registration_form.html', {'user_form': userform})
 
+
 @login_required(login_url='/login/')
-def profile(request):
-    profile = Profile.objects.get(user=request.user)
-    context = {'profile':profile}
+def profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    userprofile = User.objects.get(pk=profile.user_id)
+    context = {'profile': profile,
+               'userprofile': userprofile}
     return render(request, 'users/user_profile.html', context)
 
 
 @login_required(login_url='/login/')
-def update_profile(request):
-    profile = Profile.objects.get(user=request.user)
+def update_profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
     form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
         if form.is_valid():            
             form.save()
         messages.success(request, f'Profile has been updated!')    
-        return redirect('profile')
+        return redirect('profile', pk=pk)
     else:
         form = UpdateForm(instance=profile)
     return render(request, 'users/user_update_form.html', context={'form': form})
+
+@login_required(login_url='/login/')
+def user_list(request):
+    if request.user.is_superuser:
+        users = User.objects.filter(is_superuser=False)
+        context = {
+            'users': users
+        }
+        return render(request, 'users/user_list.html', context=context)
+    return redirect('home-page')

@@ -5,17 +5,22 @@
     <div class="containter jumbotron col-6 offset-md-3">
         {% if user %}
             <h1> User Profile </h1>
-            <p>Username: {{ user }}</p>
+            <p>Username: {{ userprofile.username }}</p>
             <p>Full Name: {{ profile.First_Name }} {{ profile.Last_Name }}</p>
             <p>Email: {{ profile.Email }} </p>
             <p>Phone: {{ profile.Phone }} </p>
             <p>Company: {{ profile.Company_Name }} </p>
             <p>Company Business: {{ profile.Company_Business }} </p>
-
-            <a href="{% url 'update-profile' %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
-            <a href=""><button class="btn btn-primary" style="font:20px">Change Password</button></a>
-        {% endif %}    
-
+            {% if user.id == userprofile.id %}
+                <a href="{% url 'update-profile' profile.user_id %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
+                <a href=""><button class="btn btn-primary" style="font:20px">Change Password</button></a>
+            {% endif %}
+            {% if not userprofile.is_active and user.is_superuser %}
+                <div style="text-align:center">
+                    <a href="{% url 'approve-user' userprofile.id %}"><button class="btn btn-success" type="submit">Approve User</button></a>
+                </div>
+            {% endif %}
+        {% endif %}
     </div>
 {% endblock %}
 
