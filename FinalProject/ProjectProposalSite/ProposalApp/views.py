@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm, UnitForm
 from .models import ProjectModel, UnitProjectLink, UnitModel
 from user.models import Profile, User
+from django.db.models import F
 import datetime
 
 # Home Page
@@ -29,7 +30,13 @@ def home(request):
             for i in LinkSet:
                 projectList2.append(i.projectID)
             projects = list(set(projectList1).intersection(projectList2))
-        usersToBeAuthenticated = User.objects.filter(is_active=False)[:3]
+        usersToBeAuthenticated = User.objects.filter(is_active=False).order_by(F('date_joined').desc())
+        noUsersToBeAuthenticated = len(usersToBeAuthenticated)
+        if noUsersToBeAuthenticated > 3:
+            usersToBeAuthenticated = User.objects.filter(is_active=False).order_by(F('date_joined').desc())[:3]
+
+        unitLinks = UnitProjectLink.objects.all()
+
         if request.method == 'POST':
             form = UnitProjectLinkForm(request.POST)
             if 'Add' in request.POST:
@@ -55,12 +62,14 @@ def home(request):
         context = {
             'all_projects': projects,
             'usersToBeAuthenticated': usersToBeAuthenticated,
-            'form': form
+            'noUsersToBeAuthenticated': noUsersToBeAuthenticated,
+            'form': form,
+            'unitLinks': unitLinks
         }
         return render(request, 'admin-home.html', context=context)
 
-    projectList = ProjectModel.objects.filter(supervisor1 = request.user)
-    return render(request, 'home.html', {'projectList':projectList})
+    projectList = ProjectModel.objects.filter(supervisor1=request.user)
+    return render(request, 'home.html', {'projectList': projectList})
 
 
 # Project list page
@@ -154,7 +163,6 @@ def project_registration(request):
             formData.software = form.cleaned_data['software']
             formData.other = form.cleaned_data['other']
             # Admin fields
-            formData.creationDate = datetime.date
 
             # If the project is saved as a draft, update the project information to match
             if 'Draft' in request.POST:
@@ -207,6 +215,7 @@ def project_edit(request, pk):
                 return redirect('home-page')
             else:
                 project.draft = False
+                project.submissionDate = timezone.now()
                 project.save()
                 title = form.cleaned_data.get('title')
 
@@ -261,7 +270,6 @@ def project_delete(request, pk):
             return render(request, 'denied.html')
         elif request.user.is_superuser:
             links = UnitProjectLink.objects.filter(projectID=pk)
-            print(links)
             if links:
                 words = ""
                 project = str(ProjectModel.objects.values_list('title').get(projectID=pk)[0])

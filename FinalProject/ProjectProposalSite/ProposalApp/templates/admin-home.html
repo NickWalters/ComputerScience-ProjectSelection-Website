@@ -10,7 +10,7 @@
     <div class="col-6">
       <h2 style="text-align:center; margin-bottom:20px;">Users to be Authenticated</h2> <hr>
 
-        <table class="table {% if usersToBeAuthenticated %} table-hover {% endif %}">
+        <table class="table {% if usersToBeAuthenticated %} table-hover {% endif %}" style="margin-bottom:8px;">
           <thead>
             <tr>
               <th scope="col" class="text-center">Username</th>
@@ -42,11 +42,13 @@
           {% endif %}
           </tbody>
         </table>
+      {% if noUsersToBeAuthenticated > 3 %}
+      <div style="text-align:center"><small style="text-align:center">See All Users for more users to be authenticated </small></div>
+      {% endif %}
       {% if not usersToBeAuthenticated %}
         <h5 style="text-align:center">All users have been authenticated</h5>
         <br>
       {% endif %}
-      <hr>
       </div>
     <div class="col-6">
       <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
@@ -59,14 +61,13 @@
           <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
         </div>
       </form>
-      <hr>
     </div>
   </div>
   <div class="row">
-    <div class="col-6" style="text-align:center">
+    <div class="col-6" style="text-align:center"> <hr>
       <a href="{% url 'user-list' %}"> <div class="btn btn-primary">See All Users</div> </a>
     </div>
-    <div class="col-6" style="text-align:center">
+    <div class="col-6" style="text-align:center"> <hr>
       <a href="{% url 'unit-registration' %}"><div class="btn btn-primary" style="float:centre;">Add More Units</div></a>
     </div>
   </div>
@@ -104,7 +105,7 @@
         <tr>
         <!-- First row of table for Table Details -->
           <th scope="col">Project Name</th>
-          <th class="text-center" scope="col">Unit Code</th>
+          <th class="text-center" scope="col">Unit(s) Linked</th>
           <th class="text-center" scope="col">Date Submitted</th>
           <th class="text-center" scope="col">Supervisor</th>
           <th class="text-center" scope="col">Approve</th>
@@ -119,13 +120,13 @@
         {% for project in all_projects %}
           <tbody>
             <tr>
-              <td scope="row"> <a href="/detail/{{project.projectID}}"> {{project.title}} </a></td>
-              <td class="text-center">SAMPLE123</td> <!--THIS NEEDS TO BE CHANGED LATER!-->
-              <td class="text-center"> {{project.submissionDate}} </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
-              <td class="text-center"> {{project.supervisor1}} </td>
+              <td scope="row" style="vertical-align:middle"> <a href="/detail/{{project.projectID}}"> {{project.title}} </a></td>
+              <td class="text-center"> {% for unit in unitLinks %} {% if unit.projectID.projectID == project.projectID %} {{unit.unitID.unitCode}} <br> {% endif %} {% endfor %}  </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
+              <td class="text-center" style="vertical-align:middle"> {{project.submissionDate}} </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
+              <td class="text-center" style="vertical-align:middle"> {{project.supervisor1}} </td>
 
               <!-- Approve Button -->
-              <td class="text-center">
+              <td class="text-center" style="vertical-align:middle">
                 {% if not project.approved %}
                   <a href="/approve/{{project.projectID}}"><button class="btn btn-success" type="submit">Approve</button></a>
                 {% else %}
@@ -134,7 +135,7 @@
               </td>
 
               <!-- Viewable Button -->
-              <td class="text-center">
+              <td class="text-center" style="vertical-align:middle">
                 {% if not project.viewable and project.approved %}
                   <a href="/viewable/{{project.projectID}}"><button class="btn btn-success" type="submit">List it</button></a>
                 {% elif project.viewable and project.approved %}
@@ -143,21 +144,21 @@
               </td>
 
               <!-- Postgraduate checkbox -->
-              <td class="text-center">
+              <td class="text-center" style="vertical-align:middle">
                 {% if not project.postgraduate%}
-                  <a href="/postgrad/{{project.projectID}}"><button class="btn btn-success" type="submit">Yes</button></a>
+                  <a href="/postgrad/{{project.projectID}}"><button class="btn btn-info" type="submit">Undergraduate</button></a>
                 {% else %}
-                  <a href="/postgrad/{{project.projectID}}"><button class="btn btn-danger" type="submit">No</button></a>
+                  <a href="/postgrad/{{project.projectID}}"><button class="btn btn-warning" type="submit">Postgraduate</button></a>
                 {% endif %}                 
               </td>
 
               <!-- Admin can edit projects -->
-              <td class="text-center">
+              <td class="text-center" style="vertical-align:middle">
                 <a href="/edit/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-pencil-square-o"></i></a>
               </td>
 
               <!-- Admins can delete projects -->
-              <td class="text-center">
+              <td class="text-center" style="vertical-align:middle">
                 <a href="/delete/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-trash-o" onclick="return confirm('Are you sure you want to Delete?')"></i></a>
             </tr>
             </tr>
