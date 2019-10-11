@@ -19,8 +19,8 @@ def register(request):
             Password = userform.cleaned_data.get('password2')
             Email = userform.cleaned_data.get('Email')
             Phone = userform.cleaned_data.get('Phone')
-            Company_Name = userform.cleaned_data.get('Company_Name')
-            Company_Business = userform.cleaned_data.get('Company_Business')
+            Organisation_Name = userform.cleaned_data.get('Organisation_Name')
+            Organisation_Business = userform.cleaned_data.get('Organisation_Business')
             messages.success(request, f'Account created {UserName}! Please wait for admin to active your account')
 
             # Save data into user model
@@ -42,8 +42,8 @@ def register(request):
                                             Last_Name=Last_Name,
                                             Email=Email,
                                             Phone=Phone,
-                                            Company_Name=Company_Name,
-                                            Company_Business=Company_Business
+                                            Organisation_Name=Organisation_Name,
+                                            Organisation_Business=Organisation_Business
                                              )
             profile.user = user
             profile.save()
