@@ -8,8 +8,8 @@ class UserForm(UserCreationForm):
     Last_Name = forms.CharField(max_length=20)
     Email = forms.EmailField(max_length=120)
     Phone = forms.IntegerField()
-    Company_Name = forms.CharField(max_length=100)
-    Company_Business = forms.CharField(max_length=100)
+    Organisation_Name = forms.CharField(max_length=100)
+    Organisation_Business = forms.CharField(max_length=100)
 
     class Meta:
         model = User
@@ -20,8 +20,8 @@ class UserForm(UserCreationForm):
                   'password1',
                   'password2',
                   'Phone',
-                  'Company_Name',
-                  'Company_Business'
+                  'Organisation_Name',
+                  'Organisation_Business'
                   )
 
 # Form used when creating a new user
@@ -30,8 +30,8 @@ class UpdateForm(forms.ModelForm):
     Last_Name = forms.CharField(max_length=20)
     Email = forms.EmailField(max_length=120)
     Phone = forms.IntegerField()
-    Company_Name = forms.CharField(max_length=100)
-    Company_Business = forms.CharField(max_length=100)
+    Organisation_Name = forms.CharField(max_length=100)
+    Organisation_Business = forms.CharField(max_length=100)
 
     class Meta:
         model = User
@@ -39,6 +39,6 @@ class UpdateForm(forms.ModelForm):
                   'Last_Name',
                   'Email',
                   'Phone',
-                  'Company_Name',
-                  'Company_Business'
+                  'Organisation_Name',
+                  'Organisation_Business'
                   )

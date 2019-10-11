@@ -8,13 +8,13 @@
 <div class="container-fluid">
   <nav>
     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Project Submissions</a>
-      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Unit Links</a>
-      <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">User Approvals</a>
+      <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-projects" role="tab" aria-controls="nav-project" aria-selected="true">Project Submissions</a>
+      <a class="nav-item nav-link" id="nav-linkunit-tab" data-toggle="tab" href="#nav-linkunit" role="tab" aria-controls="nav-linkunit" aria-selected="false">Unit Links</a>
+      <a class="nav-item nav-link" id="nav-authentication-tab" data-toggle="tab" href="#nav-authentication" role="tab" aria-controls="nav-authentication" aria-selected="false">User Approvals</a>
     </div>
   </nav>
   <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="tab-pane fade show active" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
       <h2 style="text-align:center; margin-bottom:20px;">Projects Proposals</h2> <hr>
         <div class="dropdown container">
           <form action="{% url 'home-page' %}" method="get">
@@ -29,11 +29,9 @@
                   <label for="unit" class="input-group-text">Units Provided:</label>
                     <select name="unit" class="custom-select" id="inputGroupSelect04">
                         <option value="">Please select a unit</option>
-                        <option value="CITS2002">  CITS2002 </option>
-                        <option value="CITS2200"> CITS2200 </option>
-                        <option value="CITS3200"> CITS3200 </option>
-                        <option value="CITS1001"> CITS1001 </option>
-                        <option value="CITS2401"> CITS2401 </option>
+                        {% for unitID in units %}
+                        <option value="{{ unitID }}">  {{ unitID }} </option>
+                        {% endfor %}
                     </select>
                   <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
               </div>
@@ -121,7 +119,7 @@
     {% endif %}
     </div>  
 
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="tab-pane fade" id="nav-linkunit" role="tabpanel" aria-labelledby="nav-linkunit-tab">
       <div class="col-6 container">
           <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
           <hr>
@@ -141,7 +139,7 @@
     </div>
 
 
-    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <div class="tab-pane fade" id="nav-authentication" role="tabpanel" aria-labelledby="nav-authentication-tab">
       <div class="col-8 container">
         <h2 style="text-align:center; margin-bottom:20px;">Users to be Authenticated</h2> <hr>
           <table class="table {% if usersToBeAuthenticated %} table-hover {% endif %}" style="margin-bottom:8px;">

@@ -56,11 +56,13 @@ def home(request):
                     messages.success(request, f'Link between {project} and {unit} removed')
                     return redirect('home-page')
         form = UnitProjectLinkForm()
+        units = UnitModel.objects.all()
         context = {
             'all_projects': projects,
             'usersToBeAuthenticated': usersToBeAuthenticated,
             'form': form,
-            'unitLinks': unitLinks
+            'unitLinks': unitLinks,
+            'units' : units
         }
         return render(request, 'admin-home.html', context=context)
 
@@ -89,9 +91,10 @@ def project_list(request):
         for i in LinkSet:
             projectList2.append(i.projectID)
         projects = list(set(projectList1).intersection(projectList2))
-
+    units = UnitModel.objects.all()
     context = {
-        'all_projects': projects
+        'all_projects': projects,
+        'units' : units
     }
     return render(request, 'project_list.html', context=context)
 
