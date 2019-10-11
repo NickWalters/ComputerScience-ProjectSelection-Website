@@ -1,5 +1,6 @@
 from django import forms
 from .models import ProjectModel, UnitModel
+from django.db.models import F
 
 # Different options for Number of Students and Intellectual Property
 NUMBER_OF_STUDENTS =[(1,1), (2,2), (3,3), (4,4), (5,5), (6,6)]
@@ -68,8 +69,8 @@ class EditProject(forms.ModelForm):
 
 
 class UnitProjectLinkForm(forms.Form):
-    projectID = forms.ModelChoiceField(label='Project', queryset=ProjectModel.objects.all())
-    unitID = forms.ModelChoiceField(label='Unit', queryset=UnitModel.objects.all())
+    projectID = forms.ModelChoiceField(label='Project', queryset=ProjectModel.objects.all().order_by(F('title').asc()))
+    unitID = forms.ModelChoiceField(label='Unit', queryset=UnitModel.objects.all().order_by(F('unitCode').asc()))
 
 
 class UnitForm(forms.Form):

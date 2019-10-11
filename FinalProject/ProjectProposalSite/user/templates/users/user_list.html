@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %} User List {% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+    <!-- Table for list of User Projects -->
+    <table class="table table-hover">
+        <thead>
+            <tr>
+            <!-- First row of table for Table Details -->
+            <th scope="col" class="text-center">Username</th>
+            <th class="text-center" scope="col">Name</th>
+              <th class="text-center" scope="col">Email</th>
+              <th class="text-center" scope="col">Phone</th>
+              <th class="text-center" scope="col">Company</th>
+              <th class="text-center" scope="col">Approve</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td scope="row" class="text-center"><a href="{% url 'profile' user.profile.id %}">{{ user.username }}</a></td>
+                    <td class="text-center">{{ user.first_name }} {{ user.last_name }}</td>
+                    <td class="text-center">{{ user.email }}</td>
+                    <td class="text-center">{{ user.profile.Phone }}</td>
+                    <td class="text-center">{{ user.profile.Company_Name }}</td>
+                    {% if not user.is_active %}
+                    <td class="text-center">
+                        <a href="{% url 'approve-user' user.id %}"><button class="btn btn-success" type="submit">Approve</button></a>
+                    </td>
+                    {% else %}
+                    <td class="text-center"> Already Approved </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% endblock %}
+

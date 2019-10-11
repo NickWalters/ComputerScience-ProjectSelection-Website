@@ -39,8 +39,7 @@ class Profile(models.Model):
     Last_Name = models.CharField(max_length=20)
     Email = models.EmailField(max_length=120)
     Phone = models.IntegerField()
-    Company_Name = models.CharField(max_length=100)
-    Company_Business = models.CharField(max_length=100)
+    Organisation = models.CharField(max_length=100)
 
     def __str__(self):
         return self.user.username

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Update Profile {% endblock %}
+{%  load crispy_forms_tags %}
+
+{% block body %}
+    <div class="containter jumbotron col-6 offset-md-3">
+        <form class="form-horizontal" role="form" method="POST">
+            {%  csrf_token %}
+            <h2>Update Profile</h2>
+
+            {{form|crispy}}
+
+            <br>
+            <button type="submit" class="btn btn-primary btn-large btn-block" style="margin:auto; display:block">Update</button>
+        </form>
+    </div>
+{% endblock%}

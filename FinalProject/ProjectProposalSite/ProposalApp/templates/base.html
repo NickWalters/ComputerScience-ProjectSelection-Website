@@ -34,6 +34,11 @@
                 {% endif %}
 
                 {% if user.is_authenticated %}
+                    {% if not user.is_superuser %}
+                    <a href="{% url 'profile' user.profile.id %}">
+                        <button class="btn btn-success" type="submit" style="font-size: 23px; margin-right: 20px">User Profile</button>
+                    </a>
+                    {% endif %}
                     <a href="{% url 'logout' %}">
                         <button class="btn btn-danger" type="submit" style="font-size: 23px">Logout</button>
                     </a>

@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from user.user_form import UserForm
+from user.user_form import UserForm, UpdateForm
 from user.models import Profile
 from django.contrib.auth.models import User
 
@@ -18,8 +19,7 @@ def register(request):
             Password = userform.cleaned_data.get('password2')
             Email = userform.cleaned_data.get('Email')
             Phone = userform.cleaned_data.get('Phone')
-            Company_Name = userform.cleaned_data.get('Company_Name')
-            Company_Business = userform.cleaned_data.get('Company_Business')
+            Organisation = userform.cleaned_data.get('Organisation')
             messages.success(request, f'Account created {UserName}! Please wait for admin to active your account')
 
             # Save data into user model
@@ -41,8 +41,7 @@ def register(request):
                                             Last_Name=Last_Name,
                                             Email=Email,
                                             Phone=Phone,
-                                            Company_Name=Company_Name,
-                                            Company_Business=Company_Business
+                                            Organisation=Organisation
                                              )
             profile.user = user
             profile.save()
@@ -51,3 +50,36 @@ def register(request):
     else:
         userform = UserForm()
     return render(request, 'users/user_registration_form.html', {'user_form': userform})
+
+
+@login_required(login_url='/login/')
+def profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    userprofile = User.objects.get(pk=profile.user_id)
+    context = {'profile': profile,
+               'userprofile': userprofile}
+    return render(request, 'users/user_profile.html', context)
+
+
+@login_required(login_url='/login/')
+def update_profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
+    if request.method == 'POST':
+        if form.is_valid():            
+            form.save()
+        messages.success(request, f'Profile has been updated!')    
+        return redirect('profile', pk=pk)
+    else:
+        form = UpdateForm(instance=profile)
+    return render(request, 'users/user_update_form.html', context={'form': form})
+
+@login_required(login_url='/login/')
+def user_list(request):
+    if request.user.is_superuser:
+        users = User.objects.filter(is_superuser=False)
+        context = {
+            'users': users
+        }
+        return render(request, 'users/user_list.html', context=context)
+    return redirect('home-page')
