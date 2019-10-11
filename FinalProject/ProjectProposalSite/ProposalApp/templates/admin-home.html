@@ -176,16 +176,13 @@
             {% endif %}
             </tbody>
           </table>
-        {% if noUsersToBeAuthenticated > 3 %}
-        <div style="text-align:center"><small style="text-align:center">See All Users for more users to be authenticated </small></div>
-        <div class="col-6" style="text-align:center"> <hr>
-          <a href="{% url 'user-list' %}"> <div class="btn btn-primary">See All Users</div> </a>
-        </div>
-        {% endif %}
         {% if not usersToBeAuthenticated %}
           <h5 style="text-align:center">All users have been authenticated</h5>
           <br>
         {% endif %}
+      <div style="text-align:center"> <hr>
+          <a href="{% url 'user-list' %}"> <div class="btn btn-primary">See All Users</div> </a>
+      </div>
       </div>
     </div>
   </div>

@@ -31,9 +31,6 @@ def home(request):
                 projectList2.append(i.projectID)
             projects = list(set(projectList1).intersection(projectList2))
         usersToBeAuthenticated = User.objects.filter(is_active=False).order_by(F('date_joined').desc())
-        noUsersToBeAuthenticated = len(usersToBeAuthenticated)
-        if noUsersToBeAuthenticated > 3:
-            usersToBeAuthenticated = User.objects.filter(is_active=False).order_by(F('date_joined').desc())[:3]
 
         unitLinks = UnitProjectLink.objects.all()
 
@@ -62,7 +59,6 @@ def home(request):
         context = {
             'all_projects': projects,
             'usersToBeAuthenticated': usersToBeAuthenticated,
-            'noUsersToBeAuthenticated': noUsersToBeAuthenticated,
             'form': form,
             'unitLinks': unitLinks
         }
