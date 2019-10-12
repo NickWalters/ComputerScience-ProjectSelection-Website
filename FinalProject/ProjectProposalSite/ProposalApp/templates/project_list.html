@@ -13,7 +13,7 @@
                         <div class="input-group mb-3">
                             <label for="degree" class="input-group-text">Education Level:</label>
                               <select name="degree" class="custom-select" id="inputGroupSelect02">
-                                   <option value="">Please select an education level</option>
+                                  <option value="">Please select an education level</option>
                                   <option class="" value="False">  Undergraduate </option>
                                   <option value="True"> Postgraduate</option>
                               </select>
@@ -35,10 +35,12 @@
                 <a href="{% url 'detail' project.projectID %}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ project.title }}</h5>
-                        <small>{{ project.creationDate }}</small>
+                        <small>{{ project.submissionDate }}</small>
                     </div>
-                    <p class="mb-1">{{ project.description }}</p>
-                    <small>Tags: {{ project.projectTags }}</small>
+                    <p class="mb-1">{{ project.description }}</p> <small>Tags:
+                    {% for tag in project.projectTags %}
+                    #{{ tag }}
+                    {% endfor %}</small>
                     {% endfor %}
                 </a>
             </div>

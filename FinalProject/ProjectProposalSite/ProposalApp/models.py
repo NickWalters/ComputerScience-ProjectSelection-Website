@@ -46,7 +46,7 @@ class ProjectModel(models.Model):
     projectID = models.AutoField(primary_key=True)
     # Admin fields providing information about the project
     approved = models.BooleanField(default=False)
-    viewable = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
     postgraduate = models.BooleanField(default=False)
     submissionDate = models.DateField(null=True, blank=True)

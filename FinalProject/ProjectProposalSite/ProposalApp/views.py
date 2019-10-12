@@ -75,10 +75,10 @@ def home(request):
 def project_list(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
-        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, viewable=1)
+        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False)
         projects = projectList1
     else:
-        projectList1 = ProjectModel.objects.filter(draft=False, viewable=1)
+        projectList1 = ProjectModel.objects.filter(draft=False, archived=False)
         projects = projectList1
     if request.GET.get('unit'):
         unitID = request.GET.get('unit')
@@ -92,9 +92,29 @@ def project_list(request):
             projectList2.append(i.projectID)
         projects = list(set(projectList1).intersection(projectList2))
     units = UnitModel.objects.all()
+
+    tagsList = []
+
+    for i in range(len(projects)):
+        tagsList.append(projects[i].projectTags)
+
+    for j in range(len(tagsList)):
+        tags = tagsList[j].split(", ")
+        i = 0
+        while i < len(tags):
+            tags[i] = tags[i].strip(', ')
+            if tags[i] == "":
+                tags.pop(i)
+            else:
+                i += 1
+        tagsList[j] = tags
+
+    for i in range(len(projects)):
+        projects[i].projectTags = tagsList[i]
+
     context = {
         'all_projects': projects,
-        'units' : units
+        'units': units,
     }
     return render(request, 'project_list.html', context=context)
 
@@ -114,7 +134,23 @@ def project_detail(request, pk):
         return render(request, 'denied.html')
     else:
         prereqs = project.prerequisites.split(",")
+        i = 0
+        while i < len(prereqs):
+            prereqs[i] = prereqs[i].strip()
+            if prereqs[i] == "":
+                prereqs.pop(i)
+            else:
+                i += 1
+
         tags = project.projectTags.split(", ")
+        i = 0
+        while i < len(tags):
+            tags[i] = tags[i].strip(', ')
+            if tags[i] == "":
+                tags.pop(i)
+            else:
+                i += 1
+
         unitlinks = UnitProjectLink.objects.values_list('unitID', flat=True).filter(projectID=pk)
         units = []
         for link in unitlinks:
@@ -307,7 +343,6 @@ def project_approval(request, pk):
         project.save()
     else:
         project.approved = False
-        project.viewable = False
         project.save()
 
     return redirect('home-page')
@@ -322,11 +357,11 @@ def project_viewable(request, pk):
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    elif project.viewable == False:
-        project.viewable = True
+    elif project.archived == False:
+        project.archived = True
         project.save()
     else:
-        project.viewable = False
+        project.archived = False
         project.save()
 
     return redirect('home-page')

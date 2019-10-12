@@ -10,7 +10,7 @@ IP_OPTIONS = [("Sponsor will retain IP", "Sponsor will retain IP"), ("UWA will r
 # Form for project proposals including the below details to be filled by sponsors
 class ProjectProposalForm(forms.Form):
     title = forms.CharField(label = 'Title of Project')
-    description = forms.CharField(label = 'Description')
+    description = forms.CharField(label = 'Description', widget=forms.Textarea(attrs={"rows":3, "cols":20}))
     supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
@@ -19,7 +19,7 @@ class ProjectProposalForm(forms.Form):
     supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
     projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}))
-    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. CITS2002, Python, Linear Regression'}))
+    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. Differential Equations, Python, Linear Regression'}))
     IP = forms.CharField(label = 'IP',  widget = forms.Select(choices=IP_OPTIONS))
     chemical = forms.BooleanField(label = 'Chemical', required=False)
     civil = forms.BooleanField(label = 'Civil', required=False)
@@ -37,7 +37,7 @@ class ProjectProposalForm(forms.Form):
 
 class EditProject(forms.ModelForm):
     title = forms.CharField(label = 'Title of Project')
-    description = forms.CharField(label = 'Description')
+    description = forms.CharField(label = 'Description', widget=forms.Textarea(attrs={"rows":3, "cols":20}))
     supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
     supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}))
     supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
