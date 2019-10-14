@@ -27,8 +27,8 @@ class UnitModel(models.Model):
 # unit information
 
 # https://django-mysql.readthedocs.io/en/latest/model_fields/list_fields.html
-	
-	
+
+
 #when it comes to prerequisites, we need to store a list, necause there can be multiple unit prerequisities:
 	# import simplejson as json # this would be just 'import json' in Python 2.7 and later
 
