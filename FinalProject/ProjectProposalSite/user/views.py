@@ -51,22 +51,41 @@ def register(request):
         userform = UserForm()
     return render(request, 'users/user_registration_form.html', {'user_form': userform})
 
-
+#View profile function
 @login_required(login_url='/login/')
 def profile(request, pk):
     profile = Profile.objects.get(pk=pk)
+    userPK = pk
     userprofile = User.objects.get(pk=profile.user_id)
-    userPK = pk;
+    
+    userName = request.user.username
+    strUser = str(userName)
+    strSupervisor = str(profile.user)    
+    # Check if the user trying to edit the project has permission,
+    # or if the project is allowed to be edited (a draft)
+    if strSupervisor != strUser:
+        if not request.user.is_superuser:
+            return render(request, 'denied.html')
+
     context = {'profile': profile,
                'userprofile': userprofile,
                'userPK': userPK}
     return render(request, 'users/user_profile.html', context)
 
-
+#Update function for profiles
 @login_required(login_url='/login/')
 def update_profile(request, pk):
     profile = Profile.objects.get(pk=pk)
-    
+
+    user = request.user.username
+    strUser = str(user)
+    strSupervisor = str(profile.user)    
+    # Check if the user trying to edit the project has permission,
+    # or if the project is allowed to be edited (a draft)
+    if strSupervisor != strUser:
+        if not request.user.is_superuser:
+            return render(request, 'denied.html')
+
     form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
         if form.is_valid():            
@@ -96,13 +115,15 @@ def password_change(request, pk):
         form = PasswordChange()
     return render(request, 'users/user_changepassword_form.html', context={'form': form})
 
-
+#Admin view of user list
 @login_required(login_url='/login/')
 def user_list(request):
     if request.user.is_superuser:
         users = User.objects.filter(is_superuser=False)
         context = {
-            'users': users
+            'users': users,
         }
         return render(request, 'users/user_list.html', context=context)
+    else:
+        return render(request, 'denied.html')
     return redirect('home-page')

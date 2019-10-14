@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect ,get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib import messages
 from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm, UnitForm
@@ -30,6 +31,7 @@ def home(request):
             for i in LinkSet:
                 projectList2.append(i.projectID)
             projects = list(set(projectList1).intersection(projectList2))
+
         usersToBeAuthenticated = User.objects.filter(is_active=False).order_by(F('date_joined').desc())
 
         unitLinks = UnitProjectLink.objects.all()
@@ -55,18 +57,25 @@ def home(request):
                     UnitProjectLink.objects.filter(projectID=project, unitID=unit).delete()
                     messages.success(request, f'Link between {project} and {unit} removed')
                     return redirect('home-page')
-            elif 'Extra' in request.POST:
-                unit_registration(request)
         form = UnitProjectLinkForm()
         units = UnitModel.objects.all()
-        form2 = UnitForm()
+
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(projects, 5)
+        try:
+            projectsList = paginator.page(page)
+        except PageNotAnInteger:
+            projectsList = paginator.page(1)
+        except EmptyPage:
+            projectsList = paginator.page(paginator.num_pages)
+
         context = {
-            'all_projects': projects,
+            'all_projects': projectsList,
             'usersToBeAuthenticated': usersToBeAuthenticated,
             'form': form,
             'unitLinks': unitLinks,
-            'units' : units,
-            'form2': form2
+            'units' : units
         }
         return render(request, 'admin-home.html', context=context)
 
@@ -79,10 +88,10 @@ def home(request):
 def project_list(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
-        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False, approved=True)
+        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False)
         projects = projectList1
     else:
-        projectList1 = ProjectModel.objects.filter(draft=False, archived=False, approved=True)
+        projectList1 = ProjectModel.objects.filter(draft=False, archived=False)
         projects = projectList1
     if request.GET.get('unit'):
         unitID = request.GET.get('unit')
@@ -95,6 +104,17 @@ def project_list(request):
         for i in LinkSet:
             projectList2.append(i.projectID)
         projects = list(set(projectList1).intersection(projectList2))
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(projects, 5)
+    try:
+        projectsList = paginator.page(page)
+    except PageNotAnInteger:
+        projectsList = paginator.page(1)
+    except EmptyPage:
+        projectsList = paginator.page(paginator.num_pages)
+    
     units = UnitModel.objects.all()
 
     tagsList = []
@@ -117,7 +137,7 @@ def project_list(request):
         projects[i].projectTags = tagsList[i]
 
     context = {
-        'all_projects': projects,
+        'all_projects': projectsList,
         'units': units,
     }
     return render(request, 'project_list.html', context=context)
@@ -202,28 +222,26 @@ def project_registration(request):
             formData.petroleum = form.cleaned_data['petroleum']
             formData.software = form.cleaned_data['software']
             formData.other = form.cleaned_data['other']
-            # Admin fields
 
             # If the project is saved as a draft, update the project information to match
+            title = form.cleaned_data.get('title')
             if 'Draft' in request.POST:
                 formData.draft = 'True'
-                formData.save()
-                title = form.cleaned_data.get('title')
                 messages.success(request, f'Project Proposal Draft {title} was created!')
                 return redirect('home-page')
             else:
                 formData.draft = 'False'
+                messages.success(request, f'Project Proposal named {title} was submitted!')
+
             formData.submissionDate = timezone.now()
             formData.save()
-            title = form.cleaned_data.get('title')
-            messages.success(request, f'Project Proposal named {title} was submitted!')
             return redirect('home-page')
     else:
         form = ProjectProposalForm()
 
     return render(request, 'project_registration.html', {'form':form})
 
-# Process for editing a project
+# Function for editing a project
 @login_required(login_url='/login/')
 def project_edit(request, pk):
     # Find the requested project
@@ -247,17 +265,17 @@ def project_edit(request, pk):
     if request.method == 'POST':
         if form.is_valid():            
             form.save()
+            title = form.cleaned_data.get('title')
+
             if 'Draft' in request.POST:
                 project.draft = True
                 project.save()
-                title = form.cleaned_data.get('title')
                 messages.success(request, f'Project Proposal Draft {title} was updated!')
                 return redirect('home-page')
             else:
                 project.draft = False
                 project.submissionDate = timezone.now()
                 project.save()
-                title = form.cleaned_data.get('title')
 
                 #Return appropriate message to user
                 if request.user.is_superuser:
@@ -270,7 +288,7 @@ def project_edit(request, pk):
         form = EditProject(instance=project)
     return render(request, 'project-edit.html', context={'form': form})
 
-
+# Process for registering a unit
 @login_required(login_url='/login/')
 def unit_registration(request):
     if request.user.is_superuser:
@@ -279,8 +297,11 @@ def unit_registration(request):
             if form.is_valid():
                 formdata = UnitModel()
                 formdata.unitCode = form.cleaned_data['unitCode']
+                formdata.name = form.cleaned_data['name']
+                formdata.description = form.cleaned_data['description']
                 formdata.save()
-                messages.success(request, f'The unit {form.cleaned_data["unitCode"]} has been added to the system!')
+                unitCode = form.cleaned_data['unitCode']
+                messages.success(request, f'The unit {unitCode} has been added to the system!')
                 return redirect('home-page')
         form = UnitForm()
 
@@ -331,7 +352,7 @@ def project_delete(request, pk):
     return redirect('home-page')
 
 
-# 
+# Approve or unapprove a project function
 @login_required(login_url='/login/')
 def project_approval(request, pk):
     
@@ -340,17 +361,16 @@ def project_approval(request, pk):
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    elif project.approved == False:
-        project.approved = True
-        project.save()
-    else:
-        project.approved = False
-        project.save()
+    
+    if not project.approved: project.approved = True
+    else: project.approved = False
+
+    project.save()
 
     return redirect('home-page')
 
 
-# 
+#List or archive a certain project 
 @login_required(login_url='/login/')
 def project_viewable(request, pk):
     
@@ -359,16 +379,15 @@ def project_viewable(request, pk):
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    elif project.archived == False:
-        project.archived = True
-        project.save()
-    else:
-        project.archived = False
-        project.save()
+    
+    if not project.archived: project.archived = True
+    else: project.archived = False
+
+    project.save()
 
     return redirect('home-page')
 
-# 
+#Set the project to be an undergraduate project or postgraduate 
 @login_required(login_url='/login/')
 def project_postgrad(request, pk):
     
@@ -377,15 +396,15 @@ def project_postgrad(request, pk):
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    elif project.postgraduate == False:
-        project.postgraduate = True
-        project.save()
-    else:
-        project.postgraduate = False
-        project.save()
+
+    if not project.postgraduate: project.postgraduate = True
+    else: project.postgraduate = False
+
+    project.save()
 
     return redirect('home-page')
 
+#Approve the user or not
 @login_required(login_url='/login/')
 def approve_user(request, pk):
     user = get_object_or_404(User, id=pk)

@@ -7,7 +7,7 @@ class UserForm(UserCreationForm):
     First_Name = forms.CharField(max_length=20)
     Last_Name = forms.CharField(max_length=20)
     Email = forms.EmailField(max_length=120)
-    Phone = forms.RegexField(regex=r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$', max_length=20)
+    Phone = forms.IntegerField()
     Organisation = forms.CharField(max_length=100)
 
     class Meta:
@@ -27,7 +27,7 @@ class UpdateForm(forms.ModelForm):
     First_Name = forms.CharField(max_length=20)
     Last_Name = forms.CharField(max_length=20)
     Email = forms.EmailField(max_length=120)
-    Phone = forms.RegexField(regex=r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$', max_length=20)
+    Phone = forms.IntegerField()
     Organisation = forms.CharField(max_length=100)
 
     class Meta:

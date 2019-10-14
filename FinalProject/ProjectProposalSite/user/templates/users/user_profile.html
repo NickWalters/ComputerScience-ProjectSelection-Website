@@ -2,24 +2,101 @@
 {% block title %} User Profile {% endblock %}
 
 {% block body %}
-    <div class="containter jumbotron col-6 offset-md-3">
-        {% if user %}
-            <h1> User Profile </h1>
-            <p>Username: {{ userprofile.username }}</p>
-            <p>Full Name: {{ profile.First_Name }} {{ profile.Last_Name }}</p>
-            <p>Email: {{ profile.Email }} </p>
-            <p>Phone: {{ profile.Phone }} </p>
-            <p>Organisation: {{ profile.Organisation }} </p>
-            {% if user.id == userprofile.id %}
-                <a href="{% url 'update-profile' userPK %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
-                <a href="{% url 'password_change' userPK %}"><button class="btn btn-primary" style="font:20px">Change Password</button></a>
-            {% endif %}
-            {% if not userprofile.is_active and user.is_superuser %}
-                <div style="text-align:center">
-                    <a href="{% url 'approve-user' userprofile.id %}"><button class="btn btn-success" type="submit">Approve User</button></a>
-                </div>
-            {% endif %}
-        {% endif %}
-    </div>
-{% endblock %}
+<div class="container">
+{% if user %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title mb-4">
+                            <div class="d-flex justify-content-start">
+                                <div>
+                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">{{ profile.First_Name }} {{ profile.Last_Name }}</h2>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                                        
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Username</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ userprofile.username }}
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Full Name</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ profile.First_Name }} {{ profile.Last_Name }}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Email</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ profile.Email }}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Phone Number</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ profile.Phone }}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Organisation</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ profile.Organisation }}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        {% if user.id == userprofile.id %}
+                                            <a href="{% url 'update-profile' userPK %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
+                                            <a href="{% url 'password_change' userPK %}"><button class="btn btn-primary" style="font:20px">Change Password</button></a>
+                                        {% endif %}
+                                        {% if not userprofile.is_active and user.is_superuser %}
+                                            <div style="text-align:center">
+                                                <a href="{% url 'approve-user' userPK %}"><button class="btn btn-success" type="submit">Approve User</button></a>
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+{% endblock %}
