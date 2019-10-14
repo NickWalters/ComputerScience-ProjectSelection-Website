@@ -9,17 +9,17 @@ IP_OPTIONS = [("Sponsor will retain IP", "Sponsor will retain IP"), ("UWA will r
 
 # Form for project proposals including the below details to be filled by sponsors
 class ProjectProposalForm(forms.Form):
-    title = forms.CharField(label = 'Title of Project')
-    description = forms.CharField(label = 'Description', widget=forms.Textarea(attrs={"rows":3, "cols":20}))
-    supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
-    supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}))
-    supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
-    supervisor3Title = forms.CharField(label='Third Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
-    supervisor3FirstName = forms.CharField(label='', required=False,widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-    supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    title = forms.CharField(label = 'Title of Project', max_length=100)
+    description = forms.CharField(label = 'Description', widget=forms.Textarea(attrs={"rows":3, "cols":20}), max_length=1000)
+    supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}), max_length=20)
+    supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}), max_length=30)
+    supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}), max_length=30)
+    supervisor3Title = forms.CharField(label='Third Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}), max_length=20)
+    supervisor3FirstName = forms.CharField(label='', required=False,widget=forms.TextInput(attrs={'placeholder': 'First Name'}), max_length=30)
+    supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}), max_length=30)
     noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
-    projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}))
-    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. Differential Equations, Python, Linear Regression'}))
+    projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}), max_length=200)
+    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. Differential Equations, Python, Linear Regression'}), max_length=200)
     onCampus = forms.BooleanField(label='Yes', required=False)
     IP = forms.CharField(label = 'IP',  widget = forms.Select(choices=IP_OPTIONS))
     chemical = forms.BooleanField(label = 'Chemical', required=False)
@@ -37,17 +37,17 @@ class ProjectProposalForm(forms.Form):
 
 
 class EditProject(forms.ModelForm):
-    title = forms.CharField(label = 'Title of Project')
-    description = forms.CharField(label = 'Description', widget=forms.Textarea(attrs={"rows":3, "cols":20}))
-    supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
-    supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}))
-    supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}))
-    supervisor3Title = forms.CharField(label='Third Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}))
-    supervisor3FirstName = forms.CharField(label='', required=False,widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-    supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    title = forms.CharField(label = 'Title of Project',  max_length=50)
+    description = forms.CharField(label = 'Description', widget=forms.Textarea(attrs={"rows":3, "cols":20}), max_length=1000)
+    supervisor2Title = forms.CharField(label='Second Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}), max_length=20)
+    supervisor2FirstName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'First Name'}), max_length=30)
+    supervisor2LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder':'Last Name'}), max_length=30)
+    supervisor3Title = forms.CharField(label='Third Supervisor (Optional)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Title'}), max_length=20)
+    supervisor3FirstName = forms.CharField(label='', required=False,widget=forms.TextInput(attrs={'placeholder': 'First Name'}), max_length=30)
+    supervisor3LastName = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Last Name'}), max_length=30)
     noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
-    projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}))
-    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. CITS2002, Python, Linear Regression'}))
+    projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}), max_length=200)
+    prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. CITS2002, Python, Linear Regression'}), max_length=200)
     onCampus = forms.BooleanField(label='Yes', required=False)
     IP = forms.CharField(label = 'IP',  widget = forms.Select(choices=IP_OPTIONS))
     chemical = forms.BooleanField(label = 'Chemical', required=False)
@@ -76,6 +76,5 @@ class UnitProjectLinkForm(forms.Form):
 
 
 class UnitForm(forms.Form):
-    unitCode = forms.CharField(label='Unit Code', min_length=8, max_length=8)
-    name = forms.CharField(label='Unit Name')
-    description = forms.CharField(label='Description')
+    unitCode = forms.CharField(label='Unit Code', max_length=32)
+

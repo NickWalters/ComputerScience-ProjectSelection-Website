@@ -48,7 +48,7 @@
               <th class="text-center" scope="col">Date Submitted</th>
               <th class="text-center" scope="col">Supervisor</th>
               <th class="text-center" scope="col">Approve</th>
-              <th class="text-center" scope="col">Postgraduate</th>
+              <th class="text-center" scope="col">Education Level</th>
               <th class="text-center" scope="col">Archive</th>
               <th class="text-center" scope="col"></th>
               <th class="text-center" scope="col"></th>
@@ -75,9 +75,9 @@
 
                   <!-- Postgraduate checkbox -->
                   <td class="text-center" style="vertical-align:middle">
-                  {% if not project.postgraduate%}
+                  {% if not project.postgraduate and project.approved%}
                   <a href="/postgrad/{{project.projectID}}"><button class="btn btn-info" type="submit">Undergraduate</button></a>
-                  {% else %}
+                  {% elif project.postgraduate and project.approved %}
                   <a href="/postgrad/{{project.projectID}}"><button class="btn btn-warning" type="submit">Postgraduate</button></a>
                   {% endif %}
                   </td>
@@ -99,7 +99,7 @@
                   <!-- Admins can delete projects -->
                   <td class="text-center" style="vertical-align:middle">
                     <a href="/delete/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-trash-o" onclick="return confirm('Are you sure you want to Delete?')"></i></a>
-                </tr>
+                  </td>
                 </tr>
               </tbody>
             {% endfor %}
@@ -121,23 +121,29 @@
 
     <div class="tab-pane fade" id="nav-linkunit" role="tabpanel" aria-labelledby="nav-linkunit-tab">
       <div class="col-6 container">
-          <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
-          <hr>
-          <form class=""  method="POST">
-          {% csrf_token %}
-            <div>
-              {{form|crispy}}
-              <div class="text-center">
-                <button class="btn btn-success" name="Add" value="Add" type="submit">Add Link</button>
-                <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
-              </div>
+        <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
+        <hr>
+        <form class=""  method="POST">
+        {% csrf_token %}
+          <div>
+            {{form|crispy}}
+            <div class="text-center">
+              <button class="btn btn-success" name="Add" value="Add" type="submit">Add Link</button>
+              <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
             </div>
-          </form>
-          <hr>
-          <div class="text-center"><a href="{% url 'unit-registration' %}"><div class="btn btn-primary " >Add More Units</div></a></div>
+          </div>
+        </form>
+        <br><br>
+        <div class="text-center">
+          <h4> Add New Units </h4>
+        </div>
+        <hr>
+        <form class=""  method="POST">
+        {% csrf_token %}
+        <div class="text-center">{{ form2|crispy }}<button class="btn btn-primary " name="Extra" value="Extra" type="submit">Add New Unit</button> </div>
+        </form>
       </div >
     </div>
-
 
     <div class="tab-pane fade" id="nav-authentication" role="tabpanel" aria-labelledby="nav-authentication-tab">
       <div class="col-8 container">
