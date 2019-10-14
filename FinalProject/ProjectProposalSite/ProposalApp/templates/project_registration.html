@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {%  load crispy_forms_tags %}
 
 {% block body %}
@@ -9,7 +10,7 @@
         <h2>Project Registration</h2>
         <hr>
         {{form|crispy}}
-        
+        <hr>
         <input class="btn btn-primary" style="font-size:25px" type="submit" value="Submit" name="Submit" onclick="return confirm('Are you sure you want to Submit? You will not be able to edit it later.')"/>
         <input class="btn btn-danger" style="font-size:25px" type="submit" value="Save as Draft" name="Draft"/>
 
@@ -18,100 +19,7 @@
 </form>
 
 
-<script type="text/javascript">
-    var number_of_supervisors = 1;
-
-    document.getElementById("div_id_supervisor2Title").style.display = "none";
-    document.getElementById("div_id_supervisor2FirstName").style.display = "none";
-    document.getElementById("div_id_supervisor2LastName").style.display = "none";
-
-    document.getElementById("div_id_supervisor3Title").style.display = "none";
-    document.getElementById("div_id_supervisor3FirstName").style.display = "none";
-    document.getElementById("div_id_supervisor3LastName").style.display = "none";
-
-
-    function addElementAfter(div, title, node){
-        var referenceNode = document.getElementById(div);
-        var newNode = document.createElement(node);
-        newNode.id = title;
-        if(title != "Blank"){
-            var text = document.createTextNode(title);
-            newNode.appendChild(text);
-            }
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-
-    function addChild(div, title, node) {
-        var referenceNode = document.getElementById(div);
-        var newNode = document.createElement(node);
-        newNode.id = title;
-        if(title != "1" && title != "2"){
-            var text = document.createTextNode(title);
-            newNode.appendChild(text);
-        }
-        referenceNode.appendChild(newNode);
-    }
-
-    addElementAfter("div_id_IP", "Please indicate all disciplines for which the project is suitable:", "label");
-
-    addElementAfter("div_id_description", "Blank", "div");
-    document.getElementById("Blank").className = "row";
-
-    addChild("Blank", "1", "div");
-    document.getElementById("1").className = "col-6";
-    addChild("Blank", "2", "div");
-    document.getElementById("2").className = "col-6";
-
-    addChild("1", "Add Extra Supervisor", "div");
-    document.getElementById("Add Extra Supervisor").className = "btn btn-primary";
-    document.getElementById("Add Extra Supervisor").style.marginRight = "10px";
-
-    addChild("2", "Remove Extra Supervisor", "div");
-    document.getElementById("Remove Extra Supervisor").className = "btn btn-danger";
-    document.getElementById("Remove Extra Supervisor").style.display = "none";
-    document.getElementById("Remove Extra Supervisor").style.float = "right";
-
-
-    document.getElementById("Add Extra Supervisor").onclick = function(){
-        if(number_of_supervisors == 1){
-            document.getElementById("div_id_supervisor2Title").style.display = "block";
-            document.getElementById("div_id_supervisor2FirstName").style.display = "block";
-            document.getElementById("div_id_supervisor2LastName").style.display = "block";
-            document.getElementById("Remove Extra Supervisor").style.display = "inline-block";
-            number_of_supervisors += 1;
-        } else if (number_of_supervisors == 2) {
-            document.getElementById("div_id_supervisor3Title").style.display = "block";
-            document.getElementById("div_id_supervisor3FirstName").style.display = "block";
-            document.getElementById("div_id_supervisor3LastName").style.display = "block";
-            document.getElementById("Add Extra Supervisor").style.display = "none";
-            number_of_supervisors += 1;
-        }
-    };
-
-    document.getElementById("Remove Extra Supervisor").onclick = function(){
-        if(number_of_supervisors == 2){
-            document.getElementById("div_id_supervisor2Title").style.display = "none";
-            document.getElementById("id_supervisor2Title").value = "";
-            document.getElementById("div_id_supervisor2FirstName").style.display = "none";
-            document.getElementById("id_supervisor2FirstName").value = "";
-            document.getElementById("div_id_supervisor2LastName").style.display = "none";
-            document.getElementById("id_supervisor2LastName").value = "";
-            document.getElementById("Remove Extra Supervisor").style.display = "none";
-            number_of_supervisors -= 1;
-        } else if (number_of_supervisors == 3) {
-            document.getElementById("div_id_supervisor3Title").style.display = "none";
-            document.getElementById("id_supervisor3Title").value = "";
-            document.getElementById("div_id_supervisor3FirstName").style.display = "none";
-            document.getElementById("id_supervisor3FirstName").value = "";
-            document.getElementById("div_id_supervisor3LastName").style.display = "none";
-            document.getElementById("id_supervisor3LastName").value = "";
-            document.getElementById("Add Extra Supervisor").style.display = "inline-block";
-            number_of_supervisors -= 1;
-        }
-    };
-
-    addElementAfter("div_id_other","","hr");
-
+<script src="{% static 'js/project_registration.js' %}">
 </script>
 
 {% endblock %}

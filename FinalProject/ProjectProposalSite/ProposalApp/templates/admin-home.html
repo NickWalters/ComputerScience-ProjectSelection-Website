@@ -62,7 +62,7 @@
                   <td scope="row" style="vertical-align:middle"> <a href="/detail/{{project.projectID}}"> {{project.title}} </a></td>
                   <td class="text-center" style="vertical-align:middle"> {% for link in unitLinks %} {% if link.projectID.projectID == project.projectID %} {{link.unitID.unitCode}} <br> {% endif %} {% endfor %}  </td>
                   <td class="text-center" style="vertical-align:middle"> {{project.submissionDate}} </td> <!--THIS NEEDS TO BE CHANGED LATER!-->
-                  <td class="text-center" style="vertical-align:middle"> {{project.supervisor1}} </td>
+                  <td class="text-center" style="vertical-align:middle"> {{project.supervisor1.first_name}} {{project.supervisor1.last_name}} </td>
 
                   <!-- Approve Button -->
                   <td class="text-center" style="vertical-align:middle">

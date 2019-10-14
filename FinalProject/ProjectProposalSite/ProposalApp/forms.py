@@ -20,6 +20,7 @@ class ProjectProposalForm(forms.Form):
     noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
     projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}))
     prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. Differential Equations, Python, Linear Regression'}))
+    onCampus = forms.BooleanField(label='Yes', required=False)
     IP = forms.CharField(label = 'IP',  widget = forms.Select(choices=IP_OPTIONS))
     chemical = forms.BooleanField(label = 'Chemical', required=False)
     civil = forms.BooleanField(label = 'Civil', required=False)
@@ -47,6 +48,7 @@ class EditProject(forms.ModelForm):
     noOfStudents = forms.IntegerField(label = 'Number of Students Required', widget = forms.Select(choices=NUMBER_OF_STUDENTS))
     projectTags = forms.CharField(label = 'Project Tags', widget=forms.TextInput(attrs={'placeholder': 'E.g. Research, Community, Programming'}))
     prerequisites = forms.CharField(label = 'Prerequisites', widget=forms.TextInput(attrs={'placeholder': 'E.g. CITS2002, Python, Linear Regression'}))
+    onCampus = forms.BooleanField(label='Yes', required=False)
     IP = forms.CharField(label = 'IP',  widget = forms.Select(choices=IP_OPTIONS))
     chemical = forms.BooleanField(label = 'Chemical', required=False)
     civil = forms.BooleanField(label = 'Civil', required=False)
@@ -63,7 +65,7 @@ class EditProject(forms.ModelForm):
     class Meta:
         model = ProjectModel
         fields = ['title', 'description','supervisor2Title','supervisor2FirstName','supervisor2LastName','supervisor3Title','supervisor3FirstName','supervisor3LastName',
-                'noOfStudents','projectTags','prerequisites','IP','chemical','civil','elec','envir','materials','mechanical','mechatronic','mining','oilGas','petroleum',
+                'noOfStudents','projectTags','prerequisites','onCampus', 'IP','chemical','civil','elec','envir','materials','mechanical','mechatronic','mining','oilGas','petroleum',
                 'petroleum','software','other']
         exclude = ['supervisor1', 'draft', 'approved', 'viewable', 'postgraduate','creationDate','deadlineDate']
 

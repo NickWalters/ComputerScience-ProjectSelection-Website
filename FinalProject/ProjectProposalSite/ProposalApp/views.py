@@ -183,6 +183,7 @@ def project_registration(request):
             formData.noOfStudents = form.cleaned_data['noOfStudents']
             formData.prerequisites = form.cleaned_data['prerequisites']
             formData.projectTags = form.cleaned_data['projectTags']
+            formData.onCampus = form.cleaned_data['onCampus']
             formData.IP = form.cleaned_data['IP']
             # Checkboxes
             formData.chemical = form.cleaned_data['chemical']
