@@ -11,7 +11,7 @@
             <p>Phone: {{ profile.Phone }} </p>
             <p>Organisation: {{ profile.Organisation }} </p>
             {% if user.id == userprofile.id %}
-                <a href="{% url 'update-profile' profile.user_id %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
+                <a href="{% url 'update-profile' userPK %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
                 <a href=""><button class="btn btn-primary" style="font:20px">Change Password</button></a>
             {% endif %}
             {% if not userprofile.is_active and user.is_superuser %}

@@ -56,14 +56,17 @@ def register(request):
 def profile(request, pk):
     profile = Profile.objects.get(pk=pk)
     userprofile = User.objects.get(pk=profile.user_id)
+    userPK = pk;
     context = {'profile': profile,
-               'userprofile': userprofile}
+               'userprofile': userprofile,
+               'userPK': userPK}
     return render(request, 'users/user_profile.html', context)
 
 
 @login_required(login_url='/login/')
 def update_profile(request, pk):
     profile = Profile.objects.get(pk=pk)
+    
     form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
         if form.is_valid():            
