@@ -38,3 +38,14 @@ class UpdateForm(forms.ModelForm):
                   'Phone',
                   'Organisation'
                   )
+
+
+class PasswordChange(UserCreationForm):
+    New_password = forms.PasswordInput()
+    Confirm_password = forms.PasswordInput()
+
+    class Meta:
+        model = User
+        fields = ('password1',
+                  'password2'
+                  )
