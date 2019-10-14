@@ -9,7 +9,7 @@ class Profile(models.Model):
     First_Name = models.CharField(max_length=20)
     Last_Name = models.CharField(max_length=20)
     Email = models.EmailField(max_length=120)
-    Phone = models.IntegerField()
+    Phone = models.CharField(max_length=20)
     Organisation = models.CharField(max_length=100)
 
     def __str__(self):
