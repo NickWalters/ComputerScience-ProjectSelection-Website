@@ -80,12 +80,13 @@ def update_profile(request, pk):
 
 @login_required(login_url='/login/')
 def password_change(request, pk):
-    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(pk=pk)
+    user = User.objects.get(pk=profile.user_id)
     form = PasswordChange(request.POST, instance=user)
     if request.method == 'POST':
         if form.is_valid():
-            New_password = form.cleaned_data.get('password1')
-            user.set_password(New_password)
+            new_password = form.cleaned_data.get('password1')
+            user.set_password(new_password)
             form.save()
             messages.success(request, f'Password has been updated!')
             return redirect('profile', pk=pk)
