@@ -57,7 +57,10 @@ def home(request):
                     UnitProjectLink.objects.filter(projectID=project, unitID=unit).delete()
                     messages.success(request, f'Link between {project} and {unit} removed')
                     return redirect('home-page')
+            elif 'Extra' in request.POST:
+                unit_registration(request)
         form = UnitProjectLinkForm()
+        form2 = UnitForm()
         units = UnitModel.objects.all()
 
         page = request.GET.get('page', 1)
@@ -74,6 +77,7 @@ def home(request):
             'all_projects': projectsList,
             'usersToBeAuthenticated': usersToBeAuthenticated,
             'form': form,
+            'form2':form2,
             'unitLinks': unitLinks,
             'units' : units
         }
@@ -88,10 +92,10 @@ def home(request):
 def project_list(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
-        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False)
+        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False, approved=True)
         projects = projectList1
     else:
-        projectList1 = ProjectModel.objects.filter(draft=False, archived=False)
+        projectList1 = ProjectModel.objects.filter(draft=False, archived=False, approved=True)
         projects = projectList1
     if request.GET.get('unit'):
         unitID = request.GET.get('unit')
@@ -297,8 +301,6 @@ def unit_registration(request):
             if form.is_valid():
                 formdata = UnitModel()
                 formdata.unitCode = form.cleaned_data['unitCode']
-                formdata.name = form.cleaned_data['name']
-                formdata.description = form.cleaned_data['description']
                 formdata.save()
                 unitCode = form.cleaned_data['unitCode']
                 messages.success(request, f'The unit {unitCode} has been added to the system!')
