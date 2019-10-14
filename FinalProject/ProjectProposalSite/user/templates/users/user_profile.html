@@ -12,7 +12,7 @@
             <p>Organisation: {{ profile.Organisation }} </p>
             {% if user.id == userprofile.id %}
                 <a href="{% url 'update-profile' userPK %}"><button class="btn btn-primary" style="font:20px">Update Details</button></a>
-                <a href=""><button class="btn btn-primary" style="font:20px">Change Password</button></a>
+                <a href="{% url 'password_change' userPK %}"><button class="btn btn-primary" style="font:20px">Change Password</button></a>
             {% endif %}
             {% if not userprofile.is_active and user.is_superuser %}
                 <div style="text-align:center">

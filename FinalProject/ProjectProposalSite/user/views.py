@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from user.user_form import UserForm, UpdateForm
+from user.user_form import UserForm, UpdateForm, PasswordChange
 from user.models import Profile
 from django.contrib.auth.models import User
 
@@ -76,6 +76,26 @@ def update_profile(request, pk):
     else:
         form = UpdateForm(instance=profile)
     return render(request, 'users/user_update_form.html', context={'form': form})
+
+
+@login_required(login_url='/login/')
+def password_change(request, pk):
+    user = User.objects.get(pk=pk)
+    form = PasswordChange(request.POST, instance=user)
+    if request.method == 'POST':
+        if form.is_valid():
+            New_password = form.cleaned_data.get('password1')
+            user.set_password(New_password)
+            form.save()
+            messages.success(request, f'Password has been updated!')
+            return redirect('profile', pk=pk)
+        else:
+            form = PasswordChange(request.POST)
+            return render(request, 'users/user_changepassword_form.html', context={'form': form})
+    else:
+        form = PasswordChange()
+    return render(request, 'users/user_changepassword_form.html', context={'form': form})
+
 
 @login_required(login_url='/login/')
 def user_list(request):
