@@ -12,21 +12,21 @@
             <th class="text-center" scope="col">Name</th>
               <th class="text-center" scope="col">Email</th>
               <th class="text-center" scope="col">Phone</th>
-              <th class="text-center" scope="col">Company</th>
+              <th class="text-center" scope="col">Organisation</th>
               <th class="text-center" scope="col">Approve</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td scope="row" class="text-center"><a href="{% url 'profile' user.profile.id %}">{{ user.username }}</a></td>
+                    <td scope="row" class="text-center"><a href="{% url 'profile' user.profile.id %}">{{ user }}</a></td>
                     <td class="text-center">{{ user.first_name }} {{ user.last_name }}</td>
                     <td class="text-center">{{ user.email }}</td>
                     <td class="text-center">{{ user.profile.Phone }}</td>
-                    <td class="text-center">{{ user.profile.Company_Name }}</td>
+                    <td class="text-center">{{ user.profile.Organisation }}</td>
                     {% if not user.is_active %}
                     <td class="text-center">
-                        <a href="{% url 'approve-user' user.id %}"><button class="btn btn-success" type="submit">Approve</button></a>
+                        <a href="{% url 'approve-user' user.profile.id %}"><button class="btn btn-success" type="submit">Approve</button></a>
                     </td>
                     {% else %}
                     <td class="text-center"> Already Approved </td>

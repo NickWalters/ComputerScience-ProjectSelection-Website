@@ -48,7 +48,7 @@
               <th class="text-center" scope="col">Date Submitted</th>
               <th class="text-center" scope="col">Supervisor</th>
               <th class="text-center" scope="col">Approve</th>
-              <th class="text-center" scope="col">Education Level</th>
+              <th class="text-center" scope="col">Postgraduate</th>
               <th class="text-center" scope="col">Archive</th>
               <th class="text-center" scope="col"></th>
               <th class="text-center" scope="col"></th>
@@ -75,9 +75,9 @@
 
                   <!-- Postgraduate checkbox -->
                   <td class="text-center" style="vertical-align:middle">
-                  {% if not project.postgraduate and project.approved%}
+                  {% if not project.postgraduate%}
                   <a href="/postgrad/{{project.projectID}}"><button class="btn btn-info" type="submit">Undergraduate</button></a>
-                  {% elif project.postgraduate and project.approved %}
+                  {% else %}
                   <a href="/postgrad/{{project.projectID}}"><button class="btn btn-warning" type="submit">Postgraduate</button></a>
                   {% endif %}
                   </td>
@@ -99,17 +99,41 @@
                   <!-- Admins can delete projects -->
                   <td class="text-center" style="vertical-align:middle">
                     <a href="/delete/{{project.projectID}}" style="color: black; font-size:19px;"><i class="fa fa-trash-o" onclick="return confirm('Are you sure you want to Delete?')"></i></a>
-                  </td>
+                </tr>
                 </tr>
               </tbody>
             {% endfor %}
+            {% if all_projects.has_other_pages %}
+                <div class="pagination justify-content-center" style="font-size:20px">
+
+                {% if all_projects.has_previous %}
+                <a href="?page=1" style="margin: 5px">First</a>
+                <a href="?page={{ all_projects.previous_page_number }}"style="margin: 5px">Previous</a>
+                {% endif %}
+
+                {% for num in all_projects.paginator.page_range %}
+
+                    {% if all_projects.number == num %}
+                    <span style="margin: 5px">{{ num }}</span>
+                    {% elif num > all_projects.number|add:'-3' and num < all_projects.number|add:'3' %}
+                    <a href="?page={{ num }}" style="margin: 5px">{{ num }}</a>
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if all_projects.has_next %}
+                <a href="?page={{ all_projects.next_page_number }} " style="margin: 5px">Next</a>
+                <a href="?page={{ all_projects.paginator.num_pages }} "style="margin: 5px">Last</a>
+                {% endif %}
+                </div>
+            {% endif %}
 
           <!-- No Projects found, so display nothing -->
           {% else %}
             <tbody>
               <tr>
                 <td scope="row">No projects need to be approved.</td>
-                <td></td><td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
               </tr>
             </tbody>
           {% endif %}
@@ -121,29 +145,23 @@
 
     <div class="tab-pane fade" id="nav-linkunit" role="tabpanel" aria-labelledby="nav-linkunit-tab">
       <div class="col-6 container">
-        <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
-        <hr>
-        <form class=""  method="POST">
-        {% csrf_token %}
-          <div>
-            {{form|crispy}}
-            <div class="text-center">
-              <button class="btn btn-success" name="Add" value="Add" type="submit">Add Link</button>
-              <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
+          <h2 style="text-align:center; margin-bottom:20px;">Link Units with Projects</h2>
+          <hr>
+          <form class=""  method="POST">
+          {% csrf_token %}
+            <div>
+              {{form|crispy}}
+              <div class="text-center">
+                <button class="btn btn-success" name="Add" value="Add" type="submit">Add Link</button>
+                <button class="btn btn-danger" name="Delete" value="Delete" type="submit">Remove Link</button>
+              </div>
             </div>
-          </div>
-        </form>
-        <br><br>
-        <div class="text-center">
-          <h4> Add New Units </h4>
-        </div>
-        <hr>
-        <form class=""  method="POST">
-        {% csrf_token %}
-        <div class="text-center">{{ form2|crispy }}<button class="btn btn-primary " name="Extra" value="Extra" type="submit">Add New Unit</button> </div>
-        </form>
+          </form>
+          <hr>
+          <div class="text-center"><a href="{% url 'unit-registration' %}"><div class="btn btn-primary " >Add More Units</div></a></div>
       </div >
     </div>
+
 
     <div class="tab-pane fade" id="nav-authentication" role="tabpanel" aria-labelledby="nav-authentication-tab">
       <div class="col-8 container">

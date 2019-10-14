@@ -44,7 +44,31 @@
                     {% endfor %}
                 </a>
             </div>
-        </div>
+            {% if all_projects.has_other_pages %}
+                <div class="pagination justify-content-center" style="font-size:20px">
+
+                {% if all_projects.has_previous %}
+                <a href="?page=1" style="margin: 5px">First</a>
+                <a href="?page={{ all_projects.previous_page_number }}"style="margin: 5px">Previous</a>
+                {% endif %}
+
+                {% for num in all_projects.paginator.page_range %}
+
+                    {% if all_projects.number == num %}
+                    <span style="margin: 5px">{{ num }}</span>
+                    {% elif num > all_projects.number|add:'-3' and num < all_projects.number|add:'3' %}
+                    <a href="?page={{ num }}" style="margin: 5px">{{ num }}</a>
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if all_projects.has_next %}
+                <a href="?page={{ all_projects.next_page_number }} " style="margin: 5px">Next</a>
+                <a href="?page={{ all_projects.paginator.num_pages }} "style="margin: 5px">Last</a>
+                {% endif %}
+                </div>
+            {% endif %}
+
     {% else %}
             <div class="container">
  <!--                  form for education level and units filter-->
