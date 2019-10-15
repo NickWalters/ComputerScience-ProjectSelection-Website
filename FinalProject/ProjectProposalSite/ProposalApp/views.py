@@ -118,13 +118,16 @@ def project_list(request):
         projectsList = paginator.page(1)
     except EmptyPage:
         projectsList = paginator.page(paginator.num_pages)
-    
+
     units = UnitModel.objects.all()
 
     tagsList = []
 
-    for i in range(len(projects)):
-        tagsList.append(projects[i].projectTags)
+    # The following for loops split up the tags from the spring into separate words
+    # They are stored as a list back into the projectTags field of the each project
+
+    for i in range(len(projectsList)):
+        tagsList.append(projectsList[i].projectTags)
 
     for j in range(len(tagsList)):
         tags = tagsList[j].split(", ")
@@ -137,8 +140,9 @@ def project_list(request):
                 i += 1
         tagsList[j] = tags
 
-    for i in range(len(projects)):
-        projects[i].projectTags = tagsList[i]
+    for i in range(len(projectsList)):
+        projectsList[i].projectTags = tagsList[i]
+
 
     context = {
         'all_projects': projectsList,
@@ -195,6 +199,9 @@ def project_detail(request, pk):
 # Project registration page
 @login_required(login_url='/login/')
 def project_registration(request):
+    # This function renders the project registration page and handles the POST request
+    # When a POST request is made, depending on which button is pressed, it is either
+    # Saved as a draft or is submitted
     if request.method == 'POST':
         form = ProjectProposalForm(request.POST)
         if form.is_valid():
@@ -295,6 +302,7 @@ def project_edit(request, pk):
 # Process for registering a unit
 @login_required(login_url='/login/')
 def unit_registration(request):
+    # This
     if request.user.is_superuser:
         if request.method == 'POST':
             form = UnitForm(request.POST)
@@ -305,9 +313,6 @@ def unit_registration(request):
                 unitCode = form.cleaned_data['unitCode']
                 messages.success(request, f'The unit {unitCode} has been added to the system!')
                 return redirect('home-page')
-        form = UnitForm()
-
-        return render(request, 'unit_registration.html', context={'form': form})
     return redirect('home-page')
 
 
