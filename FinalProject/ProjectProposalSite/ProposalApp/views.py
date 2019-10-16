@@ -239,7 +239,6 @@ def project_registration(request):
             if 'Draft' in request.POST:
                 formData.draft = 'True'
                 messages.success(request, f'Project Proposal Draft {title} was created!')
-                return redirect('home-page')
             else:
                 formData.draft = 'False'
                 messages.success(request, f'Project Proposal named {title} was submitted!')

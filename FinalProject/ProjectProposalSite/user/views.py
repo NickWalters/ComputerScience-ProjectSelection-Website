@@ -76,6 +76,7 @@ def profile(request, pk):
 @login_required(login_url='/login/')
 def update_profile(request, pk):
     profile = Profile.objects.get(pk=pk)
+    userobject = User.objects.get(pk=profile.user_id)
 
     user = request.user.username
     strUser = str(user)
@@ -90,6 +91,10 @@ def update_profile(request, pk):
     if request.method == 'POST':
         if form.is_valid():            
             form.save()
+            userobject.first_name = form.cleaned_data['First_Name']
+            userobject.last_name = form.cleaned_data['Last_Name']
+            userobject.email = form.cleaned_data['Email']
+            userobject.save()
         messages.success(request, f'Profile has been updated!')    
         return redirect('profile', pk=pk)
     else:
