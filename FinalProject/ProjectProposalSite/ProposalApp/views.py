@@ -54,11 +54,16 @@ def home(request):
                 if form.is_valid():
                     project = form.cleaned_data['projectID']
                     unit = form.cleaned_data['unitID']
-                    UnitProjectLink.objects.filter(projectID=project, unitID=unit).delete()
-                    messages.success(request, f'Link between {project} and {unit} removed')
+                    try:
+                        UnitProjectLink.objects.filter(projectID=project, unitID=unit).get()
+                        UnitProjectLink.objects.filter(projectID=project, unitID=unit).delete()
+                        messages.success(request, f'Link between {project} and {unit} removed')
+                    except:
+                        messages.error(request, f'Link between {project} and {unit} does not exist')
                     return redirect('home-page')
             elif 'Extra' in request.POST:
                 unit_registration(request)
+
         form = UnitProjectLinkForm()
         form2 = UnitForm()
         units = UnitModel.objects.all()
@@ -308,9 +313,12 @@ def unit_registration(request):
             if form.is_valid():
                 formdata = UnitModel()
                 formdata.unitCode = form.cleaned_data['unitCode']
-                formdata.save()
                 unitCode = form.cleaned_data['unitCode']
-                messages.success(request, f'The unit {unitCode} has been added to the system!')
+                try:
+                    formdata.save()
+                    messages.success(request, f'The unit {unitCode} has been added to the system!')
+                except:
+                    messages.error(request, f'The unit {unitCode} already exists!')
                 return redirect('home-page')
     return redirect('home-page')
 
@@ -393,6 +401,7 @@ def project_viewable(request, pk):
 
     return redirect('home-page')
 
+
 #Set the project to be an undergraduate project or postgraduate 
 @login_required(login_url='/login/')
 def project_postgrad(request, pk):
@@ -410,6 +419,7 @@ def project_postgrad(request, pk):
 
     return redirect('home-page')
 
+
 #Approve the user or not
 @login_required(login_url='/login/')
 def approve_user(request, pk):
@@ -421,3 +431,12 @@ def approve_user(request, pk):
     return redirect('home-page')
 
 
+@login_required(login_url='/login/')
+def delete_user(request, pk):
+    user = get_object_or_404(User, id=pk)
+    profile = Profile.objects.get(user_id=pk)
+    if not request.user.is_superuser:
+        return render(request, 'denied.html')
+    user.delete()
+    profile.delete()
+    return redirect('home-page')

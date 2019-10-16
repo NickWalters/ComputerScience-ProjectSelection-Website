@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # this model stores the unit information, because the projects need to link to a specific unit
 class UnitModel(models.Model):
     unitID = models.AutoField(primary_key=True)
-    unitCode = models.CharField(max_length=32)
+    unitCode = models.CharField(max_length=32, unique=True)
 
     def __str__(self):
         return self.unitCode

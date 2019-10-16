@@ -71,7 +71,7 @@ class EditProject(forms.ModelForm):
 
 
 class UnitProjectLinkForm(forms.Form):
-    projectID = forms.ModelChoiceField(label='Project', queryset=ProjectModel.objects.all().order_by(F('title').asc()))
+    projectID = forms.ModelChoiceField(label='Project', queryset=ProjectModel.objects.all().filter(approved=True).order_by(F('title').asc()))
     unitID = forms.ModelChoiceField(label='Unit', queryset=UnitModel.objects.all().order_by(F('unitCode').asc()))
 
 
