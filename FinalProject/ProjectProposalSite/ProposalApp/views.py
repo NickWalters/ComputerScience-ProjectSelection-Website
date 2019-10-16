@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect ,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib import messages
@@ -417,26 +417,4 @@ def project_postgrad(request, pk):
 
     project.save()
 
-    return redirect('home-page')
-
-
-#Approve the user or not
-@login_required(login_url='/login/')
-def approve_user(request, pk):
-    user = get_object_or_404(User, id=pk)
-    if not request.user.is_superuser:
-        return render(request, 'denied.html')
-    user.is_active = True
-    user.save()
-    return redirect('home-page')
-
-
-@login_required(login_url='/login/')
-def delete_user(request, pk):
-    user = get_object_or_404(User, id=pk)
-    profile = Profile.objects.get(user_id=pk)
-    if not request.user.is_superuser:
-        return render(request, 'denied.html')
-    user.delete()
-    profile.delete()
     return redirect('home-page')

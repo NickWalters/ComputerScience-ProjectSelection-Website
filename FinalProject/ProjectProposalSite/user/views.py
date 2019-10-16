@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from user.user_form import UserForm, UpdateForm, PasswordChange
 from user.models import Profile
@@ -132,4 +132,25 @@ def user_list(request):
         return render(request, 'users/user_list.html', context=context)
     else:
         return render(request, 'denied.html')
+    return redirect('home-page')
+
+#Approve the user or not
+@login_required(login_url='/login/')
+def approve_user(request, pk):
+    user = get_object_or_404(User, id=pk)
+    if not request.user.is_superuser:
+        return render(request, 'denied.html')
+    user.is_active = True
+    user.save()
+    return redirect('home-page')
+
+
+@login_required(login_url='/login/')
+def delete_user(request, pk):
+    user = get_object_or_404(User, id=pk)
+    profile = Profile.objects.get(user_id=pk)
+    if not request.user.is_superuser:
+        return render(request, 'denied.html')
+    user.delete()
+    profile.delete()
     return redirect('home-page')

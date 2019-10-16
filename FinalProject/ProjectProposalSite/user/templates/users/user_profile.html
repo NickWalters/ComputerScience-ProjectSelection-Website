@@ -81,7 +81,7 @@
                                         {% endif %}
                                         {% if not userprofile.is_active and user.is_superuser %}
                                             <div style="text-align:center">
-                                                <a href="{% url 'approve-user' user.id %}"><button class="btn btn-success" type="submit">Approve User</button></a>
+                                                <a href="{% url 'approve-user' userprofile.id %}"><button class="btn btn-success" type="submit">Approve User</button></a>
                                             </div>
                                         {% endif %}
 

@@ -12,7 +12,7 @@
         
         <div class="row">
             <div class="col-6">
-                <h4>Prerequisites</h4>
+                <h4>Prerequisite(s)</h4>
                 <ul class="list-group list-group-flush">
                     {% for prereq in prereqs %}
                         <li class="list-group-item">- {{ prereq }}</li>
@@ -20,7 +20,7 @@
                 </ul>
             </div>
             <div class="col-6">
-                <h4>Relevant Units</h4>
+                <h4>Relevant Unit(s)</h4>
                 {% if project.approved %}
                     {% if units %}
                     <ul class="list-group list-group-flush">
@@ -40,7 +40,7 @@
 
         <h4>Number of Students Required</h4>
         <p> {{ project.noOfStudents }} </p>
-        <h4> Discipline(s):</h4>
+        <h4> Discipline(s)</h4>
 
         {% if project.chemical %}
             <p>Chemical</p>
@@ -80,15 +80,15 @@
         {% endif %}
 
         <hr class="my-4">
-        <h2>Client</h2>
-        <p>Contact: {{ supervisor.Title }} {{ supervisor.First_Name }} {{ supervisor.Last_Name }} </p>
+        <h2>Client Information</h2>
+        <p>Client: {{ supervisor.Title }} {{ supervisor.First_Name }} {{ supervisor.Last_Name }} </p>
         <p>Phone: {{ supervisor.Phone }} </p>
         <p>Email: {{ supervisor.Email }}</p>
         <p>Organisation: {{ supervisor.Organisation }}</p>
-        <p>Availability: {% if project.onCampus %} At UWA {% else %} Outside of UWA {% endif %}</p>
+        <p>Client availability: {% if project.onCampus %} At UWA {% else %} Outside of UWA {% endif %}</p>
         {% if project.supervisor2FirstName or project.supervisor3FirstName %}
             <hr class="my-4">
-            <h4>Other Supervisors</h4>
+            <h4>Other Supervisor(s):</h4>
             {% if project.supervisor2FirstName %}
             <p> {{ project.supervisor2Title }} {{ project.supervisor2FirstName }} {{ project.supervisor2LastName }}</p>
             {% endif %}
