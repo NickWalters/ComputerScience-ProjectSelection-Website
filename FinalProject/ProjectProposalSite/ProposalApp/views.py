@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib import messages
@@ -7,6 +7,7 @@ from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm, UnitFo
 from .models import ProjectModel, UnitProjectLink, UnitModel
 from user.models import Profile, User
 from django.db.models import F
+import csv
 
 
 # Home Page
@@ -120,6 +121,19 @@ def project_list(request):
         for i in LinkSet:
             projectList2.append(i.projectID)
         projects = list(set(projectList1).intersection(projectList2))
+
+    # If the export button is pressed, write all filtered projects into a CSV, then download it for the user
+    if request.GET.get('Export'):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="Exported_Projects.csv"'
+
+        writer = csv.writer(response)
+
+        for p in projects:
+            writer.writerow(["Project ID", "Approved", "Archived", "Draft", "Postgraduate", "Submission Date", "Supvervisor 1", "Supervisor 2 Title", "Supervisor 2 First Name", "Supervisor 2 Last Name", "Supervisor 3 Title", "Supervisor 3 First Name", "Supervisor 3 Last Name", "Title", "Description", "Number of Students", "Prerequisites", "Project Tags", "IP", "On Campus", "Chemical", "Civil", "Electrical", "Environmental", "Materials", "Mechanical", "Mechatronic", "Mining", "Oil and Gas", "Petroleum", "Software", "Other"])
+            writer.writerow([p.projectID, p.approved, p.archived, p.draft, p.postgraduate, p.submissionDate, p.supervisor1, p.supervisor2Title, p.supervisor2FirstName, p.supervisor2LastName, p.supervisor3Title, p.supervisor3FirstName, p.supervisor3LastName, p.title, p.description, p.noOfStudents, p.prerequisites, p.projectTags, p.IP, p.onCampus, p.chemical, p.civil, p.elec, p.envir, p.materials, p.mechanical, p.mechatronic, p.mining, p.oilGas, p.petroleum, p.software, p.other])
+
+        return response
 
     page = request.GET.get('page', 1)
 
