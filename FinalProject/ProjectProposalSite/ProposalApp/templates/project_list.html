@@ -26,6 +26,7 @@
                                 {% endfor %}
                             </select>
                             <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                            {% if user.is_superuser %}<input type="submit"  class="btn btn-secondary dropdown-toggle" value="Export" name="Export" /> {% endif %}
                         </div>
                     </form>
                   </div>
@@ -90,6 +91,7 @@
                                 {% endfor %}
                             </select>
                             <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
+                            {% if user.is_superuser %}<input type="submit"  class="btn btn-secondary dropdown-toggle" value="Export" name="Export" /> {% endif %}
                         </div>
                     </form>
                 </div>
