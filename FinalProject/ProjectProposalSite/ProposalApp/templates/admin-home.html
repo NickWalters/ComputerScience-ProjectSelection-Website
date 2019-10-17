@@ -103,7 +103,19 @@
                 </tr>
               </tbody>
             {% endfor %}
-            {% if all_projects.has_other_pages %}
+
+
+          <!-- No Projects found, so display nothing -->
+          {% else %}
+            <tbody>
+              <tr>
+                <td scope="row">No projects need to be approved.</td>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+            </tbody>
+          {% endif %}
+        </table>
+          {% if all_projects.has_other_pages %}
                 <div class="pagination justify-content-center" style="font-size:20px">
 
                 {% if all_projects.has_previous %}
@@ -127,17 +139,6 @@
                 {% endif %}
                 </div>
             {% endif %}
-
-          <!-- No Projects found, so display nothing -->
-          {% else %}
-            <tbody>
-              <tr>
-                <td scope="row">No projects need to be approved.</td>
-                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-              </tr>
-            </tbody>
-          {% endif %}
-        </table>
       </div>
     {% else %}
     {% endif %}

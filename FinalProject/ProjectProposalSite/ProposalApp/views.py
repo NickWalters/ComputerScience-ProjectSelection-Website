@@ -104,10 +104,10 @@ def project_list(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
         projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False,
-                                                   approved=True)
+                                                   approved=True).order_by(F('submissionDate').asc())
         projects = projectList1
     else:
-        projectList1 = ProjectModel.objects.filter(draft=False, archived=False, approved=True)
+        projectList1 = ProjectModel.objects.filter(draft=False, archived=False, approved=True).order_by(F('submissionDate').asc())
         projects = projectList1
     if request.GET.get('unit'):
         unitID = request.GET.get('unit')
@@ -122,6 +122,11 @@ def project_list(request):
         projects = list(set(projectList1).intersection(projectList2))
 
     page = request.GET.get('page', 1)
+
+    # If description of the project is longer than 100 characters, then remove trailing empty space and add "..."
+    for i in range(len(projects)):
+        if len(projects[i].description) > 100:
+            projects[i].description = str(projects[i].description[:100]).strip() + "..."
 
     paginator = Paginator(projects, 5)
     try:
