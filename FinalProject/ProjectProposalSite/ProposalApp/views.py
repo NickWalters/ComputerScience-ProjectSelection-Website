@@ -122,7 +122,7 @@ def project_list(request):
             projectList2.append(i.projectID)
         projects = list(set(projectList1).intersection(projectList2))
 
-    # If the export button is pressed, write all filtered projects into a CSV, then download it for the user
+        # If the export button is pressed, write all filtered projects into a CSV, then download it for the user
     if request.GET.get('Export'):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="Exported_Projects.csv"'
@@ -184,15 +184,17 @@ def project_list(request):
 # Project details page
 def project_detail(request, pk):
     project = ProjectModel.objects.get(pk=pk)
-    user = request.user.username
+    username = request.user.username
     creator = project.supervisor1.id
     supervisor = Profile.objects.get(user_id=creator)
 
-    strUser = str(user)
+    strUser = str(username)
     strSupervisor = str(supervisor.user)
 
     # Check if the project is still a draft, and if so only let the supervisor view it
     if project.draft is True and strUser != strSupervisor:
+        return render(request, 'denied.html')
+    elif project.archived is True and not request.user.is_superuser and strUser != strSupervisor:
         return render(request, 'denied.html')
     else:
         # Break up the prerequisites at the commas and tags up at the commas and spaces
@@ -300,7 +302,7 @@ def project_edit(request, pk):
     # Check if the user trying to edit the project has permission,
     # or if the project is allowed to be edited (a draft)
     if strSupervisor != strUser or project.draft == False:
-        if not request.user.is_superuser:
+        if request.user.is_superuser:
             return render(request, 'denied.html')
 
     form = EditProject(request.POST or None, request.FILES or None, instance=project)
@@ -349,6 +351,8 @@ def unit_registration(request):
                 except:
                     messages.error(request, f'The unit {unitCode} already exists!')
                 return redirect('home-page')
+    else:
+        return render(request, 'denied.html')
     return redirect('home-page')
 
 

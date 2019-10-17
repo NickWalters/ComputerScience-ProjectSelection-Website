@@ -62,8 +62,7 @@ def profile(request, pk):
     userName = request.user.username
     strUser = str(userName)
     strSupervisor = str(profile.user)    
-    # Check if the user trying to edit the project has permission,
-    # or if the project is allowed to be edited (a draft)
+    # Check if the user has permission to view another profile
     if strSupervisor != strUser:
         if not request.user.is_superuser:
             return render(request, 'denied.html')
@@ -82,10 +81,9 @@ def update_profile(request, pk):
     user = request.user.username
     strUser = str(user)
     strSupervisor = str(profile.user)    
-    # Check if the user trying to edit the project has permission,
-    # or if the project is allowed to be edited (a draft)
+    # Check if the user trying to update profile has permission
     if strSupervisor != strUser:
-        if not request.user.is_superuser:
+        if request.user.is_superuser:
             return render(request, 'denied.html')
 
     form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
@@ -102,12 +100,24 @@ def update_profile(request, pk):
         form = UpdateForm(instance=profile)
     return render(request, 'users/user_update_form.html', context={'form': form})
 
-
+#Update password from profile
 @login_required(login_url='/login/')
 def password_change(request, pk):
     profile = Profile.objects.get(pk=pk)
     user = User.objects.get(pk=profile.user_id)
     form = PasswordChange(request.POST, instance=user)
+
+    username = request.user.username
+    strUser = str(username)
+    strSupervisor = str(profile.username)    
+    # Check if the user trying to update password
+    # is the correct user
+    if strSupervisor != strUser:
+        if request.user.is_superuser:
+            return render(request, 'denied.html')
+
+
+
     if request.method == 'POST':
         if form.is_valid():
             new_password = form.cleaned_data.get('password1')
@@ -147,7 +157,7 @@ def approve_user(request, pk):
                                                                                   f'You can now login at: http://127.0.0.1:8000/login/', settings.EMAIL_HOST_USER, [user.email])
     return redirect('home-page')
 
-
+#Delete users from user list
 @login_required(login_url='/login/')
 def delete_user(request, pk):
     user = get_object_or_404(User, id=pk)
