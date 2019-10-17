@@ -7,18 +7,21 @@ from .forms import ProjectProposalForm, EditProject, UnitProjectLinkForm, UnitFo
 from .models import ProjectModel, UnitProjectLink, UnitModel
 from user.models import Profile, User
 from django.db.models import F
-import datetime
+
 
 # Home Page
 @login_required(login_url='/login/')
 def home(request):
+    # If the user is a superuser/admin, their home page will be the admin dashboard
+    # If they're a normal user, they will redirected to their own dashboard
     if request.user.is_superuser:
+        # The following conditional statements are for filtering the projects
         if request.GET.get('degree'):
             project_filter = request.GET.get('degree')
-            projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False)
+            projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False).order_by(F('submissionDate').asc())
             projects = projectList1
         else:
-            projectList1 = ProjectModel.objects.filter(draft=False)
+            projectList1 = ProjectModel.objects.filter(draft=False).order_by(F('submissionDate').asc())
             projects = projectList1
         if request.GET.get('unit'):
             unitID = request.GET.get('unit')
@@ -37,6 +40,7 @@ def home(request):
         unitLinks = UnitProjectLink.objects.all()
 
         if request.method == 'POST':
+            # The following forms conditional statements are for when creating unit links, deleting links and adding units respectively
             form = UnitProjectLinkForm(request.POST)
             if 'Add' in request.POST:
                 if form.is_valid():
@@ -48,7 +52,8 @@ def home(request):
                         messages.success(request, f'Link between {formData.projectID} and {formData.unitID} created')
                         return redirect('home-page')
                     except:
-                        messages.error(request, f'Link between {formData.projectID} and {formData.unitID} already exists')
+                        messages.error(request,
+                                       f'Link between {formData.projectID} and {formData.unitID} already exists')
                         return redirect('home-page')
             elif 'Delete' in request.POST:
                 if form.is_valid():
@@ -68,6 +73,7 @@ def home(request):
         form2 = UnitForm()
         units = UnitModel.objects.all()
 
+        # Creating a page table for the project proposals
         page = request.GET.get('page', 1)
 
         paginator = Paginator(projects, 5)
@@ -82,9 +88,9 @@ def home(request):
             'all_projects': projectsList,
             'usersToBeAuthenticated': usersToBeAuthenticated,
             'form': form,
-            'form2':form2,
+            'form2': form2,
             'unitLinks': unitLinks,
-            'units' : units
+            'units': units
         }
         return render(request, 'admin-home.html', context=context)
 
@@ -97,7 +103,8 @@ def home(request):
 def project_list(request):
     if request.GET.get('degree'):
         project_filter = request.GET.get('degree')
-        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False, approved=True)
+        projectList1 = ProjectModel.objects.filter(postgraduate=project_filter, draft=False, archived=False,
+                                                   approved=True)
         projects = projectList1
     else:
         projectList1 = ProjectModel.objects.filter(draft=False, archived=False, approved=True)
@@ -148,7 +155,6 @@ def project_list(request):
     for i in range(len(projectsList)):
         projectsList[i].projectTags = tagsList[i]
 
-
     context = {
         'all_projects': projectsList,
         'units': units,
@@ -170,6 +176,7 @@ def project_detail(request, pk):
     if project.draft is True and strUser != strSupervisor:
         return render(request, 'denied.html')
     else:
+        # Break up the prerequisites at the commas and tags up at the commas and spaces
         prereqs = project.prerequisites.split(",")
         i = 0
         while i < len(prereqs):
@@ -200,6 +207,7 @@ def project_detail(request, pk):
             'units': units
         }
     return render(request, 'project_detail.html', context=context)
+
 
 # Project registration page
 @login_required(login_url='/login/')
@@ -254,7 +262,8 @@ def project_registration(request):
     else:
         form = ProjectProposalForm()
 
-    return render(request, 'project_registration.html', {'form':form})
+    return render(request, 'project_registration.html', {'form': form})
+
 
 # Function for editing a project
 @login_required(login_url='/login/')
@@ -267,7 +276,7 @@ def project_edit(request, pk):
     supervisor = Profile.objects.get(user_id=creator)
 
     strUser = str(user)
-    strSupervisor = str(supervisor.user)    
+    strSupervisor = str(supervisor.user)
 
     # Check if the user trying to edit the project has permission,
     # or if the project is allowed to be edited (a draft)
@@ -278,7 +287,7 @@ def project_edit(request, pk):
     form = EditProject(request.POST or None, request.FILES or None, instance=project)
 
     if request.method == 'POST':
-        if form.is_valid():            
+        if form.is_valid():
             form.save()
             title = form.cleaned_data.get('title')
 
@@ -292,16 +301,17 @@ def project_edit(request, pk):
                 project.submissionDate = timezone.now()
                 project.save()
 
-                #Return appropriate message to user
+                # Return appropriate message to user
                 if request.user.is_superuser:
                     messages.success(request, f'Project Proposal Draft {title} was edited!')
                 else:
                     messages.success(request, f'Project Proposal Draft {title} was submitted!')
                 return redirect('home-page')
-            
+
     else:
         form = EditProject(instance=project)
     return render(request, 'project-edit.html', context={'form': form})
+
 
 # Process for registering a unit
 @login_required(login_url='/login/')
@@ -326,7 +336,6 @@ def unit_registration(request):
 # Process for deleting a project
 @login_required(login_url='/login/')
 def project_delete(request, pk):
-    
     projectDelete = get_object_or_404(ProjectModel, projectID=pk)
 
     user = request.user.username
@@ -334,7 +343,7 @@ def project_delete(request, pk):
     supervisor = Profile.objects.get(user_id=creator)
 
     strUser = str(user)
-    strSupervisor = str(supervisor.user)    
+    strSupervisor = str(supervisor.user)
 
     # Check if the user trying to delete the project has the appropriate permission
     if strSupervisor != strUser or projectDelete.draft == False:
@@ -349,12 +358,16 @@ def project_delete(request, pk):
                     words = str(UnitModel.objects.values_list('unitCode').get(unitID=links[0].unitID.unitID)[0])
                 elif len(links) == 2:
                     words = str(UnitModel.objects.values_list('unitCode').get(unitID=links[0].unitID.unitID)[0])
-                    words += " and " + str(UnitModel.objects.values_list('unitCode').get(unitID=links[1].unitID.unitID)[0])
+                    words += " and " + str(
+                        UnitModel.objects.values_list('unitCode').get(unitID=links[1].unitID.unitID)[0])
                 else:
                     for i in range(len(links) - 2):
-                        words += str(UnitModel.objects.values_list('unitCode').get(unitID=links[i].unitID.unitID)[0]) + ", "
-                    words += str(UnitModel.objects.values_list('unitCode').get(unitID=links[len(links)-2].unitID.unitID)[0])
-                    words += " and " + str(UnitModel.objects.values_list('unitCode').get(unitID=links[len(links)-1].unitID.unitID)[0])
+                        words += str(
+                            UnitModel.objects.values_list('unitCode').get(unitID=links[i].unitID.unitID)[0]) + ", "
+                    words += str(
+                        UnitModel.objects.values_list('unitCode').get(unitID=links[len(links) - 2].unitID.unitID)[0])
+                    words += " and " + str(
+                        UnitModel.objects.values_list('unitCode').get(unitID=links[len(links) - 1].unitID.unitID)[0])
                 words += ". Please remove all links before removing projects."
                 messages.error(request, f'The project: {project} is still linked with {words}')
             else:
@@ -369,51 +382,54 @@ def project_delete(request, pk):
 # Approve or unapprove a project function
 @login_required(login_url='/login/')
 def project_approval(request, pk):
-    
-    project = get_object_or_404(ProjectModel, projectID=pk) 
+    project = get_object_or_404(ProjectModel, projectID=pk)
 
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    
-    if not project.approved: project.approved = True
-    else: project.approved = False
+
+    if not project.approved:
+        project.approved = True
+    else:
+        project.approved = False
 
     project.save()
 
     return redirect('home-page')
 
 
-#List or archive a certain project 
+# List or archive a certain project
 @login_required(login_url='/login/')
 def project_viewable(request, pk):
-    
-    project = get_object_or_404(ProjectModel, projectID=pk) 
+    project = get_object_or_404(ProjectModel, projectID=pk)
 
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
-    
-    if not project.archived: project.archived = True
-    else: project.archived = False
+
+    if not project.archived:
+        project.archived = True
+    else:
+        project.archived = False
 
     project.save()
 
     return redirect('home-page')
 
 
-#Set the project to be an undergraduate project or postgraduate 
+# Set the project to be an undergraduate project or postgraduate
 @login_required(login_url='/login/')
 def project_postgrad(request, pk):
-    
-    project = get_object_or_404(ProjectModel, projectID=pk) 
+    project = get_object_or_404(ProjectModel, projectID=pk)
 
     # Check if the user is a superuser or not
     if not request.user.is_superuser or project.draft != False:
         return render(request, 'denied.html')
 
-    if not project.postgraduate: project.postgraduate = True
-    else: project.postgraduate = False
+    if not project.postgraduate:
+        project.postgraduate = True
+    else:
+        project.postgraduate = False
 
     project.save()
 

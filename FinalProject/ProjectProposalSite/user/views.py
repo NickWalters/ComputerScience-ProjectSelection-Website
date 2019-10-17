@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from user.user_form import UserForm, UpdateForm, PasswordChange
+from user.forms import UserForm, UpdateForm, PasswordChange
 from user.models import Profile
 from django.contrib.auth.models import User
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 # User registration: collect data from forms, save into User model and Profile model
 def register(request):
@@ -142,6 +143,8 @@ def approve_user(request, pk):
         return render(request, 'denied.html')
     user.is_active = True
     user.save()
+    send_mail('Your account has been approved for the UWA Project Proposal Site', f'Account for {user.first_name} {user.last_name} with the username {user.username} has just been approved!\n'
+                                                                                  f'You can now login at: http://127.0.0.1:8000/login/', settings.EMAIL_HOST_USER, [user.email])
     return redirect('home-page')
 
 
