@@ -3,6 +3,8 @@ from . import views
 from django.conf.urls import handler404
 
 # URLs patterns for the various parts of the website
+
+
 urlpatterns = [
     path('', views.home, name='home-page'),
     path('project_list/', views.project_list, name='project-list'),
@@ -15,3 +17,5 @@ urlpatterns = [
     path('postgrad/<int:pk>/', views.project_postgrad, name='postgrad'),
     path('unit_registration/', views.unit_registration, name='unit-registration')
 ]
+
+

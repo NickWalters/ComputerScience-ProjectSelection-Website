@@ -30,3 +30,4 @@ urlpatterns = [
 ]
 
 
+handler404 = 'ProposalApp.views.page_not_found'

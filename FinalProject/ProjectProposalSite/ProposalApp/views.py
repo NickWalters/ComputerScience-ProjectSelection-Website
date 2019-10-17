@@ -434,3 +434,8 @@ def project_postgrad(request, pk):
     project.save()
 
     return redirect('home-page')
+
+
+def page_not_found(request, exception):
+    context = {}
+    return render(request, '404_notfound.html', context, status=404)
