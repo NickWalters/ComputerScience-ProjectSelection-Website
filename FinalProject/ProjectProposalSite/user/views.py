@@ -83,8 +83,7 @@ def update_profile(request, pk):
     strSupervisor = str(profile.user)    
     # Check if the user trying to update profile has permission
     if strSupervisor != strUser:
-        if request.user.is_superuser:
-            return render(request, 'denied.html')
+        return render(request, 'denied.html')
 
     form = UpdateForm(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
@@ -109,7 +108,7 @@ def password_change(request, pk):
 
     username = request.user.username
     strUser = str(username)
-    strSupervisor = str(profile.username)    
+    strSupervisor = str(user.username)
     # Check if the user trying to update password
     # is the correct user
     if strSupervisor != strUser:

@@ -24,7 +24,7 @@ STAT = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'ep4gb928h8j)h%r)4rb+rgrnfk-z4pqwm8w@mqb^+vmr%t_%3g'
 
 # SECURITY WARNING: Don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'ProjectProposalSite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'information',
+        'NAME': 'ProjectPropsalApp',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

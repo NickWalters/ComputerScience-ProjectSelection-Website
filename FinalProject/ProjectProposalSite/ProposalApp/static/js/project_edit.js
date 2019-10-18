@@ -21,6 +21,8 @@
         referenceNode.appendChild(newNode);
     }
 
+
+
     addElementAfter("div_id_prerequisites", "Will the project contact be at UWA?", "label");
 
     addElementAfter("div_id_description", "Blank", "div");
@@ -76,14 +78,14 @@
     document.getElementById("div_id_supervisor3FirstName").style.display = "none";
     document.getElementById("div_id_supervisor3LastName").style.display = "none";
 
-    if(document.getElementById("id_supervisor2Title").value != "" || document.getElementById("id_supervisor2FirstName").value != "" || document.getElementById("id_supervisor2TLastName").value != ""){
+    if(document.getElementById("id_supervisor2Title").value != "" || document.getElementById("id_supervisor2FirstName").value != "" || document.getElementById("id_supervisor2LastName").value != ""){
         number_of_supervisors = 2;
         document.getElementById("div_id_supervisor2Title").style.display = "block";
         document.getElementById("div_id_supervisor2FirstName").style.display = "block";
         document.getElementById("div_id_supervisor2LastName").style.display = "block";
         document.getElementById("Remove Extra Supervisor").style.display = "block";
 
-        if (document.getElementById("id_supervisor3Title").value != ""|| document.getElementById("id_supervisor3FirstName").value != "" || document.getElementById("id_supervisor3TLastName").value != "") {
+        if (document.getElementById("id_supervisor3Title").value != ""|| document.getElementById("id_supervisor3FirstName").value != "" || document.getElementById("id_supervisor3LastName").value != "") {
             number_of_supervisors = 3;
             document.getElementById("div_id_supervisor3Title").style.display = "block";
             document.getElementById("div_id_supervisor3FirstName").style.display = "block";
