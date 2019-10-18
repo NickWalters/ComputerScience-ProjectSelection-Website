@@ -377,8 +377,10 @@ def project_delete(request, pk):
     strSupervisor = str(supervisor.user)
 
     # Check if the user trying to delete the project has the appropriate permission
-    if strSupervisor != strUser or projectDelete.draft == False:
-        if not request.user.is_superuser:
+    if strSupervisor != strUser or not projectDelete.draft:
+        if not request.user.is_superuser and not projectDelete.draft:
+            return render(request, 'denied.html')
+        if request.user.is_superuser and projectDelete.draft:
             return render(request, 'denied.html')
         elif request.user.is_superuser:
             links = UnitProjectLink.objects.filter(projectID=pk)
