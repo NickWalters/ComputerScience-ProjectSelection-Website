@@ -301,8 +301,14 @@ def project_edit(request, pk):
 
     # Check if the user trying to edit the project has permission,
     # or if the project is allowed to be edited (a draft)
-    if strSupervisor != strUser or project.draft == False:
-        if request.user.is_superuser:
+    if strSupervisor != strUser:
+        if not project.draft:
+            if not request.user.is_superuser:
+                return render(request, 'denied.html')
+        else:
+            return render(request, 'denied.html')
+    else:
+        if not project.draft:
             return render(request, 'denied.html')
 
     form = EditProject(request.POST or None, request.FILES or None, instance=project)
@@ -319,7 +325,8 @@ def project_edit(request, pk):
                 return redirect('home-page')
             else:
                 project.draft = False
-                project.submissionDate = timezone.now()
+                if not request.user.is_superuser:
+                    project.submissionDate = timezone.now()
                 project.save()
 
                 # Return appropriate message to user
