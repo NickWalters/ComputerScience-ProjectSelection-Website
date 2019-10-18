@@ -21,7 +21,7 @@ def register(request):
             Email = userform.cleaned_data.get('Email')
             Phone = userform.cleaned_data.get('Phone')
             Organisation = userform.cleaned_data.get('Organisation')
-            messages.success(request, f'Account created {UserName}! Please wait for admin to active your account')
+            messages.success(request, f'Account created {UserName}! You will receive an email when an admin has activated your account')
 
             # Save data into user model
             user = User.objects.create_user(

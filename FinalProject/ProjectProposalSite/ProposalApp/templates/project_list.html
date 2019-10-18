@@ -26,7 +26,6 @@
                                 {% endfor %}
                             </select>
                             <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
-                            {% if user.is_superuser %}<input type="submit"  class="btn btn-secondary dropdown-toggle" value="Export" name="Export" /> {% endif %}
                         </div>
                     </form>
                   </div>
@@ -69,7 +68,35 @@
                 {% endif %}
                 </div>
             {% endif %}
-
+            <hr>        
+        {% if user.is_superuser %}
+        <div class="container" >
+            <div class="row" stlye="margin-top: 10px">
+                <div class="col">
+                  <div class="dropdown">
+                    <form action="{% url 'project-list' %}" method="get">
+                        <div class="input-group mb-3">
+                            <label for="degree" class="input-group-text">Education Level:</label>
+                              <select name="degree" class="custom-select" id="inputGroupSelect02">
+                                  <option value="">Please select an education level</option>
+                                  <option class="" value="False">  Undergraduate </option>
+                                  <option value="True"> Postgraduate</option>
+                              </select>
+                            <label for="unit" class="input-group-text">Units Provided:</label>
+                            <select name="unit" class="custom-select" id="inputGroupSelect04">
+                                <option value="">Please select a unit</option>
+                                {% for unitID in units %}
+                                <option value="{{ unitID }}">  {{ unitID }} </option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Export" name="Export" /> 
+                        </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     {% else %}
             <div class="container">
  <!--                  form for education level and units filter-->
@@ -91,7 +118,6 @@
                                 {% endfor %}
                             </select>
                             <input type="submit"  class="btn btn-secondary dropdown-toggle" value="Filter" />
-                            {% if user.is_superuser %}<input type="submit"  class="btn btn-secondary dropdown-toggle" value="Export" name="Export" /> {% endif %}
                         </div>
                     </form>
                 </div>
