@@ -130,6 +130,7 @@ def project_list(request):
         writer = csv.writer(response)
 
         writer.writerow(["Project ID", "Approved", "Archived", "Draft", "Postgraduate", "Submission Date", "Supvervisor 1", "Supervisor 2 Title", "Supervisor 2 First Name", "Supervisor 2 Last Name", "Supervisor 3 Title", "Supervisor 3 First Name", "Supervisor 3 Last Name", "Title", "Description", "Number of Students", "Prerequisites", "Project Tags", "IP", "On Campus", "Chemical", "Civil", "Electrical", "Environmental", "Materials", "Mechanical", "Mechatronic", "Mining", "Oil and Gas", "Petroleum", "Software", "Other"])
+
         for p in projects:
             writer.writerow([p.projectID, p.approved, p.archived, p.draft, p.postgraduate, p.submissionDate, p.supervisor1, p.supervisor2Title, p.supervisor2FirstName, p.supervisor2LastName, p.supervisor3Title, p.supervisor3FirstName, p.supervisor3LastName, p.title, p.description, p.noOfStudents, p.prerequisites, p.projectTags, p.IP, p.onCampus, p.chemical, p.civil, p.elec, p.envir, p.materials, p.mechanical, p.mechatronic, p.mining, p.oilGas, p.petroleum, p.software, p.other])
 
@@ -301,8 +302,11 @@ def project_edit(request, pk):
 
     # Check if the user trying to edit the project has permission,
     # or if the project is allowed to be edited (a draft)
-    if strSupervisor != strUser or project.draft == False:
-        if request.user.is_superuser:
+    if strSupervisor != strUser:
+        if not project.draft:
+            if not request.user.is_superuser:
+                return render(request, 'denied.html')
+        else:
             return render(request, 'denied.html')
 
     form = EditProject(request.POST or None, request.FILES or None, instance=project)
