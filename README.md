@@ -52,7 +52,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
   
-Now, all the tables should be created in the database and the website shuold be ready to run.
+Now, all the tables should be created in the database and the website should be ready to run.
   
 ## Usage
 To run the website, simply type in the command:
