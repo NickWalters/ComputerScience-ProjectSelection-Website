@@ -14,7 +14,6 @@
               <th class="text-center" scope="col">Phone</th>
               <th class="text-center" scope="col">Organisation</th>
               <th class="text-center" scope="col">Approve</th>
-              <th></th>
             </tr>
         </thead>
         <tbody>
@@ -33,7 +32,6 @@
                     <td class="text-center"> Already Approved </td>
                     {% endif %}
                     <td class="text-center" style="vertical-align:middle">
-                    <a href="/deleteuser/{{user.id}}" style="color: black; font-size:19px;"><i class="fa fa-trash-o" onclick="return confirm('Are you sure you want to delete {{ user.first_name }} {{ user.last_name }}?')"></i></a>
                   </td>
                 </tr>
             {% endfor %}

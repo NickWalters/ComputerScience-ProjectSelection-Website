@@ -156,14 +156,3 @@ def approve_user(request, pk):
     send_mail('Your account has been approved for the UWA Project Proposal Site', f'Account for {user.first_name} {user.last_name} with the username {user.username} has just been approved!\n'
                                                                                   f'You can now login at: http://127.0.0.1:8000/login/', settings.EMAIL_HOST_USER, [user.email])
     return redirect('home-page')
-
-#Delete users from user list
-@login_required(login_url='/login/')
-def delete_user(request, pk):
-    user = get_object_or_404(User, id=pk)
-    profile = Profile.objects.get(user_id=pk)
-    if not request.user.is_superuser:
-        return render(request, 'denied.html')
-    user.delete()
-    profile.delete()
-    return redirect('home-page')
