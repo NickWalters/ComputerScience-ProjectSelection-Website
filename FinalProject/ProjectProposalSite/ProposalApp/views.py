@@ -345,7 +345,6 @@ def project_edit(request, pk):
 # Process for registering a unit
 @login_required(login_url='/login/')
 def unit_registration(request):
-    # This
     if request.user.is_superuser:
         if request.method == 'POST':
             form = UnitForm(request.POST)
