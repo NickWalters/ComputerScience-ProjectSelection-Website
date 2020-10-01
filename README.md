@@ -1,8 +1,8 @@
-# Project Proposal Site
+# Aha! Project Proposal Site
 
 The Project Proposal Site is a website designed for UWA staff and persons from external organisations to propose new projects for students at the university. 
 
-## Installation
+## Let's Begin Installation!
 
 In order for the website to run, [Python](https://www.python.org/downloads/) must be installed on the computer. The package manager [pip](https://pip.pypa.io/en/stable/) is also required to install the requirements.txt file. To check to see if python and pip are installed and to see what version is installed on the computer, run: 
 ```
@@ -52,7 +52,7 @@ python manage.py migrate
   
 Now, all the tables should be created in the database and the website should be ready to run.
   
-## Usage
+## Execution
 To run the website, simply type in the command:
 ```
 python manage.py runserver
