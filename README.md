@@ -1,10 +1,10 @@
 # Project Proposal Site
 
-The Project Proposal Site is a website designed for UWA staff and persons from external organisations to propose new projects for students at the university. 
+The Project Proposal Site is a website designed for UWA staff and persons from external organisations are propose to new projects for students at the university. 
 
 ## Installation
 
-In order for the website to run, [Python](https://www.python.org/downloads/) must be installed on the computer. The package manager [pip](https://pip.pypa.io/en/stable/) is also required to install the requirements.txt file. To check to see if python and pip are installed and to see what version is installed on the computer, run: 
+In order to run the website for , [Python](https://www.python.org/downloads/) must be installed on the computer. The package manager [pip](https://pip.pypa.io/en/stable/) is also required to install the requirements.txt file. To see if python and pip are installed and to check what version is installed on the computer, run: 
 ```
 python --version
 ```
@@ -57,4 +57,4 @@ To run the website, simply type in the command:
 ```
 python manage.py runserver
 ```
-Once running, to view the website go to 127.0.0.1:8000
+Once the apllication is running,then vist to the website go to 127.0.0.1:8000
