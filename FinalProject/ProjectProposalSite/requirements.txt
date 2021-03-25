@@ -10,7 +10,7 @@ mysqlclient==1.4.4
 odfpy==1.4.0
 openpyxl==3.0.0
 pytz==2019.2
-PyYAML==5.1.2
+PyYAML==5.4
 sqlparse==0.3.0
 tablib==0.13.0
 xlrd==1.2.0
